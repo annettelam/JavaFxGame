@@ -28,6 +28,11 @@ public class IdleFarmingGame extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        // Set the style for moneyLabel, seedLabel, and cropLabel
+        moneyLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
+        seedLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
+        cropLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
+
         // Create the market UI
         Stage marketStage = new Stage();
         Market market = new Market(player, marketStage, this);
@@ -66,6 +71,9 @@ public class IdleFarmingGame extends Application {
         // Create a StackPane to hold the centeredContent and maintain the center position when resizing the window
         StackPane root = new StackPane(centeredContent);
 
+        // Set the background color of the StackPane to white
+        root.setStyle("-fx-background-color: white;");
+
         // Create a Scene and set it on the primary stage
         Scene scene = new Scene(root, 600, 800);
         primaryStage.setScene(scene);
@@ -74,10 +82,6 @@ public class IdleFarmingGame extends Application {
         // Add the market button to the VBox
         content.getChildren().add(marketButton);
     }
-
-
-
-
 
 
 
@@ -94,8 +98,6 @@ public class IdleFarmingGame extends Application {
         }
         return grid;
     }
-
-
 
 
     private void plantSeed(Player player, StackPane cell) {
@@ -159,12 +161,16 @@ public class IdleFarmingGame extends Application {
         for (String seedType : player.getSeeds().keySet()) {
             seedLabel.setText(seedLabel.getText() + " " + seedType + ": " + player.getSeeds().get(seedType));
         }
-        cropLabel.setText("Crops:");
-        for (String cropType : player.getCrops().keySet()) {
-            cropLabel.setText(cropLabel.getText() + " " + cropType + ": " + player.getCrops().get(cropType));
+
+        if (player.getCrops().isEmpty()) {
+            cropLabel.setText("Crops: 0");
+        } else {
+            cropLabel.setText("Crops:");
+            for (String cropType : player.getCrops().keySet()) {
+                cropLabel.setText(cropLabel.getText() + " " + cropType + ": " + player.getCrops().get(cropType));
+            }
         }
     }
-
 
 
 
