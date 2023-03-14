@@ -8,6 +8,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -63,6 +64,16 @@ public class IdleFarmingGame extends Application {
 
         // Add padding and a border to the marketBox
         marketBox.setStyle("-fx-padding: 10 20 10 20; -fx-border-width: 3; -fx-border-color: black;");
+
+        // Add hover animation and change cursor to the market GIF
+        marketGif.setOnMouseEntered(e -> {
+            marketGif.setScaleX(1.1);
+            marketGif.setCursor(Cursor.HAND);
+        });
+        marketGif.setOnMouseExited(e -> {
+            marketGif.setScaleX(1.0);
+            marketGif.setCursor(Cursor.DEFAULT);
+        });
 
         // Create a VBox with a fixed height to wrap the marketBox
         VBox marketWrapper = new VBox(marketBox);
