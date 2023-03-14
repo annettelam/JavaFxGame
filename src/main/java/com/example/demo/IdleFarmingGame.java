@@ -118,12 +118,14 @@ public class IdleFarmingGame extends Application {
                 StackPane cell = new StackPane();
                 cell.setPrefSize(cellSize, cellSize);
                 cell.setStyle("-fx-border-color: black");
+                cell.setCursor(Cursor.HAND); // Set the cursor to a hand when hovering over a grid cell
                 cell.setOnMouseClicked(e -> plantSeed(player, cell));
                 grid.add(cell, i, j);
             }
         }
         return grid;
     }
+
 
 
     private void plantSeed(Player player, StackPane cell) {
