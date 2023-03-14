@@ -28,6 +28,7 @@ public class IdleFarmingGame extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
         // Set the style for moneyLabel, seedLabel, and cropLabel
         moneyLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
         seedLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
@@ -40,16 +41,33 @@ public class IdleFarmingGame extends Application {
         Scene marketScene = new Scene(market.getMarketPane());
         marketStage.setScene(marketScene);
 
-        // Create buttons to open the market UI and buy seeds
-        Button marketButton = new Button("Market");
-        marketButton.setOnAction(e -> marketStage.show());
+        // Create an ImageView for the market GIF
+        ImageView marketGif = new ImageView(new Image(getClass().getResource("/market.gif").toExternalForm()));
+        marketGif.setFitWidth(100);
+        marketGif.setFitHeight(100);
 
-        // Create a grid for planting seeds
-        GridPane grid = createGrid(5, 100);
+        // Add a mouse click event listener to the market GIF
+        marketGif.setOnMouseClicked(e -> marketStage.show());
 
-        // Create a HBox to hold the buttons
-        HBox buttonBox = new HBox(10);
-        buttonBox.setAlignment(Pos.CENTER);
+        // Add hover animation to the market GIF
+        marketGif.setOnMouseEntered(e -> marketGif.setScaleX(1.1));
+        marketGif.setOnMouseExited(e -> marketGif.setScaleX(1.0));
+
+        // Create a label for the market GIF title
+        Label marketTitle = new Label("Market");
+        marketTitle.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
+
+        // Create a VBox to hold the market GIF and its title
+        VBox marketBox = new VBox(5, marketTitle, marketGif);
+        marketBox.setAlignment(Pos.CENTER);
+
+        // Add padding and a border to the marketBox
+        marketBox.setStyle("-fx-padding: 10 20 10 20; -fx-border-width: 3; -fx-border-color: black;");
+
+        // Create a VBox with a fixed height to wrap the marketBox
+        VBox marketWrapper = new VBox(marketBox);
+        marketWrapper.setPrefHeight(500); // Set the height to match the grid height
+        marketWrapper.setAlignment(Pos.TOP_CENTER);
 
         // Add a title label with a larger font size
         Label titleLabel = new Label("Harvest Hero");
@@ -60,29 +78,26 @@ public class IdleFarmingGame extends Application {
         gifImage.setFitWidth(300);
         gifImage.setFitHeight(300);
 
-        // Create a VBox to hold the title, GIF image, labels, buttons, and grid
-        VBox content = new VBox(10, titleLabel, gifImage, moneyLabel, seedLabel, cropLabel, buttonBox, grid);
+        // Create a grid for planting seeds
+        GridPane grid = createGrid(5, 100);
+
+        // Create a VBox to hold the title, GIF image, labels, and grid
+        VBox content = new VBox(10, titleLabel, gifImage, moneyLabel, seedLabel, cropLabel, grid);
         content.setAlignment(Pos.CENTER);
 
-        // Create an HBox to center the content horizontally
-        HBox centeredContent = new HBox(content);
+        // Create an HBox to hold the content and marketWrapper with some spacing between them
+        HBox centeredContent = new HBox(20, content, marketWrapper);
         centeredContent.setAlignment(Pos.CENTER);
 
         // Create a StackPane to hold the centeredContent and maintain the center position when resizing the window
         StackPane root = new StackPane(centeredContent);
-
-        // Set the background color of the StackPane to white
-        root.setStyle("-fx-background-color: white;");
+        root.setStyle("-fx-background-color: white");
 
         // Create a Scene and set it on the primary stage
-        Scene scene = new Scene(root, 600, 800);
+        Scene scene = new Scene(root, 800, 600);
         primaryStage.setScene(scene);
         primaryStage.show();
-
-        // Add the market button to the VBox
-        content.getChildren().add(marketButton);
     }
-
 
 
     private GridPane createGrid(int gridSize, int cellSize) {
@@ -171,7 +186,6 @@ public class IdleFarmingGame extends Application {
             }
         }
     }
-
 
 
     public static void main(String[] args) {
