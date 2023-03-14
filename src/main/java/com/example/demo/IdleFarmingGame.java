@@ -15,10 +15,7 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -42,14 +39,24 @@ public class IdleFarmingGame extends Application {
         Button marketButton = new Button("Market");
         marketButton.setOnAction(e -> marketStage.show());
 
-
-
         // Create a grid for planting seeds
         GridPane grid = createGrid(5, 100);
 
+        // Create a HBox to hold the buttons
+        HBox buttonBox = new HBox(10);
+        buttonBox.setAlignment(Pos.CENTER);
 
-        // Create a VBox to hold the labels, buttons, and grid
-        VBox content = new VBox(10, moneyLabel, seedLabel, cropLabel, grid);
+        // Add a title label with a larger font size
+        Label titleLabel = new Label("Harvest Hero");
+        titleLabel.setStyle("-fx-font-size: 36px; -fx-font-weight: bold;");
+
+        // Add a GIF image with larger dimensions
+        ImageView gifImage = new ImageView(new Image(getClass().getResource("/harvesthero.gif").toExternalForm()));
+        gifImage.setFitWidth(300);
+        gifImage.setFitHeight(300);
+
+        // Create a VBox to hold the title, GIF image, labels, buttons, and grid
+        VBox content = new VBox(10, titleLabel, gifImage, moneyLabel, seedLabel, cropLabel, buttonBox, grid);
         content.setAlignment(Pos.CENTER);
 
         // Create an HBox to center the content horizontally
@@ -60,13 +67,18 @@ public class IdleFarmingGame extends Application {
         StackPane root = new StackPane(centeredContent);
 
         // Create a Scene and set it on the primary stage
-        Scene scene = new Scene(root, 600, 600);
+        Scene scene = new Scene(root, 600, 800);
         primaryStage.setScene(scene);
         primaryStage.show();
 
         // Add the market button to the VBox
         content.getChildren().add(marketButton);
     }
+
+
+
+
+
 
 
     private GridPane createGrid(int gridSize, int cellSize) {
