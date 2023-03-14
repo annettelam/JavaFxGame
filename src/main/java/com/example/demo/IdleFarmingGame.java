@@ -14,7 +14,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -28,7 +31,6 @@ public class IdleFarmingGame extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
         // Create the market UI
         Stage marketStage = new Stage();
         Market market = new Market(player, marketStage, this);
@@ -43,27 +45,48 @@ public class IdleFarmingGame extends Application {
         Button buySeedButton = new Button("Buy Seed");
         buySeedButton.setOnAction(e -> buySeed(player, market));
 
-        // Create a button to plant a seed
-        Button plantButton = new Button("Plant Seed");
-        plantButton.setOnAction(e -> plantSeed(player));
+        // Create a grid for planting seeds
+        GridPane grid = createGrid(5, 100);
 
         // Create a HBox to hold the buttons
-        HBox buttonBox = new HBox(10, buySeedButton, plantButton);
+        HBox buttonBox = new HBox(10, buySeedButton);
         buttonBox.setAlignment(Pos.CENTER);
 
-        // Create a VBox to hold the labels and buttons
-        VBox root = new VBox(10, moneyLabel, seedLabel, cropLabel, buttonBox);
-        root.setAlignment(Pos.CENTER);
-        root.setPrefSize(400, 400);
+        // Create a VBox to hold the labels, buttons, and grid
+        VBox content = new VBox(10, moneyLabel, seedLabel, cropLabel, buttonBox, grid);
+        content.setAlignment(Pos.CENTER);
+
+        // Create an HBox to center the content horizontally
+        HBox centeredContent = new HBox(content);
+        centeredContent.setAlignment(Pos.CENTER);
+
+        // Create a StackPane to hold the centeredContent and maintain the center position when resizing the window
+        StackPane root = new StackPane(centeredContent);
 
         // Create a Scene and set it on the primary stage
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root, 600, 600);
         primaryStage.setScene(scene);
         primaryStage.show();
 
         // Add the market button to the VBox
-        root.getChildren().add(marketButton);
+        content.getChildren().add(marketButton);
     }
+
+
+    private GridPane createGrid(int gridSize, int cellSize) {
+        GridPane grid = new GridPane();
+        for (int i = 0; i < gridSize; i++) {
+            for (int j = 0; j < gridSize; j++) {
+                StackPane cell = new StackPane();
+                cell.setPrefSize(cellSize, cellSize);
+                cell.setStyle("-fx-border-color: black");
+                cell.setOnMouseClicked(e -> plantSeed(player, cell));
+                grid.add(cell, i, j);
+            }
+        }
+        return grid;
+    }
+
 
     private void buySeed(Player player, Market market) {
         HashMap<String, Integer> seedPrices = market.getSeedPrices();
@@ -74,26 +97,28 @@ public class IdleFarmingGame extends Application {
         }
     }
 
-    private void plantSeed(Player player) {
+    private void plantSeed(Player player, StackPane cell) {
         HashMap<String, Integer> seeds = player.getSeeds();
         String seedType = seeds.keySet().stream().filter(type -> seeds.get(type) > 0).findFirst().orElse(null);
         if (seedType != null) {
             seeds.put(seedType, seeds.get(seedType) - 1);
             updateLabels(player);
-            Label plantedLabel = new Label("Planted: " + seedType);
-            VBox root = (VBox) moneyLabel.getParent();
-            root.getChildren().add(0, plantedLabel); // Add the label at the top
 
             // Add an ImageView for the planted crop
             ImageView cropImage = new ImageView(new Image("file:src/main/resources/" + seedType + ".png"));
             cropImage.setFitWidth(50);
             cropImage.setFitHeight(50);
-            root.getChildren().add(1, cropImage); // Add the image at the top
 
             // Add a progress bar to show growth time
             ProgressBar progressBar = new ProgressBar();
             progressBar.setProgress(0.0);
-            root.getChildren().add(2, progressBar); // Add the progress bar at the top
+            progressBar.setMaxWidth(50);
+
+            // Add ImageView and ProgressBar to a VBox
+            VBox plantedCrop = new VBox(cropImage, progressBar);
+            plantedCrop.setAlignment(Pos.CENTER);
+            cell.getChildren().clear();
+            cell.getChildren().add(plantedCrop); // Add the VBox to the cell
 
             // Initialize the Timeline object
             Timeline timeline = new Timeline();
@@ -102,23 +127,21 @@ public class IdleFarmingGame extends Application {
             timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1), e -> {
                 double progress = progressBar.getProgress();
                 if (progress < 1.0) {
-                    progressBar.setProgress(progress + 1.0/30.0);
+                    progressBar.setProgress(progress + 1.0 / 10.0);
                 } else {
                     player.addCrop(seedType);
                     updateLabels(player);
-                    root.getChildren().remove(plantedLabel);
-                    root.getChildren().remove(cropImage);
-                    root.getChildren().remove(progressBar);
+                    cell.getChildren().remove(plantedCrop);
 
                     // Add an ImageView for the harvested crop
                     ImageView harvestedImage = new ImageView(new Image("file:src/main/resources/" + seedType + ".png"));
                     harvestedImage.setFitWidth(50);
                     harvestedImage.setFitHeight(50);
-                    root.getChildren().add(0, harvestedImage); // Add the harvested image at the top
+                    cell.getChildren().add(harvestedImage); // Add the harvested image to the cell
                     FadeTransition fadeTransition = new FadeTransition(Duration.seconds(1), harvestedImage);
                     fadeTransition.setFromValue(1.0);
                     fadeTransition.setToValue(0.0);
-                    fadeTransition.setOnFinished(f -> root.getChildren().remove(harvestedImage));
+                    fadeTransition.setOnFinished(f -> cell.getChildren().remove(harvestedImage));
                     fadeTransition.play();
 
                     timeline.stop();
@@ -128,17 +151,6 @@ public class IdleFarmingGame extends Application {
             timeline.play();
         }
     }
-
-
-
-
-
-
-
-
-
-
-
 
     public void updateLabels(Player player) {
         moneyLabel.setText("Money: $" + player.getMoney());
@@ -153,7 +165,11 @@ public class IdleFarmingGame extends Application {
     }
 
 
+
+
     public static void main(String[] args) {
         launch(args);
     }
+
+
 }
