@@ -42,18 +42,14 @@ public class IdleFarmingGame extends Application {
         Button marketButton = new Button("Market");
         marketButton.setOnAction(e -> marketStage.show());
 
-        Button buySeedButton = new Button("Buy Seed");
-        buySeedButton.setOnAction(e -> buySeed(player, market));
+
 
         // Create a grid for planting seeds
         GridPane grid = createGrid(5, 100);
 
-        // Create a HBox to hold the buttons
-        HBox buttonBox = new HBox(10, buySeedButton);
-        buttonBox.setAlignment(Pos.CENTER);
 
         // Create a VBox to hold the labels, buttons, and grid
-        VBox content = new VBox(10, moneyLabel, seedLabel, cropLabel, buttonBox, grid);
+        VBox content = new VBox(10, moneyLabel, seedLabel, cropLabel, grid);
         content.setAlignment(Pos.CENTER);
 
         // Create an HBox to center the content horizontally
@@ -88,14 +84,7 @@ public class IdleFarmingGame extends Application {
     }
 
 
-    private void buySeed(Player player, Market market) {
-        HashMap<String, Integer> seedPrices = market.getSeedPrices();
-        String seedType = "Carrot"; // can be changed to any other seed type
-        if (player.getMoney() >= seedPrices.get(seedType)) {
-            player.buySeed(seedType, seedPrices.get(seedType));
-            updateLabels(player);
-        }
-    }
+
 
     private void plantSeed(Player player, StackPane cell) {
         HashMap<String, Integer> seeds = player.getSeeds();
