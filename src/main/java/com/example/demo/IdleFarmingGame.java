@@ -90,7 +90,7 @@ public class IdleFarmingGame extends Application {
         gifImage.setFitHeight(300);
 
         // Create a grid for planting seeds
-        GridPane grid = createGrid(5, 100);
+        GridPane grid = createGrid(3, 100);
 
         // Create a VBox to hold the title, GIF image, labels, and grid
         VBox content = new VBox(10, titleLabel, gifImage, moneyLabel, seedLabel, cropLabel, grid);
