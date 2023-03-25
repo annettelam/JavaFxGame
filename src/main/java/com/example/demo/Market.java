@@ -21,6 +21,8 @@ public class Market {
     private Stage marketStage;
     private HashMap<String, Integer> seedPrices;
 
+    private HashMap<String, Upgrade> upgrades;
+
     public Market(Player player, Stage marketStage, IdleFarmingGame game) {
         this.player = player;
         this.marketStage = marketStage;
@@ -67,6 +69,8 @@ public class Market {
                     game.updateLabels(player); // call updateLabels() using the game instance
                 }
             });
+
+
 
             // Set the cursor to hand when hovering over the buyButton
             buyButton.setOnMouseEntered(new EventHandler<MouseEvent>() {
@@ -115,6 +119,52 @@ public class Market {
         });
 
         marketPane.add(closeButton, 2, row);
+
+        // Initialize the upgrades HashMap
+        upgrades = new HashMap<>();
+        upgrades.put("Faster Growth", new Upgrade("Faster Growth", 20));
+        upgrades.put("Increased Yield", new Upgrade("Increased Yield", 30));
+
+        // Add upgrades to the market pane
+        Label upgradeLabel = new Label("Upgrades");
+        upgradeLabel.setStyle("-fx-font-size: 18; -fx-font-weight: bold;");
+        marketPane.add(upgradeLabel, 0, row);
+
+        row++;
+
+        for (String upgradeName : upgrades.keySet()) {
+            Upgrade upgrade = upgrades.get(upgradeName);
+
+            Label upgradeNameLabel = new Label(upgradeName);
+            upgradeNameLabel.setStyle("-fx-font-size: 16;");
+            marketPane.add(upgradeNameLabel, 0, row);
+
+            Label upgradeCostLabel = new Label("$" + upgrade.getCost());
+            upgradeCostLabel.setStyle("-fx-font-size: 16;");
+            marketPane.add(upgradeCostLabel, 1, row);
+
+            Button upgradeButton = new Button("Upgrade");
+            upgradeButton.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-size: 14;");
+            upgradeButton.setOnAction(e -> {
+                if (player.getMoney() >= upgrade.getCost()) {
+                    player.setMoney(player.getMoney() - upgrade.getCost());
+                    upgrade.incrementLevel();
+                    upgrade.setCost(upgrade.getCost() * 2);
+                    upgradeCostLabel.setText("$" + upgrade.getCost());
+                    game.updateLabels(player);
+                }
+            });
+
+            // Set the cursor to hand when hovering over the upgradeButton
+            upgradeButton.setOnMouseEntered(e -> upgradeButton.setCursor(Cursor.HAND));
+
+            // Reset the cursor when the mouse exits the upgradeButton
+            upgradeButton.setOnMouseExited(e -> upgradeButton.setCursor(Cursor.DEFAULT));
+
+            marketPane.add(upgradeButton, 2, row);
+
+            row++;
+        }
     }
 
     public GridPane getMarketPane() {

@@ -127,7 +127,6 @@ public class IdleFarmingGame extends Application {
     }
 
 
-
     private void plantSeed(Player player, StackPane cell) {
         HashMap<String, Integer> seeds = player.getSeeds();
         String seedType = seeds.keySet().stream().filter(type -> seeds.get(type) > 0).findFirst().orElse(null);
@@ -154,6 +153,8 @@ public class IdleFarmingGame extends Application {
             // Initialize the Timeline object
             Timeline timeline = new Timeline();
 
+
+
             // Create a Timeline to update the progress bar
             timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1), e -> {
                 double progress = progressBar.getProgress();
@@ -176,11 +177,18 @@ public class IdleFarmingGame extends Application {
                     fadeTransition.play();
 
                     timeline.stop();
+
+
                 }
+                
             }));
             timeline.setCycleCount(Animation.INDEFINITE);
             timeline.play();
+
+
         }
+
+
     }
 
     public void updateLabels(Player player) {
