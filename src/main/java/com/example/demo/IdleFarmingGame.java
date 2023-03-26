@@ -35,6 +35,8 @@ public class IdleFarmingGame extends Application {
     Label fasterGrowthLabel = new Label("Faster Growth Level: 0");
     Label growthPercentageLabel = new Label("Crops Grow 0.00% Faster");
 
+    Label autoPlanterLabel = new Label("AutoPlanter Level: 0");
+
     @Override
     public void start(Stage primaryStage) throws Exception {
 
@@ -47,16 +49,19 @@ public class IdleFarmingGame extends Application {
         increasedYieldLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
         fasterGrowthLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
         growthPercentageLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
+        autoPlanterLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
+
 
 
 
         // Create a VBox to hold the stats labels
         VBox statsLayout = new VBox(10);
-        statsLayout.getChildren().addAll(increasedYieldLabel, fasterGrowthLabel, growthPercentageLabel);
+        statsLayout.getChildren().addAll(increasedYieldLabel, fasterGrowthLabel, growthPercentageLabel, autoPlanterLabel);
         statsLayout.setAlignment(Pos.TOP_CENTER);
 
 // Add background color, padding, and a border to the statsLayout
-        statsLayout.setStyle("-fx-background-color: #F0F8FF; -fx-padding: 10; -fx-border-width: 3; -fx-border-color: black;");
+        statsLayout.setStyle("-fx-background-color: #F0F8FF; -fx-padding: 10;");
+
 
 
 
@@ -132,7 +137,8 @@ public class IdleFarmingGame extends Application {
         content.setAlignment(Pos.CENTER);
 
         // Create an HBox to hold the content and marketWrapper with some spacing between them
-        HBox centeredContent = new HBox(20, content, marketWrapper);
+        HBox centeredContent = new HBox(20, statsLayout, content, marketWrapper);
+
         centeredContent.setAlignment(Pos.CENTER);
 
         // Create a StackPane to hold the centeredContent and maintain the center position when resizing the window
@@ -145,7 +151,8 @@ public class IdleFarmingGame extends Application {
         primaryStage.show();
 
         // Update the stats labels whenever an upgrade is purchased
-        market.setOnUpgradePurchased(() -> updateStatsLabels(market, increasedYieldLabel, fasterGrowthLabel, growthPercentageLabel));
+        market.setOnUpgradePurchased(() -> updateStatsLabels(market, increasedYieldLabel, fasterGrowthLabel, growthPercentageLabel, autoPlanterLabel));
+
     }
 
 
@@ -262,15 +269,18 @@ public class IdleFarmingGame extends Application {
     }
 
 
-    private void updateStatsLabels(Market market, Label increasedYieldLabel, Label fasterGrowthLabel, Label growthPercentageLabel) {
+    private void updateStatsLabels(Market market, Label increasedYieldLabel, Label fasterGrowthLabel, Label growthPercentageLabel, Label autoPlanterLabel) {
         int increasedYieldLevel = market.getUpgrades().get("Increased Yield").getLevel();
         int fasterGrowthLevel = market.getUpgrades().get("Faster Growth").getLevel();
+        int autoPlanterLevel = market.getUpgrades().get("AutoPlanter").getLevel();
         double growthPercentage = (1 - (10.0 - fasterGrowthLevel) / 10.0) * 100;
 
         increasedYieldLabel.setText("Increased Yield Level: " + increasedYieldLevel);
         fasterGrowthLabel.setText("Faster Growth Level: " + fasterGrowthLevel);
         growthPercentageLabel.setText("Crops Grow " + String.format("%.2f", growthPercentage) + "% Faster");
+        autoPlanterLabel.setText("AutoPlanter Level: " + autoPlanterLevel);
     }
+
 
 
     public static void main(String[] args) {
