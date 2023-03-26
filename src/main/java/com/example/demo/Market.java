@@ -23,6 +23,8 @@ public class Market {
 
     private HashMap<String, Upgrade> upgrades;
 
+    private Runnable onUpgradePurchased;
+
     public Market(Player player, Stage marketStage, IdleFarmingGame game) {
         this.player = player;
         this.marketStage = marketStage;
@@ -152,6 +154,7 @@ public class Market {
                     upgrade.setCost(upgrade.getCost() * 2);
                     upgradeCostLabel.setText("$" + upgrade.getCost());
                     game.updateLabels(player);
+                    upgradePurchased();
                 }
             });
 
@@ -166,6 +169,17 @@ public class Market {
             row++;
         }
     }
+
+    public void setOnUpgradePurchased(Runnable onUpgradePurchased) {
+        this.onUpgradePurchased = onUpgradePurchased;
+    }
+
+    // Call this method after purchasing an upgrade
+    private void upgradePurchased() {
+        if (onUpgradePurchased != null) {
+            onUpgradePurchased.run();
+        }}
+
 
     public GridPane getMarketPane() {
         return marketPane;

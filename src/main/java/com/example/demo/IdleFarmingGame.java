@@ -29,6 +29,11 @@ public class IdleFarmingGame extends Application {
     private Label seedLabel = new Label("Seeds: " + player.getNumSeeds());
     private Label cropLabel = new Label("Crops: " + player.getCrops());
 
+    // Create labels for the stats
+    Label increasedYieldLabel = new Label("Increased Yield Level: 0");
+    Label fasterGrowthLabel = new Label("Faster Growth Level: 0");
+    Label growthPercentageLabel = new Label("Crops Grow 0.00% Faster");
+
     @Override
     public void start(Stage primaryStage) throws Exception {
 
@@ -37,7 +42,17 @@ public class IdleFarmingGame extends Application {
         seedLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
         cropLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
 
+
+
+        // Create a VBox to hold the stats labels
+        VBox statsLayout = new VBox(10);
+        statsLayout.getChildren().addAll(increasedYieldLabel, fasterGrowthLabel, growthPercentageLabel);
+        statsLayout.setAlignment(Pos.TOP_CENTER);
+
+
+
         // Create the market UI
+
         Stage marketStage = new Stage();
         market = new Market(player, marketStage, this);
 
@@ -63,6 +78,9 @@ public class IdleFarmingGame extends Application {
         // Create a VBox to hold the market GIF and its title
         VBox marketBox = new VBox(5, marketTitle, marketGif);
         marketBox.setAlignment(Pos.CENTER);
+
+
+
 
         // Add padding and a border to the marketBox
         marketBox.setStyle("-fx-padding: 10 20 10 20; -fx-border-width: 3; -fx-border-color: black;");
@@ -91,11 +109,13 @@ public class IdleFarmingGame extends Application {
         gifImage.setFitWidth(300);
         gifImage.setFitHeight(300);
 
+
+
         // Create a grid for planting seeds
         GridPane grid = createGrid(3, 100);
 
-        // Create a VBox to hold the title, GIF image, labels, and grid
-        VBox content = new VBox(10, titleLabel, gifImage, moneyLabel, seedLabel, cropLabel, grid);
+        // Add the VBox to the layout
+        VBox content = new VBox(10, statsLayout, titleLabel, gifImage, moneyLabel, seedLabel, cropLabel, grid);
         content.setAlignment(Pos.CENTER);
 
         // Create an HBox to hold the content and marketWrapper with some spacing between them
@@ -110,6 +130,9 @@ public class IdleFarmingGame extends Application {
         Scene scene = new Scene(root, 800, 600);
         primaryStage.setScene(scene);
         primaryStage.show();
+
+        // Update the stats labels whenever an upgrade is purchased
+        market.setOnUpgradePurchased(() -> updateStatsLabels(market, increasedYieldLabel, fasterGrowthLabel, growthPercentageLabel));
     }
 
 
@@ -212,6 +235,17 @@ public class IdleFarmingGame extends Application {
                 cropLabel.setText(cropLabel.getText() + " " + cropType + ": " + player.getCrops().get(cropType));
             }
         }
+    }
+
+
+    private void updateStatsLabels(Market market, Label increasedYieldLabel, Label fasterGrowthLabel, Label growthPercentageLabel) {
+        int increasedYieldLevel = market.getUpgrades().get("Increased Yield").getLevel();
+        int fasterGrowthLevel = market.getUpgrades().get("Faster Growth").getLevel();
+        double growthPercentage = (1 - (10.0 - fasterGrowthLevel) / 10.0) * 100;
+
+        increasedYieldLabel.setText("Increased Yield Level: " + increasedYieldLevel);
+        fasterGrowthLabel.setText("Faster Growth Level: " + fasterGrowthLevel);
+        growthPercentageLabel.setText("Crops Grow " + String.format("%.2f", growthPercentage) + "% Faster");
     }
 
 
