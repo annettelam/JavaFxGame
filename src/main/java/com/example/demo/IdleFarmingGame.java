@@ -43,12 +43,20 @@ public class IdleFarmingGame extends Application {
         seedLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
         cropLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
 
+        // Style the labels
+        increasedYieldLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
+        fasterGrowthLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
+        growthPercentageLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
+
 
 
         // Create a VBox to hold the stats labels
         VBox statsLayout = new VBox(10);
         statsLayout.getChildren().addAll(increasedYieldLabel, fasterGrowthLabel, growthPercentageLabel);
         statsLayout.setAlignment(Pos.TOP_CENTER);
+
+// Add background color, padding, and a border to the statsLayout
+        statsLayout.setStyle("-fx-background-color: #F0F8FF; -fx-padding: 10; -fx-border-width: 3; -fx-border-color: black;");
 
 
 
@@ -81,8 +89,6 @@ public class IdleFarmingGame extends Application {
         marketBox.setAlignment(Pos.CENTER);
 
 
-
-
         // Add padding and a border to the marketBox
         marketBox.setStyle("-fx-padding: 10 20 10 20; -fx-border-width: 3; -fx-border-color: black;");
 
@@ -109,7 +115,6 @@ public class IdleFarmingGame extends Application {
         ImageView gifImage = new ImageView(new Image(getClass().getResource("/harvesthero.gif").toExternalForm()));
         gifImage.setFitWidth(300);
         gifImage.setFitHeight(300);
-
 
 
         // Create a grid for planting seeds
@@ -169,7 +174,6 @@ public class IdleFarmingGame extends Application {
             }
         }
     }
-
 
 
     private void plantSeed(Player player, StackPane cell, Market market) {
@@ -238,7 +242,6 @@ public class IdleFarmingGame extends Application {
             timeline.play();
         }
     }
-
 
 
     public void updateLabels(Player player) {
