@@ -126,6 +126,7 @@ public class Market {
         upgrades = new HashMap<>();
         upgrades.put("Faster Growth", new Upgrade("Faster Growth", 20));
         upgrades.put("Increased Yield", new Upgrade("Increased Yield", 30));
+        upgrades.put("AutoPlanter", new Upgrade("AutoPlanter", 100));
 
         // Add upgrades to the market pane
         Label upgradeLabel = new Label("Upgrades");

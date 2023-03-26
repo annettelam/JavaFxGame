@@ -9,6 +9,7 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -114,6 +115,13 @@ public class IdleFarmingGame extends Application {
         // Create a grid for planting seeds
         GridPane grid = createGrid(3, 100);
 
+        // Call autoPlant() every 5 seconds
+        Timeline autoPlantTimeline = new Timeline(
+                new KeyFrame(Duration.seconds(5), e -> autoPlant(grid, market))
+        );
+        autoPlantTimeline.setCycleCount(Animation.INDEFINITE);
+        autoPlantTimeline.play();
+
         // Add the VBox to the layout
         VBox content = new VBox(10, statsLayout, titleLabel, gifImage, moneyLabel, seedLabel, cropLabel, grid);
         content.setAlignment(Pos.CENTER);
@@ -150,6 +158,18 @@ public class IdleFarmingGame extends Application {
         }
         return grid;
     }
+
+    private void autoPlant(GridPane grid, Market market) {
+        if (market.getUpgrades().get("AutoPlanter").getLevel() > 0) {
+            for (Node cell : grid.getChildren()) {
+                StackPane stackPaneCell = (StackPane) cell;
+                if (stackPaneCell.getChildren().isEmpty()) {
+                    plantSeed(player, stackPaneCell, market);
+                }
+            }
+        }
+    }
+
 
 
     private void plantSeed(Player player, StackPane cell, Market market) {
@@ -218,6 +238,7 @@ public class IdleFarmingGame extends Application {
             timeline.play();
         }
     }
+
 
 
     public void updateLabels(Player player) {
