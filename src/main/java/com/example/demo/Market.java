@@ -179,4 +179,9 @@ public class Market {
         this.seedPrices = seedPrices;
     }
 
+    public HashMap<String, Upgrade> getUpgrades() {
+        return upgrades;
+    }
+
+
 }

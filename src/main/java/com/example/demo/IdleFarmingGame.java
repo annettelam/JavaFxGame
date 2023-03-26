@@ -22,7 +22,9 @@ import javafx.util.Duration;
 
 public class IdleFarmingGame extends Application {
 
-    Player player = new Player(100, 0);
+    public static Market market;
+
+    Player player = new Player(1000, 0);
     private Label moneyLabel = new Label("Money: $" + player.getMoney());
     private Label seedLabel = new Label("Seeds: " + player.getNumSeeds());
     private Label cropLabel = new Label("Crops: " + player.getCrops());
@@ -37,7 +39,7 @@ public class IdleFarmingGame extends Application {
 
         // Create the market UI
         Stage marketStage = new Stage();
-        Market market = new Market(player, marketStage, this);
+        market = new Market(player, marketStage, this);
 
         Scene marketScene = new Scene(market.getMarketPane());
         marketStage.setScene(marketScene);
@@ -118,8 +120,8 @@ public class IdleFarmingGame extends Application {
                 StackPane cell = new StackPane();
                 cell.setPrefSize(cellSize, cellSize);
                 cell.setStyle("-fx-border-color: black");
-                cell.setCursor(Cursor.HAND); // Set the cursor to a hand when hovering over a grid cell
-                cell.setOnMouseClicked(e -> plantSeed(player, cell));
+                cell.setCursor(Cursor.HAND); // Set the cursor to a hand when hovering over a grid cel
+                cell.setOnMouseClicked(e -> plantSeed(player, cell, market));
                 grid.add(cell, i, j);
             }
         }
@@ -127,12 +129,17 @@ public class IdleFarmingGame extends Application {
     }
 
 
-    private void plantSeed(Player player, StackPane cell) {
+    private void plantSeed(Player player, StackPane cell, Market market) {
         HashMap<String, Integer> seeds = player.getSeeds();
         String seedType = seeds.keySet().stream().filter(type -> seeds.get(type) > 0).findFirst().orElse(null);
+
         if (seedType != null) {
             seeds.put(seedType, seeds.get(seedType) - 1);
             updateLabels(player);
+
+            // Access the upgrade levels for "Increased Yield" and "Faster Growth"
+            int increasedYieldLevel = market.getUpgrades().get("Increased Yield").getLevel();
+            int fasterGrowthLevel = market.getUpgrades().get("Faster Growth").getLevel();
 
             // Add an ImageView for the planted crop
             ImageView cropImage = new ImageView(new Image("file:src/main/resources/" + seedType + ".png"));
@@ -153,15 +160,20 @@ public class IdleFarmingGame extends Application {
             // Initialize the Timeline object
             Timeline timeline = new Timeline();
 
-
-
             // Create a Timeline to update the progress bar
             timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1), e -> {
                 double progress = progressBar.getProgress();
+
+                // Modify the growth progress increment based on the "Faster Growth" upgrade level
+                double progressIncrement = 1.0 / (10.0 - fasterGrowthLevel); // Adjust the denominator to control the growth speed
+
                 if (progress < 1.0) {
-                    progressBar.setProgress(progress + 1.0 / 10.0);
+                    progressBar.setProgress(progress + progressIncrement);
                 } else {
-                    player.addCrop(seedType);
+                    // Add extra crops to the player based on the "Increased Yield" upgrade level when the seed is done being planted
+                    for (int i = 0; i < 1 + increasedYieldLevel; i++) {
+                        player.addCrop(seedType);
+                    }
                     updateLabels(player);
                     cell.getChildren().remove(plantedCrop);
 
@@ -177,19 +189,13 @@ public class IdleFarmingGame extends Application {
                     fadeTransition.play();
 
                     timeline.stop();
-
-
                 }
-                
             }));
             timeline.setCycleCount(Animation.INDEFINITE);
             timeline.play();
-
-
         }
-
-
     }
+
 
     public void updateLabels(Player player) {
         moneyLabel.setText("Money: $" + player.getMoney());
