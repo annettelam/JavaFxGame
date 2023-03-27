@@ -29,8 +29,14 @@ public class IdleFarmingGame extends Application {
     private Label moneyLabel = new Label("Money: $" + player.getMoney());
     private Label seedLabel = new Label("Seeds: " + player.getNumSeeds());
     private Label cropLabel = new Label("Crops: " + player.getCrops());
+    Label playerInfoLabel = new Label("Player Info");
+
+
     private VBox inventoryLayout;
     private HashMap<String, Label> inventoryLabels = new HashMap<>();
+
+    private HashMap<String, Animal> animals = new HashMap<>(); // Animal type -> Animal object
+    private HashMap<String, Label> animalLabels = new HashMap<>(); // Animal type -> Label object
 
 
     // Create labels for the stats
@@ -39,6 +45,7 @@ public class IdleFarmingGame extends Application {
     Label growthPercentageLabel = new Label("Crops Grow 0.00% Faster");
 
     Label autoPlanterLabel = new Label("AutoPlanter Level: 0");
+
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -54,8 +61,10 @@ public class IdleFarmingGame extends Application {
         growthPercentageLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
         autoPlanterLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
 
-        inventoryLayout = createInventory(player);
+        playerInfoLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
 
+
+        inventoryLayout = createInventory(player);
 
 
         // Create a VBox to hold the stats labels
@@ -65,6 +74,42 @@ public class IdleFarmingGame extends Application {
 
 // Add background color, padding, and a border to the statsLayout
         statsLayout.setStyle("-fx-background-color: #F0F8FF; -fx-padding: 10;");
+
+        statsLayout.getChildren().add(0, playerInfoLabel);
+        // Create an ImageView for the barn image
+        ImageView barnImage = new ImageView(new Image(getClass().getResource("/barn.png").toExternalForm()));
+        barnImage.setFitWidth(100);
+        barnImage.setFitHeight(100);
+
+// Add a mouse click event listener to the barn image
+        barnImage.setOnMouseClicked(e -> {
+            // TODO: Implement code to handle buying animals from the barn
+        });
+
+// Add hover animation to the barn image
+        barnImage.setOnMouseEntered(e -> barnImage.setScaleX(1.1));
+        barnImage.setOnMouseExited(e -> barnImage.setScaleX(1.0));
+
+// Create a label for the barn title
+        Label barnTitle = new Label("Barn");
+        barnTitle.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
+
+// Create a VBox to hold the barn image and its title
+        VBox barnBox = new VBox(5, barnTitle, barnImage);
+        barnBox.setAlignment(Pos.CENTER);
+
+// Add padding and a border to the barnBox
+        barnBox.setStyle("-fx-padding: 10 20 10 20; -fx-border-width: 3; -fx-border-color: black;");
+
+// Add hover animation and change cursor to the barn image
+        barnImage.setOnMouseEntered(e -> {
+            barnImage.setScaleX(1.1);
+            barnImage.setCursor(Cursor.HAND);
+        });
+        barnImage.setOnMouseExited(e -> {
+            barnImage.setScaleX(1.0);
+            barnImage.setCursor(Cursor.DEFAULT);
+        });
 
 
         // Create the market UI
@@ -142,6 +187,12 @@ public class IdleFarmingGame extends Application {
         VBox inventoryLayout = createInventory(player);
         HBox centeredContent = new HBox(20, statsLayout, content, inventoryLayout, marketWrapper);
 
+        HBox marketAndBarnBox = new HBox(20, marketBox, barnBox);
+        marketAndBarnBox.setAlignment(Pos.CENTER);
+
+        VBox marketAndBarnWrapper = new VBox(marketAndBarnBox);
+        marketAndBarnWrapper.setPrefHeight(500); // Set the height to match the grid height
+        centeredContent.getChildren().add(marketAndBarnWrapper);
 
         centeredContent.setAlignment(Pos.CENTER);
 
@@ -270,7 +321,6 @@ public class IdleFarmingGame extends Application {
     }
 
 
-
     public void updateLabels(Player player) {
         moneyLabel.setText("Money: $" + player.getMoney());
         seedLabel.setText("Seeds:");
@@ -300,7 +350,6 @@ public class IdleFarmingGame extends Application {
             }
         }
     }
-
 
 
     private void updateStatsLabels(Market market, Label increasedYieldLabel, Label fasterGrowthLabel, Label growthPercentageLabel, Label autoPlanterLabel) {
