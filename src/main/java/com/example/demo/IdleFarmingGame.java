@@ -29,6 +29,9 @@ public class IdleFarmingGame extends Application {
     private Label moneyLabel = new Label("Money: $" + player.getMoney());
     private Label seedLabel = new Label("Seeds: " + player.getNumSeeds());
     private Label cropLabel = new Label("Crops: " + player.getCrops());
+    private VBox inventoryLayout;
+    private HashMap<String, Label> inventoryLabels = new HashMap<>();
+
 
     // Create labels for the stats
     Label increasedYieldLabel = new Label("Increased Yield Level: 0");
@@ -51,6 +54,7 @@ public class IdleFarmingGame extends Application {
         growthPercentageLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
         autoPlanterLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
 
+        inventoryLayout = createInventory(player);
 
 
 
@@ -61,8 +65,6 @@ public class IdleFarmingGame extends Application {
 
 // Add background color, padding, and a border to the statsLayout
         statsLayout.setStyle("-fx-background-color: #F0F8FF; -fx-padding: 10;");
-
-
 
 
         // Create the market UI
@@ -137,7 +139,9 @@ public class IdleFarmingGame extends Application {
         content.setAlignment(Pos.CENTER);
 
         // Create an HBox to hold the content and marketWrapper with some spacing between them
-        HBox centeredContent = new HBox(20, statsLayout, content, marketWrapper);
+        VBox inventoryLayout = createInventory(player);
+        HBox centeredContent = new HBox(20, statsLayout, content, inventoryLayout, marketWrapper);
+
 
         centeredContent.setAlignment(Pos.CENTER);
 
@@ -250,6 +254,22 @@ public class IdleFarmingGame extends Application {
         }
     }
 
+    private VBox createInventory(Player player) {
+        inventoryLayout = new VBox(10);
+        Label inventoryTitle = new Label("Inventory");
+        inventoryTitle.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
+        inventoryLayout.getChildren().add(inventoryTitle);
+
+        for (String cropType : player.getCrops().keySet()) {
+            Label cropAmount = new Label(cropType + ": " + player.getCrops().get(cropType));
+            inventoryLabels.put(cropType, cropAmount);
+            inventoryLayout.getChildren().add(cropAmount);
+        }
+
+        return inventoryLayout;
+    }
+
+
 
     public void updateLabels(Player player) {
         moneyLabel.setText("Money: $" + player.getMoney());
@@ -266,7 +286,21 @@ public class IdleFarmingGame extends Application {
                 cropLabel.setText(cropLabel.getText() + " " + cropType + ": " + player.getCrops().get(cropType));
             }
         }
+
+        for (String cropType : player.getCrops().keySet()) {
+
+            String capitalizedCropType = cropType.substring(0, 1).toUpperCase() + cropType.substring(1);
+            Label cropAmount = inventoryLabels.getOrDefault(cropType, null);
+            if (cropAmount != null) {
+                cropAmount.setText(cropType + ": " + player.getCrops().get(cropType));
+            } else {
+                cropAmount = new Label(cropType + ": " + player.getCrops().get(cropType));
+                inventoryLabels.put(cropType, cropAmount);
+                inventoryLayout.getChildren().add(cropAmount); // Assuming you have access to inventoryLayout here
+            }
+        }
     }
+
 
 
     private void updateStatsLabels(Market market, Label increasedYieldLabel, Label fasterGrowthLabel, Label growthPercentageLabel, Label autoPlanterLabel) {
@@ -280,7 +314,6 @@ public class IdleFarmingGame extends Application {
         growthPercentageLabel.setText("Crops Grow " + String.format("%.2f", growthPercentage) + "% Faster");
         autoPlanterLabel.setText("AutoPlanter Level: " + autoPlanterLevel);
     }
-
 
 
     public static void main(String[] args) {
