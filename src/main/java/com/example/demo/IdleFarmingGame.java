@@ -35,6 +35,8 @@ public class IdleFarmingGame extends Application {
     private VBox inventoryLayout;
     private HashMap<String, Label> inventoryLabels = new HashMap<>();
 
+
+
     private HashMap<String, Animal> animals = new HashMap<>(); // Animal type -> Animal object
     private HashMap<String, Label> animalLabels = new HashMap<>(); // Animal type -> Label object
 
@@ -312,13 +314,21 @@ public class IdleFarmingGame extends Application {
         inventoryLayout.getChildren().add(inventoryTitle);
 
         for (String cropType : player.getCrops().keySet()) {
+            HBox cropRow = new HBox(5);
+            Image cropImage = new Image("file:src/main/resources/" + cropType.substring(0, 1).toUpperCase() + cropType.substring(1).toLowerCase() + ".png");
+            ImageView cropImageView = new ImageView(cropImage);
+            cropImageView.setFitWidth(30);
+            cropImageView.setFitHeight(30);
             Label cropAmount = new Label(cropType + ": " + player.getCrops().get(cropType));
             inventoryLabels.put(cropType, cropAmount);
-            inventoryLayout.getChildren().add(cropAmount);
+            cropRow.getChildren().addAll(cropImageView, cropAmount);
+            inventoryLayout.getChildren().add(cropRow);
         }
 
         return inventoryLayout;
     }
+
+
 
 
     public void updateLabels(Player player) {
@@ -338,17 +348,26 @@ public class IdleFarmingGame extends Application {
         }
 
         for (String cropType : player.getCrops().keySet()) {
-
             String capitalizedCropType = cropType.substring(0, 1).toUpperCase() + cropType.substring(1);
             Label cropAmount = inventoryLabels.getOrDefault(cropType, null);
             if (cropAmount != null) {
                 cropAmount.setText(cropType + ": " + player.getCrops().get(cropType));
             } else {
+                HBox cropRow = new HBox(5);
+                Image cropImage = new Image("file:src/main/resources/" + cropType.substring(0, 1).toUpperCase() + cropType.substring(1).toLowerCase() + ".png");
+
+                ImageView cropImageView = new ImageView(cropImage);
+                cropImageView.setFitWidth(30);
+                cropImageView.setFitHeight(30);
                 cropAmount = new Label(cropType + ": " + player.getCrops().get(cropType));
                 inventoryLabels.put(cropType, cropAmount);
-                inventoryLayout.getChildren().add(cropAmount); // Assuming you have access to inventoryLayout here
+                cropRow.getChildren().addAll(cropImageView, cropAmount);
+                inventoryLayout.getChildren().add(cropRow);
             }
         }
+
+
+
     }
 
 
