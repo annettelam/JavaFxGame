@@ -48,6 +48,8 @@ public class Market {
         seedPrices.put("Carrot", 5);
         seedPrices.put("Tomato", 8);
         seedPrices.put("Corn", 10);
+        seedPrices.put("Eggplant", 10);
+
 
         // Display the seed prices in the market pane
         int row = 2;
