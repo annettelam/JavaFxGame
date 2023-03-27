@@ -11,9 +11,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -30,6 +28,8 @@ public class IdleFarmingGame extends Application {
     private Label seedLabel = new Label("Seeds: " + player.getNumSeeds());
     private Label cropLabel = new Label("Crops: " + player.getCrops());
     Label playerInfoLabel = new Label("Player Info");
+
+
 
 
     private VBox inventoryLayout;
@@ -83,9 +83,55 @@ public class IdleFarmingGame extends Application {
         barnImage.setFitWidth(100);
         barnImage.setFitHeight(100);
 
-// Add a mouse click event listener to the barn image
+        // Add a mouse click event listener to the barn image
         barnImage.setOnMouseClicked(e -> {
-            // TODO: Implement code to handle buying animals from the barn
+            // Create a dialog to buy animals
+            Dialog<Animal> buyAnimalDialog = new Dialog<>();
+            buyAnimalDialog.setTitle("Buy Animals");
+            buyAnimalDialog.setHeaderText("Select an animal to buy");
+
+            // Create a list of animals to buy
+            ListView<Animal> animalListView = new ListView<>();
+            animalListView.getItems().addAll(
+                    new Animal("Cow", 500),
+                    new Animal("Pig", 300),
+                    new Animal("Chicken", 100)
+            );
+
+            buyAnimalDialog.getDialogPane().setContent(animalListView);
+
+            // Add a buy button to the dialog
+            ButtonType buyButtonType = new ButtonType("Buy", ButtonBar.ButtonData.OK_DONE);
+            buyAnimalDialog.getDialogPane().getButtonTypes().addAll(buyButtonType, ButtonType.CANCEL);
+
+            // Handle the result of the dialog
+            buyAnimalDialog.setResultConverter(buttonType -> {
+                if (buttonType == buyButtonType) {
+                    Animal selectedAnimal = animalListView.getSelectionModel().getSelectedItem();
+                    if (player.getMoney() >= selectedAnimal.getCost()) {
+                        player.setMoney(player.getMoney() - selectedAnimal.getCost());
+                        updateMoneyLabel();
+                        if (!animals.containsKey(selectedAnimal.getType())) {
+                            animals.put(selectedAnimal.getType(), selectedAnimal);
+                            Label animalLabel = new Label(selectedAnimal.getType() + ": 1");
+                            animalLabels.put(selectedAnimal.getType(), animalLabel);
+                            inventoryLayout.getChildren().add(animalLabel);
+                        } else {
+                            int currentCount = Integer.parseInt(animalLabels.get(selectedAnimal.getType()).getText().split(": ")[1]);
+                            animalLabels.get(selectedAnimal.getType()).setText(selectedAnimal.getType() + ": " + (currentCount + 1));
+                        }
+                    } else {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Not Enough Money");
+                        alert.setHeaderText("You don't have enough money to buy this animal!");
+                        alert.showAndWait();
+                    }
+                    return selectedAnimal;
+                }
+                return null;
+            });
+
+            buyAnimalDialog.showAndWait();
         });
 
 // Add hover animation to the barn image
@@ -209,6 +255,8 @@ public class IdleFarmingGame extends Application {
 
         // Update the stats labels whenever an upgrade is purchased
         market.setOnUpgradePurchased(() -> updateStatsLabels(market, increasedYieldLabel, fasterGrowthLabel, growthPercentageLabel, autoPlanterLabel));
+
+
 
     }
 
@@ -348,7 +396,6 @@ public class IdleFarmingGame extends Application {
         }
 
         for (String cropType : player.getCrops().keySet()) {
-            String capitalizedCropType = cropType.substring(0, 1).toUpperCase() + cropType.substring(1);
             Label cropAmount = inventoryLabels.getOrDefault(cropType, null);
             if (cropAmount != null) {
                 cropAmount.setText(cropType + ": " + player.getCrops().get(cropType));
@@ -369,6 +416,11 @@ public class IdleFarmingGame extends Application {
 
 
     }
+
+    private void updateMoneyLabel() {
+        moneyLabel.setText("Money: $" + player.getMoney());
+    }
+
 
 
     private void updateStatsLabels(Market market, Label increasedYieldLabel, Label fasterGrowthLabel, Label growthPercentageLabel, Label autoPlanterLabel) {

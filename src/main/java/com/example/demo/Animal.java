@@ -1,25 +1,26 @@
 package com.example.demo;
 
 public class Animal {
-    private String name;
-    private int price;
-    private int productValue; // The amount of product produced per day
+    private String type;
+    private int cost;
 
-    public Animal(String name, int price, int productValue) {
-        this.name = name;
-        this.price = price;
-        this.productValue = productValue;
+    public Animal(String type, int cost) {
+        this.type = type;
+        this.cost = cost;
     }
 
-    public String getName() {
-        return name;
+    public String getType() {
+        return type;
     }
 
-    public int getPrice() {
-        return price;
+    public int getCost() {
+        return cost;
     }
 
-    public int getProductValue() {
-        return productValue;
+    @Override
+    public String toString() {
+        return type;
     }
 }
+
+
