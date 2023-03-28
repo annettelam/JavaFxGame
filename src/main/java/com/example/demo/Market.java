@@ -36,11 +36,11 @@ public class Market {
         marketPane.setPadding(new Insets(20, 20, 20, 20)); // Set padding for the market pane
 
         Label marketLabel = new Label("Market");
-        marketLabel.setStyle("-fx-font-size: 24; -fx-font-weight: bold;"); // Set the style for marketLabel
+        marketLabel.setStyle("-fx-font-size: 24; -fx-font-weight: bold; -fx-font-family: 'Mali'"); // Set the style for marketLabel
         marketPane.add(marketLabel, 0, 0, 3, 1); // Span the marketLabel across 3 columns
 
         Label seedLabel = new Label("Seeds");
-        seedLabel.setStyle("-fx-font-size: 18; -fx-font-weight: bold;"); // Set the style for seedLabel
+        seedLabel.setStyle("-fx-font-size: 18; -fx-font-weight: bold; -fx-font-family: 'Mali'"); // Set the style for seedLabel
         marketPane.add(seedLabel, 0, 1);
 
         // Initialize the seedPrices HashMap
@@ -55,16 +55,16 @@ public class Market {
         int row = 2;
         for (String seed : seedPrices.keySet()) {
             Label nameLabel = new Label(seed);
-            nameLabel.setStyle("-fx-font-size: 16;"); // Set the style for nameLabel
+            nameLabel.setStyle("-fx-font-size: 16; -fx-font-family: 'Mali'"); // Set the style for nameLabel
             marketPane.add(nameLabel, 0, row);
 
             Label priceLabel = new Label("$" + seedPrices.get(seed));
-            priceLabel.setStyle("-fx-font-size: 16;"); // Set the style for priceLabel
+            priceLabel.setStyle("-fx-font-size: 16; -fx-font-family: 'Mali'"); // Set the style for priceLabel
             marketPane.add(priceLabel, 1, row);
 
 
             Button buyButton = new Button("Buy");
-            buyButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14;"); // Set the style for buyButton
+            buyButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14; -fx-font-family: 'Mali'"); // Set the style for buyButton
             buyButton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent e) {
@@ -132,7 +132,7 @@ public class Market {
 
         // Add upgrades to the market pane
         Label upgradeLabel = new Label("Upgrades");
-        upgradeLabel.setStyle("-fx-font-size: 18; -fx-font-weight: bold;");
+        upgradeLabel.setStyle("-fx-font-size: 18; -fx-font-weight: bold; -fx-font-family: 'Mali'");
         marketPane.add(upgradeLabel, 0, row);
 
         row++;
@@ -141,11 +141,11 @@ public class Market {
             Upgrade upgrade = upgrades.get(upgradeName);
 
             Label upgradeNameLabel = new Label(upgradeName);
-            upgradeNameLabel.setStyle("-fx-font-size: 16;");
+            upgradeNameLabel.setStyle("-fx-font-size: 16; -fx-font-family: 'Mali'");
             marketPane.add(upgradeNameLabel, 0, row);
 
             Label upgradeCostLabel = new Label("$" + upgrade.getCost());
-            upgradeCostLabel.setStyle("-fx-font-size: 16;");
+            upgradeCostLabel.setStyle("-fx-font-size: 16; -fx-font-family: 'Mali'");
             marketPane.add(upgradeCostLabel, 1, row);
 
             Button upgradeButton = new Button("Upgrade");
@@ -163,9 +163,11 @@ public class Market {
 
             // Set the cursor to hand when hovering over the upgradeButton
             upgradeButton.setOnMouseEntered(e -> upgradeButton.setCursor(Cursor.HAND));
+            upgradeButton.setStyle("-fx-font-size: 16; -fx-font-family: 'Mali'");
 
             // Reset the cursor when the mouse exits the upgradeButton
             upgradeButton.setOnMouseExited(e -> upgradeButton.setCursor(Cursor.DEFAULT));
+            upgradeButton.setStyle("-fx-font-size: 16; -fx-font-family: 'Mali'");
 
             marketPane.add(upgradeButton, 2, row);
 

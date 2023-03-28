@@ -13,6 +13,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -79,7 +80,6 @@ public class IdleFarmingGame extends Application {
         fasterGrowthLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
         growthPercentageLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
         autoPlanterLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
-
         playerInfoLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
 
 
@@ -90,8 +90,9 @@ public class IdleFarmingGame extends Application {
         VBox statsLayout = new VBox(10);
         statsLayout.getChildren().addAll(increasedYieldLabel, fasterGrowthLabel, growthPercentageLabel, autoPlanterLabel);
         statsLayout.setAlignment(Pos.TOP_CENTER);
+        statsLayout.setStyle("-fx-font-size: 18px; -fx-font-family: 'Mali';");
 
-// Add background color, padding, and a border to the statsLayout
+        // Add background color, padding, and a border to the statsLayout
         statsLayout.setStyle("-fx-background-color: #F0F8FF; -fx-padding: 10;");
 
         statsLayout.getChildren().add(0, playerInfoLabel);
@@ -122,6 +123,7 @@ public class IdleFarmingGame extends Application {
             );
 
             buyAnimalDialog.getDialogPane().setContent(animalListView);
+            buyAnimalDialog.getDialogPane().setStyle("-fx-font-size: 18px; -fx-font-family: 'Mali';");
 
             // Add a buy button to the dialog
             ButtonType buyButtonType = new ButtonType("Buy", ButtonBar.ButtonData.OK_DONE);
@@ -157,22 +159,22 @@ public class IdleFarmingGame extends Application {
             buyAnimalDialog.showAndWait();
         });
 
-// Add hover animation to the barn image
+    // Add hover animation to the barn image
         barnImage.setOnMouseEntered(e -> barnImage.setScaleX(1.1));
         barnImage.setOnMouseExited(e -> barnImage.setScaleX(1.0));
 
-// Create a label for the barn title
+    // Create a label for the barn title
         Label barnTitle = new Label("Barn");
         barnTitle.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
 
-// Create a VBox to hold the barn image and its title
+    // Create a VBox to hold the barn image and its title
         VBox barnBox = new VBox(5, barnTitle, barnImage);
         barnBox.setAlignment(Pos.CENTER);
 
-// Add padding and a border to the barnBox
+    // Add padding and a border to the barnBox
         barnBox.setStyle("-fx-padding: 10 20 10 20; -fx-border-width: 3; -fx-border-color: black;");
 
-// Add hover animation and change cursor to the barn image
+    // Add hover animation and change cursor to the barn image
         barnImage.setOnMouseEntered(e -> {
             barnImage.setScaleX(1.1);
             barnImage.setCursor(Cursor.HAND);
@@ -236,15 +238,19 @@ public class IdleFarmingGame extends Application {
         marketWrapper.setPrefHeight(500); // Set the height to match the grid height
         marketWrapper.setAlignment(Pos.TOP_CENTER);
 
+        // Create a drop shadow effect with a 5 pixel radius
+        DropShadow dropShadow = new DropShadow(5, Color.NAVY);
+
         // Add a title label with a larger font size
         Label titleLabel = new Label("Harvest Hero");
         titleLabel.setStyle("-fx-font-size: 36px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
+        titleLabel.setEffect(dropShadow);
+
+
 
         // Add a GIF image with larger dimensions
-        ImageView gifImage = new ImageView(new Image(getClass().getResource("/harvesthero.gif").toExternalForm()));
-        gifImage.setFitWidth(300);
-        gifImage.setFitHeight(300);
-
+        ImageView gifImage = new ImageView(new Image(getClass().getResource("/center.gif").toExternalForm()));
+        marketGif.setPreserveRatio(true);
 
         // Create a grid for planting seeds
         GridPane grid = createGrid(3, 100);
