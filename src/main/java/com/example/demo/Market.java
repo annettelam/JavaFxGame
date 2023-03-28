@@ -98,7 +98,7 @@ public class Market {
         }
 
         Button closeButton = new Button("Close");
-        closeButton.setStyle("-fx-background-color: #f44336; -fx-text-fill: white; -fx-font-size: 14;"); // Set the style for closeButton
+        closeButton.setStyle("-fx-background-color: #f44336; -fx-text-fill: white; -fx-font-size: 14; -fx-font-family: 'Mali'"); // Set the style for closeButton
         closeButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
