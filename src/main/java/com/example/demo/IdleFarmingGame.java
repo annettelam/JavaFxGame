@@ -253,7 +253,7 @@ public class IdleFarmingGame extends Application {
         marketGif.setPreserveRatio(true);
 
         // Create a grid for planting seeds
-        GridPane grid = createGrid(3, 100);
+        GridPane grid = createGrid(4, 100);
 
         // Call autoPlant() every 5 seconds
         Timeline autoPlantTimeline = new Timeline(
