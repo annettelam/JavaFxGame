@@ -305,14 +305,15 @@ public class IdleFarmingGame extends Application {
             for (int j = 0; j < gridSize; j++) {
                 StackPane cell = new StackPane();
                 cell.setPrefSize(cellSize, cellSize);
-                cell.setStyle("-fx-border-color: black");
-                cell.setCursor(Cursor.HAND); // Set the cursor to a hand when hovering over a grid cel
+                cell.setStyle("-fx-background-color: white; -fx-border-color: black");
+                cell.setCursor(Cursor.HAND); // Set the cursor to a hand when hovering over a grid cell
                 cell.setOnMouseClicked(e -> plantSeed(player, cell, market));
                 grid.add(cell, i, j);
             }
         }
         return grid;
     }
+
 
     private void autoPlant(GridPane grid, Market market) {
         if (market.getUpgrades().get("AutoPlanter").getLevel() > 0) {
