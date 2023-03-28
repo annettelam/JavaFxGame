@@ -58,6 +58,17 @@ public class IdleFarmingGame extends Application {
         // Load the default font for the game
         Font.loadFont(Objects.requireNonNull(getClass().getResource("/Mali.ttf")).toExternalForm(), 10);
 
+        // Load the background image for the game from the resources folder
+        Image backgroundImage = new Image(getClass().getResource("/background.jpeg").toExternalForm());
+
+        // Create a background image for the game
+        BackgroundImage background = new BackgroundImage(
+                backgroundImage,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.DEFAULT,
+                new BackgroundSize(1.0, 1.0, true, true, false, false));
+
         // Set the style for moneyLabel, seedLabel, and cropLabel
         moneyLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
         seedLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
@@ -252,10 +263,13 @@ public class IdleFarmingGame extends Application {
 
         // Create a StackPane to hold the centeredContent and maintain the center position when resizing the window
         StackPane root = new StackPane(centeredContent);
-        root.setStyle("-fx-background-color: white");
+//        root.setStyle("-fx-background-color: white");
+        // Set the background of the root node to the background image
+        root.setBackground(new Background(background));
 
         // Create a Scene and set it on the primary stage
         Scene scene = new Scene(root, 800, 600);
+
         primaryStage.setScene(scene);
         primaryStage.show();
 
