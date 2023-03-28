@@ -97,8 +97,14 @@ public class IdleFarmingGame extends Application {
         statsLayout.getChildren().add(0, playerInfoLabel);
         // Create an ImageView for the barn image
         ImageView barnImage = new ImageView(new Image(getClass().getResource("/barn.png").toExternalForm()));
+        barnImage.setOpacity(0.5);
         barnImage.setFitWidth(100);
         barnImage.setFitHeight(100);
+        // Set the background color of the barn image
+        barnImage.setStyle("-fx-background-color: skyblue;");
+
+        // Change barn button to opaque when clicked
+        barnImage.setOnMousePressed(e -> barnImage.setOpacity(1.0));
 
         // Add a mouse click event listener to the barn image
         barnImage.setOnMouseClicked(e -> {
@@ -187,8 +193,14 @@ public class IdleFarmingGame extends Application {
 
         // Create an ImageView for the market GIF
         ImageView marketGif = new ImageView(new Image(getClass().getResource("/market.gif").toExternalForm()));
+        // Set the background color of the market GIF to sky blue
+        marketGif.setStyle("-fx-background-color: skyblue;");
+        marketGif.setOpacity(0.5);
         marketGif.setFitWidth(100);
         marketGif.setFitHeight(100);
+
+        // Change market button to opaque when clicked
+        marketGif.setOnMousePressed(e -> marketGif.setOpacity(1.0));
 
         // Add a mouse click event listener to the market GIF
         marketGif.setOnMouseClicked(e -> marketStage.show());
