@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
@@ -16,6 +17,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -52,18 +55,21 @@ public class IdleFarmingGame extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
+        // Load the default font for the game
+        Font.loadFont(Objects.requireNonNull(getClass().getResource("/Mali.ttf")).toExternalForm(), 10);
+
         // Set the style for moneyLabel, seedLabel, and cropLabel
-        moneyLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
-        seedLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
-        cropLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
+        moneyLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
+        seedLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
+        cropLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
 
         // Style the labels
-        increasedYieldLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
-        fasterGrowthLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
-        growthPercentageLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
-        autoPlanterLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
+        increasedYieldLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
+        fasterGrowthLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
+        growthPercentageLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
+        autoPlanterLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
 
-        playerInfoLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
+        playerInfoLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
 
 
         inventoryLayout = createInventory(player);
@@ -140,7 +146,7 @@ public class IdleFarmingGame extends Application {
 
 // Create a label for the barn title
         Label barnTitle = new Label("Barn");
-        barnTitle.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
+        barnTitle.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
 
 // Create a VBox to hold the barn image and its title
         VBox barnBox = new VBox(5, barnTitle, barnImage);
@@ -182,7 +188,7 @@ public class IdleFarmingGame extends Application {
 
         // Create a label for the market GIF title
         Label marketTitle = new Label("Market");
-        marketTitle.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
+        marketTitle.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
 
         // Create a VBox to hold the market GIF and its title
         VBox marketBox = new VBox(5, marketTitle, marketGif);
@@ -209,7 +215,7 @@ public class IdleFarmingGame extends Application {
 
         // Add a title label with a larger font size
         Label titleLabel = new Label("Harvest Hero");
-        titleLabel.setStyle("-fx-font-size: 36px; -fx-font-weight: bold;");
+        titleLabel.setStyle("-fx-font-size: 36px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
 
         // Add a GIF image with larger dimensions
         ImageView gifImage = new ImageView(new Image(getClass().getResource("/harvesthero.gif").toExternalForm()));
@@ -358,7 +364,7 @@ public class IdleFarmingGame extends Application {
     private VBox createInventory(Player player) {
         inventoryLayout = new VBox(10);
         Label inventoryTitle = new Label("Inventory");
-        inventoryTitle.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
+        inventoryTitle.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Mali'");
         inventoryLayout.getChildren().add(inventoryTitle);
 
         for (String cropType : player.getCrops().keySet()) {
