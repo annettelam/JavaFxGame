@@ -46,9 +46,11 @@ public class Market {
         // Initialize the seedPrices HashMap
         seedPrices = new HashMap<String, Integer>();
         seedPrices.put("Carrot", 5);
-        seedPrices.put("Tomato", 8);
-        seedPrices.put("Corn", 10);
+        seedPrices.put("Tomato", 25);
+        seedPrices.put("Corn", 20);
         seedPrices.put("Eggplant", 10);
+        seedPrices.put("Pepper", 15);
+
 
 
         // Display the seed prices in the market pane
