@@ -3,11 +3,11 @@ package com.example.demo;
 import java.util.HashMap;
 import java.util.Objects;
 
-import javafx.animation.Animation;
-import javafx.animation.FadeTransition;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+import javafx.animation.*;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
@@ -255,6 +255,11 @@ public class IdleFarmingGame extends Application {
         // Create a grid for planting seeds
         GridPane grid = createGrid(4, 100);
 
+        // Create a grid for animals
+        GridPane animalGrid = createAnimalGrid(4, 100);
+
+
+
         // Call autoPlant() every 5 seconds
         Timeline autoPlantTimeline = new Timeline(
                 new KeyFrame(Duration.seconds(5), e -> autoPlant(grid, market))
@@ -266,9 +271,14 @@ public class IdleFarmingGame extends Application {
         VBox content = new VBox(10, statsLayout, titleLabel, gifImage, moneyLabel, seedLabel, cropLabel, grid);
         content.setAlignment(Pos.CENTER);
 
+        // Add the VBox for animal grid
+        VBox animalContent = new VBox(10, new Label("Animal Farm"), animalGrid);
+        animalContent.setAlignment(Pos.CENTER);
+
         // Create an HBox to hold the content and marketWrapper with some spacing between them
         VBox inventoryLayout = createInventory(player);
-        HBox centeredContent = new HBox(20, statsLayout, content, inventoryLayout, marketWrapper);
+        // Modify the HBox to hold the content, animalContent, and marketWrapper
+        HBox centeredContent = new HBox(20, statsLayout, content, animalContent, inventoryLayout, marketWrapper);
 
         HBox marketAndBarnBox = new HBox(20, marketBox, barnBox);
         marketAndBarnBox.setAlignment(Pos.CENTER);
@@ -456,8 +466,100 @@ public class IdleFarmingGame extends Application {
 
     }
 
+    private GridPane createAnimalGrid(int gridSize, int cellSize) {
+        GridPane animalGrid = new GridPane();
+        for (int i = 0; i < gridSize; i++) {
+            for (int j = 0; j < gridSize; j++) {
+                StackPane cell = new StackPane();
+                cell.setPrefSize(cellSize, cellSize);
+                cell.setStyle("-fx-background-color: white; -fx-border-color: black");
+                cell.setCursor(Cursor.HAND);
+                cell.setOnMouseClicked(e -> placeAnimal(player, cell, market));
+                animalGrid.add(cell, i, j);
+            }
+        }
+        return animalGrid;
+    }
+
+    private void placeAnimal(Player player, StackPane cell, Market market) {
+        ImageView animalImageView = new ImageView(new Image("cow.jpg")); // Replace with the actual image path
+        ImageView milkImageView = new ImageView(new Image("milk.jpg")); // Replace with the actual image path
+        ProgressBar progressBar = new ProgressBar();
+
+        // Configure animal image and add it to the cell
+        animalImageView.setFitWidth(50);
+        animalImageView.setFitHeight(50);
+        cell.getChildren().add(animalImageView);
+
+        // Configure milk image and add it to the cell (initially invisible)
+        milkImageView.setFitWidth(50);
+        milkImageView.setFitHeight(50);
+        milkImageView.setVisible(false);
+        cell.getChildren().add(milkImageView);
+
+        // Configure progress bar
+        progressBar.setPrefWidth(50);
+        progressBar.setPrefHeight(5);
+        cell.getChildren().add(progressBar);
+
+        // Initialize the Timeline object
+        Timeline timeline = new Timeline();
+
+        // Create a Timeline to update the progress bar
+        timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1), e -> {
+            double progress = progressBar.getProgress();
+            double progressIncrement = 1.0 / 10.0; // Adjust the denominator to control the production speed
+
+            if (progress < 1.0) {
+                progressBar.setProgress(progress + progressIncrement);
+            } else {
+                progressBar.setProgress(0);
+                milkImageView.setVisible(true);
+
+                // Fade out the milk image and update the inventory
+                FadeTransition fadeTransition = new FadeTransition(Duration.seconds(1), milkImageView);
+                fadeTransition.setFromValue(1.0);
+                fadeTransition.setToValue(0.0);
+                fadeTransition.setOnFinished(f -> {
+                    milkImageView.setVisible(false);
+                    updateMilkInventory(player);
+                });
+                fadeTransition.play();
+            }
+        }));
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
+    }
+
+
+
+
+
+
+
+
     private void updateMoneyLabel() {
         moneyLabel.setText("Money: $" + player.getMoney());
+    }
+
+    private void updateMilkInventory(Player player) {
+        String milkType = "Milk";
+        int currentMilk = player.getCrops().getOrDefault(milkType, 0);
+        player.getCrops().put(milkType, currentMilk + 1);
+
+        if (!inventoryLabels.containsKey(milkType)) {
+            HBox milkRow = new HBox(5);
+            Image milkImage = new Image("file:src/main/resources/milk.jpg"); // Replace with the actual image path
+            ImageView milkImageView = new ImageView(milkImage);
+            milkImageView.setFitWidth(30);
+            milkImageView.setFitHeight(30);
+            Label milkAmount = new Label(milkType + ": " + player.getCrops().get(milkType));
+            inventoryLabels.put(milkType, milkAmount);
+            milkRow.getChildren().addAll(milkImageView, milkAmount);
+            inventoryLayout.getChildren().add(milkRow);
+        } else {
+            inventoryLabels.get(milkType).setText(milkType + ": " + player.getCrops().get(milkType));
+        }
     }
 
 
