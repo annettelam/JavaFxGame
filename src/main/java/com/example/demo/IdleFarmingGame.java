@@ -116,7 +116,7 @@ public class IdleFarmingGame extends Application {
         barnImage.setEffect(shadow);
 
         // Set the background color of the barn image
-        barnImage.setStyle("-fx-background-color: skyblue;");
+        barnImage.setStyle("-fx-border-color: navy; -fx-border-width: 5");
 
         // Change barn button to opaque when clicked
         barnImage.setOnMousePressed(e -> barnImage.setOpacity(1.0));
@@ -182,6 +182,7 @@ public class IdleFarmingGame extends Application {
         barnImage.setOnMouseEntered(e -> barnImage.setScaleX(1.1));
         barnImage.setOnMouseExited(e -> barnImage.setScaleX(1.0));
 
+
         // Create a label for the barn title
         Label barnTitle = new Label("Barn");
         barnTitle.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
@@ -205,7 +206,6 @@ public class IdleFarmingGame extends Application {
 
 
         // Create the market UI
-
         Stage marketStage = new Stage();
         market = new Market(player, marketStage, this);
 
@@ -214,8 +214,9 @@ public class IdleFarmingGame extends Application {
 
         // Create an ImageView for the market GIF
         ImageView marketGif = new ImageView(new Image(getClass().getResource("/market.gif").toExternalForm()));
+
         // Set the background color of the market GIF to sky blue
-        marketGif.setStyle("-fx-background-color: skyblue;");
+        marketGif.setStyle("-fx-border-color: mediumseagreen; -fx-border-width: 5px;");
         marketGif.setOpacity(0.5);
         marketGif.setFitWidth(200);
         marketGif.setFitHeight(200);
