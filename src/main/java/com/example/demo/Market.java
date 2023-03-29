@@ -187,6 +187,15 @@ public class Market {
             onUpgradePurchased.run();
         }}
 
+    public int getPrice(String cropType) {
+        // Assuming you have a HashMap<String, Integer> called seedPrices in your Market class
+        // that stores the seed type as a key and its price as a value
+        if (seedPrices.containsKey(cropType)) {
+            return seedPrices.get(cropType) * 2;
+        }
+        return 0; // Return 0 if the crop type is not found in the market
+    }
+
 
     public GridPane getMarketPane() {
         return marketPane;

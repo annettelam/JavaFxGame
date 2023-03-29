@@ -139,6 +139,10 @@ public class IdleFarmingGame extends Application {
             );
 
 
+
+
+
+
             buyAnimalDialog.getDialogPane().setContent(animalListView);
             buyAnimalDialog.getDialogPane().setStyle("-fx-font-size: 18px; -fx-font-family: 'Mali';");
 
@@ -298,6 +302,21 @@ public class IdleFarmingGame extends Application {
         autoPlantTimeline.setCycleCount(Animation.INDEFINITE);
         autoPlantTimeline.play();
 
+        // Load the merchant image
+        Image merchantImage = new Image("file:src/main/resources/merchant.gif");
+        ImageView merchantImageView = new ImageView(merchantImage);
+        merchantImageView.setFitWidth(200);
+        merchantImageView.setFitHeight(200);
+
+// Create the sell button
+        Button sellInventoryButton = new Button("Sell Inventory");
+        sellInventoryButton.setOnAction(event -> sellEntireInventory(player));
+
+// Add the merchant and the sell button to a VBox
+        VBox merchantBox = new VBox(10, merchantImageView, sellInventoryButton);
+        merchantBox.setAlignment(Pos.CENTER);
+
+
         // Add the VBox to the layout
         VBox content = new VBox(10, statsLayout, titleLabel, moneyLabel, seedLabel, cropLabel, grid);
         content.setAlignment(Pos.CENTER);
@@ -322,6 +341,8 @@ public class IdleFarmingGame extends Application {
 
         centeredContent.setAlignment(Pos.CENTER);
 
+        centeredContent.getChildren().add(merchantBox);
+
         // Create a StackPane to hold the centeredContent and maintain the center position when resizing the window
         StackPane root = new StackPane(centeredContent);
 //        root.setStyle("-fx-background-color: white");
@@ -336,6 +357,8 @@ public class IdleFarmingGame extends Application {
         primaryStage.setMaximized(true);
         primaryStage.setScene(scene);
         primaryStage.show();
+
+
 
         // Update the stats labels whenever an upgrade is purchased
         market.setOnUpgradePurchased(() -> updateStatsLabels(market, increasedYieldLabel, fasterGrowthLabel, growthPercentageLabel, autoPlanterLabel));
@@ -589,6 +612,32 @@ public class IdleFarmingGame extends Application {
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
+    }
+    private void sellEntireInventory(Player player) {
+        int totalIncome = 0;
+
+        // Calculate the total income from selling crops
+        for (String cropType : player.getCrops().keySet()) {
+            int cropCount = player.getCrops().get(cropType);
+            totalIncome += cropCount * market.getPrice(cropType);
+        }
+
+        // Clear the player's inventory and update the labels
+        player.getCrops().clear();
+        for (Label label : inventoryLabels.values()) {
+            label.setText("0");
+        }
+
+        // Update the player's money
+        player.setMoney(player.getMoney() + totalIncome);
+        updateMoneyLabel();
+
+        // Display an alert to show the total income from selling the inventory
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Inventory Sold");
+        alert.setHeaderText("You have sold your entire inventory!");
+        alert.setContentText("Total income: $" + totalIncome);
+        alert.showAndWait();
     }
 
 
