@@ -34,11 +34,8 @@ public class IdleFarmingGame extends Application {
     Label playerInfoLabel = new Label("Player Info");
 
 
-
-
     private VBox inventoryLayout;
     private HashMap<String, Label> inventoryLabels = new HashMap<>();
-
 
 
     private HashMap<String, Animal> animals = new HashMap<>(); // Animal type -> Animal object
@@ -159,22 +156,22 @@ public class IdleFarmingGame extends Application {
             buyAnimalDialog.showAndWait();
         });
 
-    // Add hover animation to the barn image
+        // Add hover animation to the barn image
         barnImage.setOnMouseEntered(e -> barnImage.setScaleX(1.1));
         barnImage.setOnMouseExited(e -> barnImage.setScaleX(1.0));
 
-    // Create a label for the barn title
+        // Create a label for the barn title
         Label barnTitle = new Label("Barn");
         barnTitle.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
 
-    // Create a VBox to hold the barn image and its title
+        // Create a VBox to hold the barn image and its title
         VBox barnBox = new VBox(5, barnTitle, barnImage);
         barnBox.setAlignment(Pos.CENTER);
 
-    // Add padding and a border to the barnBox
+        // Add padding and a border to the barnBox
         barnBox.setStyle("-fx-padding: 10 20 10 20; -fx-border-width: 3; -fx-border-color: black;");
 
-    // Add hover animation and change cursor to the barn image
+        // Add hover animation and change cursor to the barn image
         barnImage.setOnMouseEntered(e -> {
             barnImage.setScaleX(1.1);
             barnImage.setCursor(Cursor.HAND);
@@ -247,7 +244,6 @@ public class IdleFarmingGame extends Application {
         titleLabel.setEffect(dropShadow);
 
 
-
         // Add a GIF image with larger dimensions
         ImageView gifImage = new ImageView(new Image(getClass().getResource("/center.gif").toExternalForm()));
         marketGif.setPreserveRatio(true);
@@ -257,7 +253,6 @@ public class IdleFarmingGame extends Application {
 
         // Create a grid for animals
         GridPane animalGrid = createAnimalGrid(4, 100);
-
 
 
         // Call autoPlant() every 5 seconds
@@ -303,7 +298,6 @@ public class IdleFarmingGame extends Application {
 
         // Update the stats labels whenever an upgrade is purchased
         market.setOnUpgradePurchased(() -> updateStatsLabels(market, increasedYieldLabel, fasterGrowthLabel, growthPercentageLabel, autoPlanterLabel));
-
 
 
     }
@@ -426,8 +420,6 @@ public class IdleFarmingGame extends Application {
     }
 
 
-
-
     public void updateLabels(Player player) {
         moneyLabel.setText("Money: $" + player.getMoney());
         seedLabel.setText("Seeds:");
@@ -463,7 +455,6 @@ public class IdleFarmingGame extends Application {
         }
 
 
-
     }
 
     private GridPane createAnimalGrid(int gridSize, int cellSize) {
@@ -482,6 +473,14 @@ public class IdleFarmingGame extends Application {
     }
 
     private void placeAnimal(Player player, StackPane cell, Market market) {
+
+        if (!animals.containsKey("Cow") || Integer.parseInt(animalLabels.get("Cow").getText().split(": ")[1]) <= 0) {
+            return;
+        }
+
+        // Decrement the cow count in the player's inventory and update the label
+        int currentCount = Integer.parseInt(animalLabels.get("Cow").getText().split(": ")[1]);
+        animalLabels.get("Cow").setText("Cow: " + (currentCount - 1));
         ImageView animalImageView = new ImageView(new Image("cow.jpg")); // Replace with the actual image path
         ImageView milkImageView = new ImageView(new Image("milk.jpg")); // Replace with the actual image path
         ProgressBar progressBar = new ProgressBar();
@@ -489,18 +488,21 @@ public class IdleFarmingGame extends Application {
         // Configure animal image and add it to the cell
         animalImageView.setFitWidth(50);
         animalImageView.setFitHeight(50);
-        cell.getChildren().add(animalImageView);
 
         // Configure milk image and add it to the cell (initially invisible)
         milkImageView.setFitWidth(50);
         milkImageView.setFitHeight(50);
         milkImageView.setVisible(false);
-        cell.getChildren().add(milkImageView);
 
         // Configure progress bar
-        progressBar.setPrefWidth(50);
-        progressBar.setPrefHeight(5);
-        cell.getChildren().add(progressBar);
+        progressBar.setProgress(0.0);
+        progressBar.setMaxWidth(50);
+
+        // Add ImageView and ProgressBar to a VBox
+        VBox animalAndProgressBar = new VBox(animalImageView, progressBar);
+        animalAndProgressBar.setAlignment(Pos.CENTER);
+        cell.getChildren().add(animalAndProgressBar);
+        cell.getChildren().add(milkImageView); // Add milk ImageView to the cell
 
         // Initialize the Timeline object
         Timeline timeline = new Timeline();
@@ -533,11 +535,6 @@ public class IdleFarmingGame extends Application {
 
 
 
-
-
-
-
-
     private void updateMoneyLabel() {
         moneyLabel.setText("Money: $" + player.getMoney());
     }
@@ -561,7 +558,6 @@ public class IdleFarmingGame extends Application {
             inventoryLabels.get(milkType).setText(milkType + ": " + player.getCrops().get(milkType));
         }
     }
-
 
 
     private void updateStatsLabels(Market market, Label increasedYieldLabel, Label fasterGrowthLabel, Label growthPercentageLabel, Label autoPlanterLabel) {
