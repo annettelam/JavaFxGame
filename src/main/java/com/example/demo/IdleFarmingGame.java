@@ -327,7 +327,7 @@ public class IdleFarmingGame extends Application {
 //        root.setStyle("-fx-background-color: white");
         // Set the background of the root node to the background image
         root.setBackground(new Background(background));
-        root.getChildren().add(centerImage);
+
 
         // Create a Scene and set it on the primary stage
         Scene scene = new Scene(root, 800, 600);
