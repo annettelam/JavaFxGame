@@ -1,6 +1,8 @@
 package com.example.demo;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 import javafx.animation.*;
@@ -27,7 +29,7 @@ public class IdleFarmingGame extends Application {
 
     public static Market market;
 
-    Player player = new Player(1000, 0);
+    Player player = new Player(10000, 0);
     private Label moneyLabel = new Label("Money: $" + player.getMoney());
     private Label seedLabel = new Label("Seeds: " + player.getNumSeeds());
     private Label cropLabel = new Label("Crops: " + player.getCrops());
@@ -114,10 +116,11 @@ public class IdleFarmingGame extends Application {
             // Create a list of animals to buy
             ListView<Animal> animalListView = new ListView<>();
             animalListView.getItems().addAll(
-                    new Animal("Cow", 500),
-                    new Animal("Pig", 300),
-                    new Animal("Chicken", 100)
+                    new Animal("Cow", "Milk", 500),
+                    new Animal("Pig", "Meat", 300),
+                    new Animal("Chicken", "Egg", 100)
             );
+
 
             buyAnimalDialog.getDialogPane().setContent(animalListView);
             buyAnimalDialog.getDialogPane().setStyle("-fx-font-size: 18px; -fx-font-family: 'Mali';");
@@ -142,6 +145,7 @@ public class IdleFarmingGame extends Application {
                             int currentCount = Integer.parseInt(animalLabels.get(selectedAnimal.getType()).getText().split(": ")[1]);
                             animalLabels.get(selectedAnimal.getType()).setText(selectedAnimal.getType() + ": " + (currentCount + 1));
                         }
+                        recentAnimalTypes.add(selectedAnimal.getType()); // Add the animal type to the list
                     } else {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.setTitle("Not Enough Money");
@@ -152,6 +156,8 @@ public class IdleFarmingGame extends Application {
                 }
                 return null;
             });
+
+
 
             buyAnimalDialog.showAndWait();
         });
@@ -457,6 +463,8 @@ public class IdleFarmingGame extends Application {
 
     }
 
+    private List<String> recentAnimalTypes = new ArrayList<>();
+
     private GridPane createAnimalGrid(int gridSize, int cellSize) {
         GridPane animalGrid = new GridPane();
         for (int i = 0; i < gridSize; i++) {
@@ -465,34 +473,46 @@ public class IdleFarmingGame extends Application {
                 cell.setPrefSize(cellSize, cellSize);
                 cell.setStyle("-fx-background-color: white; -fx-border-color: black");
                 cell.setCursor(Cursor.HAND);
-                cell.setOnMouseClicked(e -> placeAnimal(player, cell, market));
+                cell.setOnMouseClicked(e -> {
+                    if (!recentAnimalTypes.isEmpty()) {
+                        String animalType = recentAnimalTypes.get(0);
+                        placeAnimal(player, cell, market, animalType);
+                        recentAnimalTypes.remove(0);
+                    }
+                });
                 animalGrid.add(cell, i, j);
             }
         }
         return animalGrid;
     }
 
-    private void placeAnimal(Player player, StackPane cell, Market market) {
 
-        if (!animals.containsKey("Cow") || Integer.parseInt(animalLabels.get("Cow").getText().split(": ")[1]) <= 0) {
+
+
+
+    private void placeAnimal(Player player, StackPane cell, Market market, String animalType) {
+        if (!animals.containsKey(animalType) || Integer.parseInt(animalLabels.get(animalType).getText().split(": ")[1]) <= 0) {
             return;
         }
 
-        // Decrement the cow count in the player's inventory and update the label
-        int currentCount = Integer.parseInt(animalLabels.get("Cow").getText().split(": ")[1]);
-        animalLabels.get("Cow").setText("Cow: " + (currentCount - 1));
-        ImageView animalImageView = new ImageView(new Image("cow.jpg")); // Replace with the actual image path
-        ImageView milkImageView = new ImageView(new Image("milk.jpg")); // Replace with the actual image path
+        // Decrement the animal count in the player's inventory and update the label
+        int currentCount = Integer.parseInt(animalLabels.get(animalType).getText().split(": ")[1]);
+        animalLabels.get(animalType).setText(animalType + ": " + (currentCount - 1));
+
+        String productType = animals.get(animalType).getProductType();
+
+        ImageView animalImageView = new ImageView(new Image(animalType.toLowerCase() + ".jpg"));
+        ImageView productImageView = new ImageView(new Image(productType.toLowerCase() + ".jpg"));
         ProgressBar progressBar = new ProgressBar();
 
         // Configure animal image and add it to the cell
         animalImageView.setFitWidth(50);
         animalImageView.setFitHeight(50);
 
-        // Configure milk image and add it to the cell (initially invisible)
-        milkImageView.setFitWidth(50);
-        milkImageView.setFitHeight(50);
-        milkImageView.setVisible(false);
+        // Configure product image and add it to the cell (initially invisible)
+        productImageView.setFitWidth(50);
+        productImageView.setFitHeight(50);
+        productImageView.setVisible(false);
 
         // Configure progress bar
         progressBar.setProgress(0.0);
@@ -502,7 +522,7 @@ public class IdleFarmingGame extends Application {
         VBox animalAndProgressBar = new VBox(animalImageView, progressBar);
         animalAndProgressBar.setAlignment(Pos.CENTER);
         cell.getChildren().add(animalAndProgressBar);
-        cell.getChildren().add(milkImageView); // Add milk ImageView to the cell
+        cell.getChildren().add(productImageView); // Add product ImageView to the cell
 
         // Initialize the Timeline object
         Timeline timeline = new Timeline();
@@ -516,15 +536,15 @@ public class IdleFarmingGame extends Application {
                 progressBar.setProgress(progress + progressIncrement);
             } else {
                 progressBar.setProgress(0);
-                milkImageView.setVisible(true);
+                productImageView.setVisible(true);
 
-                // Fade out the milk image and update the inventory
-                FadeTransition fadeTransition = new FadeTransition(Duration.seconds(1), milkImageView);
+                // Fade out the product image and update the inventory
+                FadeTransition fadeTransition = new FadeTransition(Duration.seconds(1), productImageView);
                 fadeTransition.setFromValue(1.0);
                 fadeTransition.setToValue(0.0);
                 fadeTransition.setOnFinished(f -> {
-                    milkImageView.setVisible(false);
-                    updateMilkInventory(player);
+                    productImageView.setVisible(false);
+                    updateProductInventory(player, productType);
                 });
                 fadeTransition.play();
             }
@@ -535,29 +555,31 @@ public class IdleFarmingGame extends Application {
 
 
 
+
+
     private void updateMoneyLabel() {
         moneyLabel.setText("Money: $" + player.getMoney());
     }
 
-    private void updateMilkInventory(Player player) {
-        String milkType = "Milk";
-        int currentMilk = player.getCrops().getOrDefault(milkType, 0);
-        player.getCrops().put(milkType, currentMilk + 1);
+    private void updateProductInventory(Player player, String productType) {
+        int currentProduct = player.getCrops().getOrDefault(productType, 0);
+        player.getCrops().put(productType, currentProduct + 1);
 
-        if (!inventoryLabels.containsKey(milkType)) {
-            HBox milkRow = new HBox(5);
-            Image milkImage = new Image("file:src/main/resources/milk.jpg"); // Replace with the actual image path
-            ImageView milkImageView = new ImageView(milkImage);
-            milkImageView.setFitWidth(30);
-            milkImageView.setFitHeight(30);
-            Label milkAmount = new Label(milkType + ": " + player.getCrops().get(milkType));
-            inventoryLabels.put(milkType, milkAmount);
-            milkRow.getChildren().addAll(milkImageView, milkAmount);
-            inventoryLayout.getChildren().add(milkRow);
+        if (!inventoryLabels.containsKey(productType)) {
+            HBox productRow = new HBox(5);
+            Image productImage = new Image("file:src/main/resources/" + productType.toLowerCase() + ".jpg");
+            ImageView productImageView = new ImageView(productImage);
+            productImageView.setFitWidth(30);
+            productImageView.setFitHeight(30);
+            Label productAmount = new Label(productType + ": " + player.getCrops().get(productType));
+            inventoryLabels.put(productType, productAmount);
+            productRow.getChildren().addAll(productImageView, productAmount);
+            inventoryLayout.getChildren().add(productRow);
         } else {
-            inventoryLabels.get(milkType).setText(milkType + ": " + player.getCrops().get(milkType));
+            inventoryLabels.get(productType).setText(productType + ": " + player.getCrops().get(productType));
         }
     }
+
 
 
     private void updateStatsLabels(Market market, Label increasedYieldLabel, Label fasterGrowthLabel, Label growthPercentageLabel, Label autoPlanterLabel) {

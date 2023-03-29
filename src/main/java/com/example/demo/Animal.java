@@ -3,10 +3,12 @@ package com.example.demo;
 public class Animal {
     private String type;
     private int cost;
+    private String productType;
 
-    public Animal(String type, int cost) {
+
+    public Animal(String type, String productType, int cost) {
         this.type = type;
-        this.cost = cost;
+        this.productType = productType;
     }
 
     public String getType() {
@@ -15,6 +17,10 @@ public class Animal {
 
     public int getCost() {
         return cost;
+    }
+
+    public String getProductType() {
+        return productType;
     }
 
     @Override
