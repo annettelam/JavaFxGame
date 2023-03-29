@@ -330,6 +330,8 @@ public class IdleFarmingGame extends Application {
         // Create a Scene and set it on the primary stage
         Scene scene = new Scene(root, 800, 600);
 
+        // Set up the game window to be maximized upon launch
+        primaryStage.setMaximized(true);
         primaryStage.setScene(scene);
         primaryStage.show();
 
