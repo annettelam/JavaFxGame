@@ -21,6 +21,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -100,6 +101,20 @@ public class IdleFarmingGame extends Application {
         barnImage.setOpacity(0.5);
         barnImage.setFitWidth(200);
         barnImage.setFitHeight(200);
+
+        // Round out the corners of the barn image
+        Rectangle clip = new Rectangle(barnImage.getFitWidth(), barnImage.getFitHeight());
+        clip.setArcWidth(30);
+        clip.setArcHeight(30);
+        barnImage.setClip(clip);
+
+        // Create a drop shadow effect for the barn image
+        DropShadow shadow = new DropShadow();
+        shadow.setOffsetX(5);
+        shadow.setOffsetY(5);
+        shadow.setColor(Color.NAVY);
+        barnImage.setEffect(shadow);
+
         // Set the background color of the barn image
         barnImage.setStyle("-fx-background-color: skyblue;");
 
@@ -160,7 +175,6 @@ public class IdleFarmingGame extends Application {
             });
 
 
-
             buyAnimalDialog.showAndWait();
         });
 
@@ -216,14 +230,26 @@ public class IdleFarmingGame extends Application {
         marketGif.setOnMouseEntered(e -> marketGif.setScaleX(1.1));
         marketGif.setOnMouseExited(e -> marketGif.setScaleX(1.0));
 
+        // Round out the corners of the market GIF
+        Rectangle clip2 = new Rectangle(marketGif.getFitWidth(), marketGif.getFitHeight());
+        clip2.setArcWidth(30);
+        clip2.setArcHeight(30);
+        marketGif.setClip(clip2);
+
+        // Add a shadow effect to the market GIF
+        DropShadow shadow2 = new DropShadow();
+        shadow2.setOffsetX(5);
+        shadow2.setOffsetY(5);
+        shadow2.setColor(Color.NAVY);
+        marketGif.setEffect(shadow2);
+
         // Create a label for the market GIF title
         Label marketTitle = new Label("Market");
-        marketTitle.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
+        marketTitle.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Mali'");
 
         // Create a VBox to hold the market GIF and its title
         VBox marketBox = new VBox(5, marketTitle, marketGif);
         marketBox.setAlignment(Pos.CENTER);
-
 
         // Add padding and a border to the marketBox
         marketBox.setStyle("-fx-padding: 10 20 10 20;");
@@ -489,9 +515,6 @@ public class IdleFarmingGame extends Application {
     }
 
 
-
-
-
     private void placeAnimal(Player player, StackPane cell, Market market, String animalType) {
         if (!animals.containsKey(animalType) || Integer.parseInt(animalLabels.get(animalType).getText().split(": ")[1]) <= 0) {
             return;
@@ -556,9 +579,6 @@ public class IdleFarmingGame extends Application {
     }
 
 
-
-
-
     private void updateMoneyLabel() {
         moneyLabel.setText("Money: $" + player.getMoney());
     }
@@ -581,7 +601,6 @@ public class IdleFarmingGame extends Application {
             inventoryLabels.get(productType).setText(productType + ": " + player.getCrops().get(productType));
         }
     }
-
 
 
     private void updateStatsLabels(Market market, Label increasedYieldLabel, Label fasterGrowthLabel, Label growthPercentageLabel, Label autoPlanterLabel) {
