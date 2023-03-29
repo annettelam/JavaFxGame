@@ -9,6 +9,7 @@ public class Animal {
     public Animal(String type, String productType, int cost) {
         this.type = type;
         this.productType = productType;
+        this.cost = cost;
     }
 
     public String getType() {

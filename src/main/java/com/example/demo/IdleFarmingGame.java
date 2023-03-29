@@ -116,9 +116,11 @@ public class IdleFarmingGame extends Application {
             // Create a list of animals to buy
             ListView<Animal> animalListView = new ListView<>();
             animalListView.getItems().addAll(
-                    new Animal("Cow", "Milk", 500),
+                    new Animal("Chicken", "Egg", 100),
                     new Animal("Pig", "Meat", 300),
-                    new Animal("Chicken", "Egg", 100)
+                    new Animal("Cow", "Milk", 500)
+
+
             );
 
 
