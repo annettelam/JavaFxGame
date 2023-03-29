@@ -278,17 +278,18 @@ public class IdleFarmingGame extends Application {
         titleLabel.setStyle("-fx-font-size: 36px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
         titleLabel.setEffect(dropShadow);
 
+//        // Display center.gif on the far right of the screen
+//        ImageView centerImage = new ImageView(new Image(getClass().getResource("/center.gif").toExternalForm()));
+//        centerImage.setPreserveRatio(true);
+//        // Shift image to the right
+//        centerImage.setTranslateX(500);
 
-        // Add a GIF image with larger dimensions
-        ImageView gifImage = new ImageView(new Image(getClass().getResource("/center.gif").toExternalForm()));
-        marketGif.setPreserveRatio(true);
 
         // Create a grid for planting seeds
         GridPane grid = createGrid(4, 100);
 
         // Create a grid for animals
         GridPane animalGrid = createAnimalGrid(4, 100);
-
 
         // Call autoPlant() every 5 seconds
         Timeline autoPlantTimeline = new Timeline(
@@ -298,7 +299,7 @@ public class IdleFarmingGame extends Application {
         autoPlantTimeline.play();
 
         // Add the VBox to the layout
-        VBox content = new VBox(10, statsLayout, titleLabel, gifImage, moneyLabel, seedLabel, cropLabel, grid);
+        VBox content = new VBox(10, statsLayout, titleLabel, moneyLabel, seedLabel, cropLabel, grid);
         content.setAlignment(Pos.CENTER);
 
         // Add the VBox for animal grid
@@ -326,6 +327,7 @@ public class IdleFarmingGame extends Application {
 //        root.setStyle("-fx-background-color: white");
         // Set the background of the root node to the background image
         root.setBackground(new Background(background));
+        root.getChildren().add(centerImage);
 
         // Create a Scene and set it on the primary stage
         Scene scene = new Scene(root, 800, 600);
@@ -337,8 +339,6 @@ public class IdleFarmingGame extends Application {
 
         // Update the stats labels whenever an upgrade is purchased
         market.setOnUpgradePurchased(() -> updateStatsLabels(market, increasedYieldLabel, fasterGrowthLabel, growthPercentageLabel, autoPlanterLabel));
-
-
     }
 
 
