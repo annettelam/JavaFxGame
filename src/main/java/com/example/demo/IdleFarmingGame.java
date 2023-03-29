@@ -303,6 +303,8 @@ public class IdleFarmingGame extends Application {
 
         // Add the VBox for animal grid
         VBox animalContent = new VBox(10, new Label("Animal Farm"), animalGrid);
+        // Set the font to match the other labels
+        animalContent.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
         animalContent.setAlignment(Pos.CENTER);
 
         // Create an HBox to hold the content and marketWrapper with some spacing between them
@@ -344,12 +346,19 @@ public class IdleFarmingGame extends Application {
             for (int j = 0; j < gridSize; j++) {
                 StackPane cell = new StackPane();
                 cell.setPrefSize(cellSize, cellSize);
-                cell.setStyle("-fx-background-color: white; -fx-border-color: black");
+                cell.setStyle("-fx-background-color: white; -fx-border-color: navy; -fx-border-radius: 5; -fx-border-width: 1;");
+                cell.setOpacity(0.8);
                 cell.setCursor(Cursor.HAND); // Set the cursor to a hand when hovering over a grid cell
                 cell.setOnMouseClicked(e -> plantSeed(player, cell, market));
                 grid.add(cell, i, j);
             }
         }
+
+        // Round the corners of the grid for consistency with the market and barn buttons
+        Rectangle clip = new Rectangle(gridSize * cellSize, gridSize * cellSize);
+        clip.setArcWidth(10);
+        clip.setArcHeight(10);
+        grid.setClip(clip);
         return grid;
     }
 
@@ -500,7 +509,8 @@ public class IdleFarmingGame extends Application {
             for (int j = 0; j < gridSize; j++) {
                 StackPane cell = new StackPane();
                 cell.setPrefSize(cellSize, cellSize);
-                cell.setStyle("-fx-background-color: white; -fx-border-color: black");
+                cell.setStyle("-fx-background-color: white; -fx-border-color: navy; -fx-border-radius: 5; -fx-border-width: 1;");
+                cell.setOpacity(0.8);
                 cell.setCursor(Cursor.HAND);
                 cell.setOnMouseClicked(e -> {
                     if (!recentAnimalTypes.isEmpty()) {
