@@ -98,8 +98,8 @@ public class IdleFarmingGame extends Application {
         // Create an ImageView for the barn image
         ImageView barnImage = new ImageView(new Image(getClass().getResource("/barn.png").toExternalForm()));
         barnImage.setOpacity(0.5);
-        barnImage.setFitWidth(100);
-        barnImage.setFitHeight(100);
+        barnImage.setFitWidth(200);
+        barnImage.setFitHeight(200);
         // Set the background color of the barn image
         barnImage.setStyle("-fx-background-color: skyblue;");
 
@@ -177,7 +177,7 @@ public class IdleFarmingGame extends Application {
         barnBox.setAlignment(Pos.CENTER);
 
         // Add padding and a border to the barnBox
-        barnBox.setStyle("-fx-padding: 10 20 10 20; -fx-border-width: 3; -fx-border-color: black;");
+        barnBox.setStyle("-fx-padding: 10 20 10 20;");
 
         // Add hover animation and change cursor to the barn image
         barnImage.setOnMouseEntered(e -> {
@@ -203,8 +203,8 @@ public class IdleFarmingGame extends Application {
         // Set the background color of the market GIF to sky blue
         marketGif.setStyle("-fx-background-color: skyblue;");
         marketGif.setOpacity(0.5);
-        marketGif.setFitWidth(100);
-        marketGif.setFitHeight(100);
+        marketGif.setFitWidth(200);
+        marketGif.setFitHeight(200);
 
         // Change market button to opaque when clicked
         marketGif.setOnMousePressed(e -> marketGif.setOpacity(1.0));
@@ -226,7 +226,7 @@ public class IdleFarmingGame extends Application {
 
 
         // Add padding and a border to the marketBox
-        marketBox.setStyle("-fx-padding: 10 20 10 20; -fx-border-width: 3; -fx-border-color: black;");
+        marketBox.setStyle("-fx-padding: 10 20 10 20;");
 
         // Add hover animation and change cursor to the market GIF
         marketGif.setOnMouseEntered(e -> {
