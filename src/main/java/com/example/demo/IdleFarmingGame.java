@@ -357,16 +357,24 @@ public class IdleFarmingGame extends Application {
         VBox content = new VBox(10, statsLayout, titleLabel, moneyAndSeedsLabels, gridTitles);
         content.setAlignment(Pos.CENTER);
 
+
         VBox inventoryLayout = createInventory(player);
-        inventoryLayout.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-font-family: 'Mali'");
+        inventoryLayout.setMaxHeight(400);
+        inventoryLayout.setStyle("-fx-background-radius: 10; -fx-font-size: 16px; -fx-font-weight: bold; -fx-font-family: 'Mali'; -fx-padding: 10 20 10 20; -fx-border-radius: 10; -fx-border-color: mediumseagreen; -fx-border-width: 2px;");
+        // Make the inventory layout transparent
+        inventoryLayout.setOpacity(0.5);
+        // Make the inventory layout opaque when the mouse hovers over it
+        inventoryLayout.setOnMouseEntered(e -> inventoryLayout.setOpacity(1.0));
+        // Make the inventory layout transparent when the mouse exits it
+        inventoryLayout.setOnMouseExited(e -> inventoryLayout.setOpacity(0.5));
 
 
         // Load the merchant image
         Image merchantImage = new Image("file:src/main/resources/merchant.gif");
         ImageView merchantImageView = new ImageView(merchantImage);
         merchantImageView.setPreserveRatio(true);
-        merchantImageView.setFitWidth(300);
-        merchantImageView.setFitHeight(300);
+        merchantImageView.setFitWidth(200);
+        merchantImageView.setFitHeight(200);
 
         // Create the label
         Label merchantLabel = new Label("Merchant");
