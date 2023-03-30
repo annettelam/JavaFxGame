@@ -44,6 +44,8 @@ public class IdleFarmingGame extends Application {
 
     private Scene upgradeScene;
 
+    private MediaPlayer mediaPlayer;
+
 
     Player player = new Player(10000, 0);
     private Label moneyLabel = new Label("Money: $" + player.getMoney());
@@ -111,12 +113,16 @@ public class IdleFarmingGame extends Application {
         Button startButton = new Button("Start Game");
         startButton.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
         startButton.setOnAction(e -> {
+            playClickSound("/click.mp3");
             primaryStage.show();
         });
 
         Button exitButton = new Button("Exit Game");
         exitButton.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
-        exitButton.setOnAction(e -> System.exit(0));
+        exitButton.setOnAction(e -> {
+            playClickSound("/click.mp3");
+            System.exit(0);
+        });
 
         // Create a VBox to hold the start game label and buttons
         VBox startGameLayout = new VBox(10, titlePane, startButton, exitButton, titleGameLabel);
@@ -437,7 +443,10 @@ public class IdleFarmingGame extends Application {
 
 
         // Add a mouse click event listener to the sell button
-        sellInventoryButton.setOnAction(event -> sellEntireInventory(player));
+        sellInventoryButton.setOnAction(event -> {
+            playClickSound("/click.mp3");
+            sellEntireInventory(player);
+        });
 
         // Add hover animation to the sell button
         sellInventoryButton.setOnMouseEntered(e -> sellInventoryButton.setOpacity(1.0));
@@ -892,7 +901,7 @@ public class IdleFarmingGame extends Application {
         }
 
         Media music = new Media(Paths.get("temp.wav").toUri().toString());
-        MediaPlayer mediaPlayer = new MediaPlayer(music);
+        mediaPlayer = new MediaPlayer(music);
         mediaPlayer.setAutoPlay(true);
 
         // Add an event handler to loop the audio indefinitely
@@ -902,6 +911,19 @@ public class IdleFarmingGame extends Application {
     }
 
 
+
+    private void playClickSound(String soundFile) {
+        try {
+            InputStream is = getClass().getResourceAsStream(soundFile);
+            Files.copy(is, Paths.get("temp_click.mp3"), StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Media clickSound = new Media(Paths.get("temp_click.mp3").toUri().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(clickSound);
+        mediaPlayer.play();
+    }
 
 
     public static void main(String[] args) {
