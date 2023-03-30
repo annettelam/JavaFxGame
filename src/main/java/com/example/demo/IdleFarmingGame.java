@@ -4,10 +4,8 @@ import java.io.File;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import java.io.IOException;
@@ -167,6 +165,10 @@ public class IdleFarmingGame extends Application {
         statsLayout.setAlignment(Pos.TOP_CENTER);
         statsLayout.setStyle("-fx-font-size: 18px; -fx-font-family: 'Mali';");
 
+        Map<String, ImageView> animalImages = new HashMap<>();
+        animalImages.put("Chicken", new ImageView(new Image(getClass().getResource("/chicken.jpg").toExternalForm())));
+        animalImages.put("Pig", new ImageView(new Image(getClass().getResource("/pig.jpg").toExternalForm())));
+        animalImages.put("Cow", new ImageView(new Image(getClass().getResource("/cow.jpg").toExternalForm())));
 
 
         // Add background color, padding, and a border to the statsLayout
@@ -212,9 +214,10 @@ public class IdleFarmingGame extends Application {
             // Create a list of animals to buy
             ListView<Animal> animalListView = new ListView<>();
             animalListView.getItems().addAll(
-                    new Animal("Chicken", "Egg", 100),
-                    new Animal("Pig", "Meat", 300),
-                    new Animal("Cow", "Milk", 500));
+                    new Animal("Chicken", "Egg", 100, "/chicken.jpg"),
+                    new Animal("Pig", "Meat", 300, "/pig.jpg"),
+                    new Animal("Cow", "Milk", 500, "/cow.jpg"));
+
 
 // Create a cell factory to format each Animal object with its name and price
                     animalListView.setCellFactory(param -> new ListCell<Animal>() {
@@ -257,11 +260,23 @@ public class IdleFarmingGame extends Application {
                             animals.put(selectedAnimal.getType(), selectedAnimal);
                             Label animalLabel = new Label(selectedAnimal.getType() + ": 1");
                             animalLabels.put(selectedAnimal.getType(), animalLabel);
-                            inventoryLayout.getChildren().add(animalLabel);
+
+                            // Load the animal's image
+                            ImageView animalImage = new ImageView(new Image(getClass().getResource(selectedAnimal.getImagePath()).toExternalForm()));
+                            animalImage.setFitWidth(50);
+                            animalImage.setFitHeight(50);
+
+                            // Create a VBox to contain the image and the label
+                            VBox animalBox = new VBox(animalImage, animalLabel);
+                            animalBox.setAlignment(Pos.CENTER);
+
+                            // Add the animalBox to the inventoryLayout
+                            inventoryLayout.getChildren().add(animalBox);
                         } else {
                             int currentCount = Integer.parseInt(animalLabels.get(selectedAnimal.getType()).getText().split(": ")[1]);
                             animalLabels.get(selectedAnimal.getType()).setText(selectedAnimal.getType() + ": " + (currentCount + 1));
                         }
+
                         recentAnimalTypes.add(selectedAnimal.getType()); // Add the animal type to the list
                     } else {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
