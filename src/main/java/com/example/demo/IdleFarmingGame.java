@@ -144,8 +144,8 @@ public class IdleFarmingGame extends Application {
         // Create an ImageView for the barn image
         ImageView barnImage = new ImageView(new Image(getClass().getResource("/barn.png").toExternalForm()));
         barnImage.setOpacity(0.5);
-        barnImage.setFitWidth(200);
-        barnImage.setFitHeight(200);
+        barnImage.setFitWidth(250);
+        barnImage.setFitHeight(250);
 
         // Round out the corners of the barn image
         Rectangle clip = new Rectangle(barnImage.getFitWidth(), barnImage.getFitHeight());
@@ -267,8 +267,8 @@ public class IdleFarmingGame extends Application {
         // Set the background color of the market GIF to sky blue
         marketGif.setStyle("-fx-border-color: mediumseagreen; -fx-border-width: 5px;");
         marketGif.setOpacity(0.5);
-        marketGif.setFitWidth(200);
-        marketGif.setFitHeight(200);
+        marketGif.setFitWidth(250);
+        marketGif.setFitHeight(250);
 
         // Change market button to opaque when clicked
         marketGif.setOnMousePressed(e -> marketGif.setOpacity(1.0));
@@ -359,27 +359,28 @@ public class IdleFarmingGame extends Application {
 
         VBox inventoryLayout = createInventory(player);
 
-
         // Load the merchant image
         Image merchantImage = new Image("file:src/main/resources/merchant.gif");
         ImageView merchantImageView = new ImageView(merchantImage);
-        merchantImageView.setOpacity(0.5);
         merchantImageView.setPreserveRatio(true);
         merchantImageView.setFitWidth(300);
         merchantImageView.setFitHeight(300);
-
 
         // Create the label
         Label merchantLabel = new Label("Merchant");
         merchantLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Mali'; -fx-text-fill: black");
 
-
-
         // Create the sell button
         Button sellInventoryButton = new Button("Sell Inventory");
-        sellInventoryButton.setOnAction(event -> sellEntireInventory(player));
         sellInventoryButton.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Mali'");
+        sellInventoryButton.setOpacity(0.5);
 
+
+        // Add a mouse click event listener to the sell button
+        sellInventoryButton.setOnAction(event -> sellEntireInventory(player));
+
+        // Add hover animation to the sell button
+        sellInventoryButton.setOnMouseEntered(e -> sellInventoryButton.setOpacity(1.0));
 
         // Add the merchant label, image, and sell button to a VBox
         VBox merchantBox = new VBox(10, merchantLabel, merchantImageView, sellInventoryButton);
@@ -676,6 +677,15 @@ public class IdleFarmingGame extends Application {
 
     private void sellEntireInventory(Player player) {
         int totalIncome = 0;
+        // Check if the player has any crops to sell
+        if (player.getCrops().isEmpty()) {
+            // Display an error message using an Alert dialog box
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Error: No crops to sell");
+            alert.setContentText("You have no crops to sell!");
+            alert.showAndWait();
+            return;
+        }
 
         // Calculate the total income from selling crops
         for (String cropType : player.getCrops().keySet()) {
