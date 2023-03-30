@@ -295,18 +295,20 @@ public class IdleFarmingGame extends Application {
         merchantImageView.setFitWidth(300);
         merchantImageView.setFitHeight(300);
 
-// Create the sell button
+        // Create the sell button
         Button sellInventoryButton = new Button("Sell Inventory");
         sellInventoryButton.setOnAction(event -> sellEntireInventory(player));
 
-// Add the merchant and the sell button to a VBox
+        // Add the merchant and the sell button to a VBox
         VBox merchantBox = new VBox(10, merchantImageView, sellInventoryButton);
         merchantBox.setAlignment(Pos.CENTER);
 
 
         // Add the VBox to the layout
-        VBox content = new VBox(10, statsLayout, titleLabel, moneyLabel, seedLabel, cropLabel, grid);
-        content.setAlignment(Pos.CENTER);
+//        VBox content = new VBox(10, statsLayout, titleLabel, moneyLabel, seedLabel, cropLabel, grid);
+        VBox cropContent = new VBox(10, new Label("Crops Farm"), grid);
+        cropContent.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
+        cropContent.setAlignment(Pos.CENTER);
 
         // Add the VBox for animal grid
         VBox animalContent = new VBox(10, new Label("Animal Farm"), animalGrid);
@@ -317,7 +319,7 @@ public class IdleFarmingGame extends Application {
         // Create an HBox to hold the content and marketWrapper with some spacing between them
         VBox inventoryLayout = createInventory(player);
         // Modify the HBox to hold the content, animalContent, and marketWrapper
-        HBox centeredContent = new HBox(20, statsLayout, content, animalContent, inventoryLayout, marketWrapper);
+        HBox centeredContent = new HBox(20, statsLayout, cropContent, animalContent, inventoryLayout, marketWrapper);
 
         HBox marketAndBarnBox = new HBox(20, marketBox, barnBox);
         marketAndBarnBox.setAlignment(Pos.CENTER);
@@ -327,15 +329,13 @@ public class IdleFarmingGame extends Application {
         centeredContent.getChildren().add(marketAndBarnWrapper);
 
         centeredContent.setAlignment(Pos.CENTER);
-
         centeredContent.getChildren().add(merchantBox);
 
         // Create a StackPane to hold the centeredContent and maintain the center position when resizing the window
         StackPane root = new StackPane(centeredContent);
-//        root.setStyle("-fx-background-color: white");
+
         // Set the background of the root node to the background image
         root.setBackground(new Background(background));
-
 
         // Create a Scene and set it on the primary stage
         Scene scene = new Scene(root, 800, 600);
@@ -345,12 +345,9 @@ public class IdleFarmingGame extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-
-
         // Update the stats labels whenever an upgrade is purchased
         market.setOnUpgradePurchased(() -> updateStatsLabels(market, increasedYieldLabel, fasterGrowthLabel, growthPercentageLabel, autoPlanterLabel));
     }
-
 
     private GridPane createGrid(int gridSize, int cellSize) {
         GridPane grid = new GridPane();
@@ -385,7 +382,6 @@ public class IdleFarmingGame extends Application {
             }
         }
     }
-
 
     private void plantSeed(Player player, StackPane cell, Market market) {
         HashMap<String, Integer> seeds = player.getSeeds();
@@ -509,8 +505,6 @@ public class IdleFarmingGame extends Application {
                 inventoryLayout.getChildren().add(cropRow);
             }
         }
-
-
     }
 
     private List<String> recentAnimalTypes = new ArrayList<>();
@@ -600,6 +594,7 @@ public class IdleFarmingGame extends Application {
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
     }
+
     private void sellEntireInventory(Player player) {
         int totalIncome = 0;
 
