@@ -56,9 +56,30 @@ public class IdleFarmingGame extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
+        // Load the default font for the game
+        Font.loadFont(Objects.requireNonNull(getClass().getResource("/Mali.ttf")).toExternalForm(), 12);
+
+        // Create a banner for the game title
+        Rectangle titleBanner = new Rectangle(800, 100);
+        titleBanner.setFill(Color.MEDIUMSEAGREEN);
+        titleBanner.setStroke(Color.BLACK);
+        titleBanner.setArcHeight(20);
+        titleBanner.setArcWidth(20);
+
         // Create UI elements for start game screen
         Label startGameLabel = new Label("Welcome to Harvest Hero!");
         startGameLabel.setStyle("-fx-font-size: 48px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
+
+        Pane titlePane = new Pane(titleBanner, startGameLabel);
+        // Center the start game label in the title pane
+        titlePane.layoutBoundsProperty().addListener((observable, oldBounds, newBounds) -> {
+            startGameLabel.setLayoutX((newBounds.getWidth() - startGameLabel.getWidth()) / 2);
+            startGameLabel.setLayoutY((newBounds.getHeight() - startGameLabel.getHeight()) / 2);
+        });
+
+        Label titleGameLabel = new Label("COMP 2522 Term Project by Annette Lam & Cadan Glass");
+        titleGameLabel.setStyle("-fx-font-size: 18px; -fx-font-family: 'Mali';");
+
         Button startButton = new Button("Start Game");
         startButton.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
         startButton.setOnAction(e -> {
@@ -70,7 +91,7 @@ public class IdleFarmingGame extends Application {
         exitButton.setOnAction(e -> System.exit(0));
 
         // Create a VBox to hold the start game label and buttons
-        VBox startGameLayout = new VBox(10, startGameLabel, startButton, exitButton);
+        VBox startGameLayout = new VBox(10, titlePane, startButton, exitButton, titleGameLabel);
         startGameLayout.setAlignment(Pos.CENTER);
 
         // Create a Scene for the start game screen and set it on a new Stage
@@ -79,9 +100,6 @@ public class IdleFarmingGame extends Application {
         startGameStage.setScene(startGameScene);
         startGameStage.show();
 
-
-        // Load the default font for the game
-        Font.loadFont(Objects.requireNonNull(getClass().getResource("/Mali.ttf")).toExternalForm(), 10);
 
         // Load the background image for the game from the resources folder
         Image backgroundImage = new Image(getClass().getResource("/background.jpeg").toExternalForm());
@@ -365,7 +383,6 @@ public class IdleFarmingGame extends Application {
         // Set up the game window to be maximized upon launch
         primaryStage.setMaximized(true);
         primaryStage.setScene(scene);
-//        primaryStage.show();
 
         // Update the stats labels whenever an upgrade is purchased
         market.setOnUpgradePurchased(() -> updateStatsLabels(market, increasedYieldLabel, fasterGrowthLabel, growthPercentageLabel, autoPlanterLabel));
