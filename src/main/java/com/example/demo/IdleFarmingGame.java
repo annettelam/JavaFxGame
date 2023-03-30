@@ -18,6 +18,7 @@ import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -411,6 +412,13 @@ public class IdleFarmingGame extends Application {
         // Create an ImageView for the upgrades GIF
         ImageView upgradesGif = new ImageView(new Image(getClass().getResource("/upgrades.gif").toExternalForm()));
 
+        upgradesGif.setOnMouseClicked(e -> {
+            if (e.getButton() == MouseButton.PRIMARY) {
+                openUpgradeMarket(); // Open the UpgradeMarket window when the upgrades.gif is clicked
+            }
+        });
+
+
         upgradesGif.setOpacity(0.5);
         upgradesGif.setFitWidth(200);
         upgradesGif.setFitHeight(200);
@@ -503,6 +511,14 @@ public class IdleFarmingGame extends Application {
         clip.setArcHeight(10);
         grid.setClip(clip);
         return grid;
+    }
+
+    public void openUpgradeMarket() {
+        Stage upgradeStage = new Stage();
+        UpgradeMarket upgradeMarket = new UpgradeMarket(player, upgradeStage);
+        Scene upgradeScene = new Scene(upgradeMarket.getUpgradePane());
+        upgradeStage.setScene(upgradeScene);
+        upgradeStage.show();
     }
 
 
