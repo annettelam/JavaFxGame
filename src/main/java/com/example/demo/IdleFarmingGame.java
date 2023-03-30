@@ -361,33 +361,48 @@ public class IdleFarmingGame extends Application {
         VBox merchantBox = new VBox(10, merchantImageView, sellInventoryButton);
         merchantBox.setAlignment(Pos.CENTER);
 
-
-        // Add the VBox to the layout
-//        VBox content = new VBox(10, statsLayout, titleLabel, moneyLabel, seedLabel, cropLabel, grid);
         VBox cropContent = new VBox(10, new Label("Crops Farm"), grid);
         cropContent.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
         cropContent.setAlignment(Pos.CENTER);
 
-        // Add the VBox for animal grid
         VBox animalContent = new VBox(10, new Label("Animal Farm"), animalGrid);
-        // Set the font to match the other labels
         animalContent.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
         animalContent.setAlignment(Pos.CENTER);
 
-        // Create an HBox to hold the content and marketWrapper with some spacing between them
-        VBox inventoryLayout = createInventory(player);
-        // Modify the HBox to hold the content, animalContent, and marketWrapper
-        HBox centeredContent = new HBox(20, statsLayout, cropContent, animalContent, inventoryLayout, marketWrapper);
+        HBox gridTitles = new HBox(20, cropContent, animalContent);
+        gridTitles.setAlignment(Pos.CENTER);
 
+        HBox moneyAndSeedsLabels = new HBox(20, moneyLabel, seedLabel);
+        moneyAndSeedsLabels.setAlignment(Pos.CENTER);
+
+        VBox content = new VBox(10, statsLayout, titleLabel, moneyAndSeedsLabels, gridTitles);
+        content.setAlignment(Pos.CENTER);
+
+        VBox inventoryLayout = createInventory(player);
+
+// Declare the marketAndBarnBox variable and add the marketBox and barnBox as children
         HBox marketAndBarnBox = new HBox(20, marketBox, barnBox);
         marketAndBarnBox.setAlignment(Pos.CENTER);
 
         VBox marketAndBarnWrapper = new VBox(marketAndBarnBox);
         marketAndBarnWrapper.setPrefHeight(500); // Set the height to match the grid height
-        centeredContent.getChildren().add(marketAndBarnWrapper);
+
+        HBox centeredContent = new HBox(20, content, inventoryLayout, marketWrapper, marketAndBarnWrapper, merchantBox);
+        centeredContent.setAlignment(Pos.CENTER);
+
+
+
+
+
+
+
+        marketAndBarnBox.setAlignment(Pos.CENTER);
+
+
+
 
         centeredContent.setAlignment(Pos.CENTER);
-        centeredContent.getChildren().add(merchantBox);
+
 
         // Create a StackPane to hold the centeredContent and maintain the center position when resizing the window
         StackPane root = new StackPane(centeredContent);
