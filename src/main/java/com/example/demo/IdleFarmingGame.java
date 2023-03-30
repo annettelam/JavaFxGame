@@ -249,6 +249,8 @@ public class IdleFarmingGame extends Application {
         barnImage.setOnMouseExited(e -> barnImage.setScaleX(1.0));
 
 
+
+
         // Create a label for the barn title
         Label barnTitle = new Label("Barn");
         barnTitle.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
@@ -429,6 +431,28 @@ public class IdleFarmingGame extends Application {
 
         // Create an ImageView for the upgrades GIF
         ImageView upgradesGif = new ImageView(new Image(getClass().getResource("/upgrades.gif").toExternalForm()));
+
+
+        upgradesGif.setOnMouseEntered(e -> upgradesGif.setScaleX(1.1));
+        upgradesGif.setOnMouseExited(e -> upgradesGif.setScaleX(1.0));
+
+        upgradesGif.setOpacity(0.5);
+        upgradesGif.setFitWidth(200);
+        upgradesGif.setFitHeight(200);
+
+
+// Add click action to the upgradesGif image
+        upgradesGif.setOnMouseClicked(e -> {
+            if (e.getButton() == MouseButton.PRIMARY) {
+                upgradesGif.setScaleX(1.0);
+                upgradesGif.setOpacity(1.0);
+                openUpgradeMarket(upgradeMarket, upgradeScene); // Open the UpgradeMarket window when the upgrades.gif is clicked
+            }
+        });
+
+        // Change upgrade button to opaque when clicked
+        upgradesGif.setOnMousePressed(e -> upgradesGif.setOpacity(1.0));
+
 
         upgradesGif.setOnMouseClicked(e -> {
             if (e.getButton() == MouseButton.PRIMARY) {
