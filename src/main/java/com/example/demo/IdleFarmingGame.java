@@ -402,9 +402,10 @@ public class IdleFarmingGame extends Application {
 
         VBox inventoryLayout = createInventory(player);
         inventoryLayout.setMaxHeight(400);
-        inventoryLayout.setStyle("-fx-background-radius: 10; -fx-font-size: 16px; -fx-font-weight: bold; -fx-font-family: 'Mali'; -fx-padding: 10 20 10 20; -fx-border-radius: 10; -fx-border-color: mediumseagreen; -fx-border-width: 2px;");
 
 
+        inventoryLayout.setStyle("-fx-background-color: white;");
+        inventoryLayout.setStyle("-fx-background-radius: 10; -fx-font-size: 16px; -fx-font-weight: bold; -fx-font-family: 'Mali'; -fx-padding: 10 20 10 20; -fx-border-radius: 10; -fx-border-color: mediumseagreen; -fx-border-width: 2px; -fx-background-color: rgba(255, 255, 255, 0.8);");
 
 
         // Load the merchant image
