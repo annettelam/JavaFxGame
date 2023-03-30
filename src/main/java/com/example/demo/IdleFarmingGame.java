@@ -305,8 +305,8 @@ public class IdleFarmingGame extends Application {
         // Load the merchant image
         Image merchantImage = new Image("file:src/main/resources/merchant.gif");
         ImageView merchantImageView = new ImageView(merchantImage);
-        merchantImageView.setFitWidth(200);
-        merchantImageView.setFitHeight(200);
+        merchantImageView.setFitWidth(300);
+        merchantImageView.setFitHeight(300);
 
 // Create the sell button
         Button sellInventoryButton = new Button("Sell Inventory");
