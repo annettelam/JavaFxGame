@@ -1,6 +1,9 @@
 package com.example.demo;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -131,6 +134,7 @@ public class Market {
         upgrades.put("Faster Growth", new Upgrade("Faster Growth", 20));
         upgrades.put("Increased Yield", new Upgrade("Increased Yield", 30));
         upgrades.put("AutoPlanter", new Upgrade("AutoPlanter", 100));
+        upgrades.put("AutoBuy Seeds", new Upgrade("AutoBuy Seeds", 50)); // Add the "AutoBuy Seeds" upgrade
 
         // Add upgrades to the market pane
         Label upgradeLabel = new Label("Upgrades");
@@ -152,6 +156,7 @@ public class Market {
 
             Button upgradeButton = new Button("Upgrade");
             upgradeButton.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-size: 14;");
+
             upgradeButton.setOnAction(e -> {
                 if (player.getMoney() >= upgrade.getCost()) {
                     player.setMoney(player.getMoney() - upgrade.getCost());
@@ -159,9 +164,15 @@ public class Market {
                     upgrade.setCost(upgrade.getCost() * 2);
                     upgradeCostLabel.setText("$" + upgrade.getCost());
                     game.updateLabels(player);
-                    upgradePurchased();
+
+                    if (upgradeName.equals("AutoBuy Seeds")) {
+                        autobuySeeds();
+                    }
+
+                    upgradePurchased(); // Move the upgradePurchased() call outside the if condition
                 }
             });
+
 
             // Set the cursor to hand when hovering over the upgradeButton
             upgradeButton.setOnMouseEntered(e -> upgradeButton.setCursor(Cursor.HAND));
@@ -174,6 +185,20 @@ public class Market {
             marketPane.add(upgradeButton, 2, row);
 
             row++;
+        }
+    }
+
+    public void autobuySeeds() {
+        List<String> seedTypes = new ArrayList<>(seedPrices.keySet());
+        Random random = new Random();
+        while (player.getMoney() > 0) {
+            String randomSeed = seedTypes.get(random.nextInt(seedTypes.size()));
+            int seedPrice = seedPrices.get(randomSeed);
+            if (player.getMoney() >= seedPrice) {
+                player.buySeed(randomSeed, seedPrice);
+            } else {
+                break;
+            }
         }
     }
 
