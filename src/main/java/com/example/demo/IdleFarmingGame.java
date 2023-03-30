@@ -31,6 +31,8 @@ public class IdleFarmingGame extends Application {
 
     public static Market market;
 
+    public static UpgradeMarket upgradeMarket;
+
     Player player = new Player(10000, 0);
     private Label moneyLabel = new Label("Money: $" + player.getMoney());
     private Label seedLabel = new Label("Seeds: " + player.getNumSeeds());
@@ -266,8 +268,14 @@ public class IdleFarmingGame extends Application {
         Stage marketStage = new Stage();
         market = new Market(player, marketStage, this);
 
+
+
         Scene marketScene = new Scene(market.getMarketPane());
         marketStage.setScene(marketScene);
+
+        Stage upgradeStage = new Stage();
+        upgradeMarket = new UpgradeMarket(player, upgradeStage, this);
+
 
         // Create an ImageView for the market GIF
         ImageView marketGif = new ImageView(new Image(getClass().getResource("/market.gif").toExternalForm()));
@@ -414,7 +422,7 @@ public class IdleFarmingGame extends Application {
 
         upgradesGif.setOnMouseClicked(e -> {
             if (e.getButton() == MouseButton.PRIMARY) {
-                openUpgradeMarket(); // Open the UpgradeMarket window when the upgrades.gif is clicked
+                openUpgradeMarket(upgradeMarket); // Open the UpgradeMarket window when the upgrades.gif is clicked
             }
         });
 
@@ -488,7 +496,7 @@ public class IdleFarmingGame extends Application {
         primaryStage.setScene(scene);
 
         // Update the stats labels whenever an upgrade is purchased
-        market.setOnUpgradePurchased(() -> updateStatsLabels(market, increasedYieldLabel, fasterGrowthLabel, growthPercentageLabel, autoPlanterLabel));
+        upgradeMarket.setOnUpgradePurchased(() -> updateStatsLabels(upgradeMarket, increasedYieldLabel, fasterGrowthLabel, growthPercentageLabel, autoPlanterLabel));
     }
 
     private GridPane createGrid(int gridSize, int cellSize) {
@@ -513,17 +521,17 @@ public class IdleFarmingGame extends Application {
         return grid;
     }
 
-    public void openUpgradeMarket() {
-        Stage upgradeStage = new Stage();
-        UpgradeMarket upgradeMarket = new UpgradeMarket(player, upgradeStage);
+    public void openUpgradeMarket(UpgradeMarket upgradeMarket) {
+        Stage upgradeStage = upgradeMarket.getStage();
         Scene upgradeScene = new Scene(upgradeMarket.getUpgradePane());
         upgradeStage.setScene(upgradeScene);
         upgradeStage.show();
     }
 
 
+
     private void autoPlant(GridPane grid, Market market) {
-        if (market.getUpgrades().get("AutoPlanter").getLevel() > 0) {
+        if (upgradeMarket.getUpgrades().get("AutoPlanter").getLevel() > 0) {
             for (Node cell : grid.getChildren()) {
                 StackPane stackPaneCell = (StackPane) cell;
                 if (stackPaneCell.getChildren().isEmpty()) {
@@ -542,8 +550,8 @@ public class IdleFarmingGame extends Application {
             updateLabels(player);
 
             // Access the upgrade levels for "Increased Yield" and "Faster Growth"
-            int increasedYieldLevel = market.getUpgrades().get("Increased Yield").getLevel();
-            int fasterGrowthLevel = market.getUpgrades().get("Faster Growth").getLevel();
+            int increasedYieldLevel = upgradeMarket.getUpgrades().get("Increased Yield").getLevel();
+            int fasterGrowthLevel = upgradeMarket.getUpgrades().get("Faster Growth").getLevel();
 
             // Add an ImageView for the planted crop
             ImageView cropImage = new ImageView(new Image("file:src/main/resources/" + seedType + ".png"));
@@ -808,10 +816,10 @@ public class IdleFarmingGame extends Application {
     }
 
 
-    private void updateStatsLabels(Market market, Label increasedYieldLabel, Label fasterGrowthLabel, Label growthPercentageLabel, Label autoPlanterLabel) {
-        int increasedYieldLevel = market.getUpgrades().get("Increased Yield").getLevel();
-        int fasterGrowthLevel = market.getUpgrades().get("Faster Growth").getLevel();
-        int autoPlanterLevel = market.getUpgrades().get("AutoPlanter").getLevel();
+    private void updateStatsLabels(UpgradeMarket upgradeMarket, Label increasedYieldLabel, Label fasterGrowthLabel, Label growthPercentageLabel, Label autoPlanterLabel) {
+        int increasedYieldLevel = upgradeMarket.getUpgrades().get("Increased Yield").getLevel();
+        int fasterGrowthLevel = upgradeMarket.getUpgrades().get("Faster Growth").getLevel();
+        int autoPlanterLevel = upgradeMarket.getUpgrades().get("AutoPlanter").getLevel();
         double growthPercentage = (1 - (10.0 - fasterGrowthLevel) / 10.0) * 100;
 
         increasedYieldLabel.setText("Increased Yield Level: " + increasedYieldLevel);
