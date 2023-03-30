@@ -363,28 +363,36 @@ public class IdleFarmingGame extends Application {
         // Load the merchant image
         Image merchantImage = new Image("file:src/main/resources/merchant.gif");
         ImageView merchantImageView = new ImageView(merchantImage);
-        merchantImageView.setFitWidth(400);
+        merchantImageView.setOpacity(0.5);
         merchantImageView.setPreserveRatio(true);
+        merchantImageView.setFitWidth(300);
+        merchantImageView.setFitHeight(300);
 
-// Create the label
+
+        // Create the label
         Label merchantLabel = new Label("Merchant");
         merchantLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Mali'; -fx-text-fill: black");
 
-// Create the sell button
+
+
+        // Create the sell button
         Button sellInventoryButton = new Button("Sell Inventory");
         sellInventoryButton.setOnAction(event -> sellEntireInventory(player));
         sellInventoryButton.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Mali'");
 
-// Add the merchant label, image, and sell button to a VBox
+
+        // Add the merchant label, image, and sell button to a VBox
         VBox merchantBox = new VBox(10, merchantLabel, merchantImageView, sellInventoryButton);
         merchantBox.setAlignment(Pos.CENTER);
 
 
-// Add the merchantBox to the main VBox
+
+        // Add the merchantBox to the main VBox
         VBox container = new VBox(10, merchantBox);
         container.setAlignment(Pos.CENTER);
 
-// Create a new scene with the container as the root
+
+        // Create a new scene with the container as the root
         Scene scene2 = new Scene(container, 800, 600);
 
 
