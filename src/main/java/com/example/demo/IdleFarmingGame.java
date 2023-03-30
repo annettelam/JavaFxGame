@@ -1,9 +1,18 @@
 package com.example.demo;
 
+import java.io.File;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import java.io.IOException;
+import java.nio.file.StandardCopyOption;
+
 
 import javafx.animation.*;
 import javafx.application.Application;
@@ -67,6 +76,7 @@ public class IdleFarmingGame extends Application {
 
 
 
+        playMusic("/verdantgrove.wav");
 
 
         // Load the default font for the game
@@ -872,6 +882,21 @@ public class IdleFarmingGame extends Application {
         growthPercentageLabel.setText("Crops Grow " + String.format("%.2f", growthPercentage) + "% Faster");
         autoPlanterLabel.setText("AutoPlanter Level: " + autoPlanterLevel);
     }
+
+    private void playMusic(String musicFile) {
+        try {
+            InputStream is = getClass().getResourceAsStream(musicFile);
+            Files.copy(is, Paths.get("temp.wav"), StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Media music = new Media(Paths.get("temp.wav").toUri().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(music);
+        mediaPlayer.setAutoPlay(true);
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+    }
+
 
 
     public static void main(String[] args) {
