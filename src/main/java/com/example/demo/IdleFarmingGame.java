@@ -376,8 +376,7 @@ public class IdleFarmingGame extends Application {
         merchantImageView.setFitWidth(200);
         merchantImageView.setFitHeight(200);
 
-        // Make the merchant transparent
-        merchantImageView.setOpacity(0.5);
+
 
 
         // Create the label
