@@ -134,13 +134,7 @@ public class IdleFarmingGame extends Application {
                     new Animal("Chicken", "Egg", 100),
                     new Animal("Pig", "Meat", 300),
                     new Animal("Cow", "Milk", 500)
-
-
             );
-
-
-
-
 
 
             buyAnimalDialog.getDialogPane().setContent(animalListView);
@@ -281,13 +275,6 @@ public class IdleFarmingGame extends Application {
         Label titleLabel = new Label("Harvest Hero");
         titleLabel.setStyle("-fx-font-size: 36px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
         titleLabel.setEffect(dropShadow);
-
-//        // Display center.gif on the far right of the screen
-//        ImageView centerImage = new ImageView(new Image(getClass().getResource("/center.gif").toExternalForm()));
-//        centerImage.setPreserveRatio(true);
-//        // Shift image to the right
-//        centerImage.setTranslateX(500);
-
 
         // Create a grid for planting seeds
         GridPane grid = createGrid(4, 100);
@@ -562,8 +549,8 @@ public class IdleFarmingGame extends Application {
 
         String productType = animals.get(animalType).getProductType();
 
-        ImageView animalImageView = new ImageView(new Image(animalType.toLowerCase() + ".jpg"));
-        ImageView productImageView = new ImageView(new Image(productType.toLowerCase() + ".jpg"));
+        ImageView animalImageView = new ImageView(new Image(animalType.toLowerCase() + ".png"));
+        ImageView productImageView = new ImageView(new Image(productType.toLowerCase() + ".png"));
         ProgressBar progressBar = new ProgressBar();
 
         // Configure animal image and add it to the cell
@@ -651,7 +638,7 @@ public class IdleFarmingGame extends Application {
 
         if (!inventoryLabels.containsKey(productType)) {
             HBox productRow = new HBox(5);
-            Image productImage = new Image("file:src/main/resources/" + productType.toLowerCase() + ".jpg");
+            Image productImage = new Image("file:src/main/resources/" + productType.toLowerCase() + ".png");
             ImageView productImageView = new ImageView(productImage);
             productImageView.setFitWidth(30);
             productImageView.setFitHeight(30);
