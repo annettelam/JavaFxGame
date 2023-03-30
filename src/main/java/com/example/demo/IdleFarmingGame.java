@@ -33,6 +33,9 @@ public class IdleFarmingGame extends Application {
 
     public static UpgradeMarket upgradeMarket;
 
+    private Scene upgradeScene;
+
+
     Player player = new Player(10000, 0);
     private Label moneyLabel = new Label("Money: $" + player.getMoney());
     private Label seedLabel = new Label("Seeds: " + player.getNumSeeds());
@@ -61,6 +64,10 @@ public class IdleFarmingGame extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
+
+
+
 
         // Load the default font for the game
         Font.loadFont(Objects.requireNonNull(getClass().getResource("/Mali.ttf")).toExternalForm(), 12);
@@ -276,6 +283,9 @@ public class IdleFarmingGame extends Application {
         Stage upgradeStage = new Stage();
         upgradeMarket = new UpgradeMarket(player, upgradeStage, this);
 
+        // create the scene for the upgrade market
+        upgradeScene = new Scene(upgradeMarket.getUpgradePane(), 400, 300);
+
 
         // Create an ImageView for the market GIF
         ImageView marketGif = new ImageView(new Image(getClass().getResource("/market.gif").toExternalForm()));
@@ -422,7 +432,7 @@ public class IdleFarmingGame extends Application {
 
         upgradesGif.setOnMouseClicked(e -> {
             if (e.getButton() == MouseButton.PRIMARY) {
-                openUpgradeMarket(upgradeMarket); // Open the UpgradeMarket window when the upgrades.gif is clicked
+                openUpgradeMarket(upgradeMarket, upgradeScene); // Open the UpgradeMarket window when the upgrades.gif is clicked
             }
         });
 
@@ -521,9 +531,9 @@ public class IdleFarmingGame extends Application {
         return grid;
     }
 
-    public void openUpgradeMarket(UpgradeMarket upgradeMarket) {
+    public void openUpgradeMarket(UpgradeMarket upgradeMarket, Scene upgradeScene) {
         Stage upgradeStage = upgradeMarket.getStage();
-        Scene upgradeScene = new Scene(upgradeMarket.getUpgradePane());
+
         upgradeStage.setScene(upgradeScene);
         upgradeStage.show();
     }

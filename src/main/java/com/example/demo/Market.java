@@ -55,7 +55,6 @@ public class Market {
         seedPrices.put("Pepper", 15);
 
 
-
         // Display the seed prices in the market pane
         int row = 2;
         for (String seed : seedPrices.keySet()) {
@@ -78,7 +77,6 @@ public class Market {
                     game.updateLabels(player); // call updateLabels() using the game instance
                 }
             });
-
 
 
             // Set the cursor to hand when hovering over the buyButton
@@ -136,56 +134,57 @@ public class Market {
         upgrades.put("AutoPlanter", new Upgrade("AutoPlanter", 100));
         upgrades.put("AutoBuy Seeds", new Upgrade("AutoBuy Seeds", 50)); // Add the "AutoBuy Seeds" upgrade
 
-        // Add upgrades to the market pane
-        Label upgradeLabel = new Label("Upgrades");
-        upgradeLabel.setStyle("-fx-font-size: 18; -fx-font-weight: bold; -fx-font-family: 'Mali'");
-        marketPane.add(upgradeLabel, 0, row);
-
-        row++;
-
-        for (String upgradeName : upgrades.keySet()) {
-            Upgrade upgrade = upgrades.get(upgradeName);
-
-            Label upgradeNameLabel = new Label(upgradeName);
-            upgradeNameLabel.setStyle("-fx-font-size: 16; -fx-font-family: 'Mali'");
-            marketPane.add(upgradeNameLabel, 0, row);
-
-            Label upgradeCostLabel = new Label("$" + upgrade.getCost());
-            upgradeCostLabel.setStyle("-fx-font-size: 16; -fx-font-family: 'Mali'");
-            marketPane.add(upgradeCostLabel, 1, row);
-
-            Button upgradeButton = new Button("Upgrade");
-            upgradeButton.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-size: 14;");
-
-            upgradeButton.setOnAction(e -> {
-                if (player.getMoney() >= upgrade.getCost()) {
-                    player.setMoney(player.getMoney() - upgrade.getCost());
-                    upgrade.incrementLevel();
-                    upgrade.setCost(upgrade.getCost() * 2);
-                    upgradeCostLabel.setText("$" + upgrade.getCost());
-                    game.updateLabels(player);
-
-                    if (upgradeName.equals("AutoBuy Seeds")) {
-                        autobuySeeds();
-                    }
-
-                    upgradePurchased(); // Move the upgradePurchased() call outside the if condition
-                }
-            });
-
-
-            // Set the cursor to hand when hovering over the upgradeButton
-            upgradeButton.setOnMouseEntered(e -> upgradeButton.setCursor(Cursor.HAND));
-            upgradeButton.setStyle("-fx-font-size: 16; -fx-font-family: 'Mali'");
-
-            // Reset the cursor when the mouse exits the upgradeButton
-            upgradeButton.setOnMouseExited(e -> upgradeButton.setCursor(Cursor.DEFAULT));
-            upgradeButton.setStyle("-fx-font-size: 16; -fx-font-family: 'Mali'");
-
-            marketPane.add(upgradeButton, 2, row);
-
-            row++;
-        }
+//        // Add upgrades to the market pane
+//        Label upgradeLabel = new Label("Upgrades");
+//        upgradeLabel.setStyle("-fx-font-size: 18; -fx-font-weight: bold; -fx-font-family: 'Mali'");
+//        marketPane.add(upgradeLabel, 0, row);
+//
+//        row++;
+//
+//        for (String upgradeName : upgrades.keySet()) {
+//            Upgrade upgrade = upgrades.get(upgradeName);
+//
+//            Label upgradeNameLabel = new Label(upgradeName);
+//            upgradeNameLabel.setStyle("-fx-font-size: 16; -fx-font-family: 'Mali'");
+//            marketPane.add(upgradeNameLabel, 0, row);
+//
+//            Label upgradeCostLabel = new Label("$" + upgrade.getCost());
+//            upgradeCostLabel.setStyle("-fx-font-size: 16; -fx-font-family: 'Mali'");
+//            marketPane.add(upgradeCostLabel, 1, row);
+//
+//            Button upgradeButton = new Button("Upgrade");
+//            upgradeButton.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-size: 14;");
+//
+//            upgradeButton.setOnAction(e -> {
+//                if (player.getMoney() >= upgrade.getCost()) {
+//                    player.setMoney(player.getMoney() - upgrade.getCost());
+//                    upgrade.incrementLevel();
+//                    upgrade.setCost(upgrade.getCost() * 2);
+//                    upgradeCostLabel.setText("$" + upgrade.getCost());
+//                    game.updateLabels(player);
+//
+//                    if (upgradeName.equals("AutoBuy Seeds")) {
+//                        autobuySeeds();
+//                    }
+//
+//                    upgradePurchased(); // Move the upgradePurchased() call outside the if condition
+//                }
+//            });
+//
+//
+//            // Set the cursor to hand when hovering over the upgradeButton
+//            upgradeButton.setOnMouseEntered(e -> upgradeButton.setCursor(Cursor.HAND));
+//            upgradeButton.setStyle("-fx-font-size: 16; -fx-font-family: 'Mali'");
+//
+//            // Reset the cursor when the mouse exits the upgradeButton
+//            upgradeButton.setOnMouseExited(e -> upgradeButton.setCursor(Cursor.DEFAULT));
+//            upgradeButton.setStyle("-fx-font-size: 16; -fx-font-family: 'Mali'");
+//
+//            marketPane.add(upgradeButton, 2, row);
+//
+//            row++;
+//        }
+//    }
     }
 
     public void autobuySeeds() {
