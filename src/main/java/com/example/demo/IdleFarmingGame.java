@@ -194,10 +194,24 @@ public class IdleFarmingGame extends Application {
             animalListView.getItems().addAll(
                     new Animal("Chicken", "Egg", 100),
                     new Animal("Pig", "Meat", 300),
-                    new Animal("Cow", "Milk", 500)
+                    new Animal("Cow", "Milk", 500));
+
+// Create a cell factory to format each Animal object with its name and price
+                    animalListView.setCellFactory(param -> new ListCell<Animal>() {
+                        @Override
+                        protected void updateItem(Animal animal, boolean empty) {
+                            super.updateItem(animal, empty);
+
+                            if (empty || animal == null) {
+                                setText(null);
+                            } else {
+                                setText(animal.getName() + " - $" + animal.getCost());
+                            }
+                        }
+                    });
 
 
-            );
+
 
 
 

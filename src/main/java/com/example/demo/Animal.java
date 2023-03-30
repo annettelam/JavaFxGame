@@ -28,6 +28,10 @@ public class Animal {
     public String toString() {
         return type;
     }
+
+    public String getName() {
+        return type;
+    }
 }
 
 
