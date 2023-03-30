@@ -36,6 +36,9 @@ public class IdleFarmingGame extends Application {
     private Label cropLabel = new Label("Crops: " + player.getCrops());
     Label playerInfoLabel = new Label("Player Info");
 
+    // Create a label for the upgrades GIF title
+    Label upgradesTitle = new Label("Upgrades");
+
 
     private VBox inventoryLayout;
     private HashMap<String, Label> inventoryLabels = new HashMap<>();
@@ -79,6 +82,7 @@ public class IdleFarmingGame extends Application {
             startGameLabel.relocate(x, y);
         });
 
+        upgradesTitle.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Mali'");
 
         Label titleGameLabel = new Label("COMP 2522 Term Project by Annette Lam & Cadan Glass");
         titleGameLabel.setStyle("-fx-font-size: 15px; -fx-font-family: 'Mali'; -fx-background-color: rgba(173, 216, 230, 0.8); -fx-padding: 5px; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-border-color: DARKSLATEGREY; -fx-border-width: 1px;");
@@ -137,6 +141,8 @@ public class IdleFarmingGame extends Application {
         statsLayout.setAlignment(Pos.TOP_CENTER);
         statsLayout.setStyle("-fx-font-size: 18px; -fx-font-family: 'Mali';");
 
+
+
         // Add background color, padding, and a border to the statsLayout
         statsLayout.setStyle("-fx-background-color: #F0F8FF; -fx-padding: 10; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-border-color: DARKSLATEGREY; -fx-border-width: 1px;");
 
@@ -182,6 +188,7 @@ public class IdleFarmingGame extends Application {
 
 
             );
+
 
 
 
@@ -377,8 +384,6 @@ public class IdleFarmingGame extends Application {
         merchantImageView.setFitHeight(200);
 
 
-
-
         // Create the label
         Label merchantLabel = new Label("Merchant");
         merchantLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Mali'; -fx-text-fill: black");
@@ -403,17 +408,55 @@ public class IdleFarmingGame extends Application {
         VBox container = new VBox(10, merchantBox);
         container.setAlignment(Pos.CENTER);
 
+        // Create an ImageView for the upgrades GIF
+        ImageView upgradesGif = new ImageView(new Image(getClass().getResource("/upgrades.gif").toExternalForm()));
+
+        upgradesGif.setOpacity(0.5);
+        upgradesGif.setFitWidth(200);
+        upgradesGif.setFitHeight(200);
+
+        // Set the background color of the upgrades GIF to sky blue
+        upgradesGif.setStyle("-fx-border-color: goldenrod; -fx-border-width: 5px;");
+
+        // Round out the corners of the upgrades GIF
+        Rectangle clip3 = new Rectangle(upgradesGif.getFitWidth(), upgradesGif.getFitHeight());
+        clip3.setArcWidth(30);
+        clip3.setArcHeight(30);
+        upgradesGif.setClip(clip3);
+
+        // Add a shadow effect to the upgrades GIF
+        DropShadow shadow3 = new DropShadow();
+        shadow3.setOffsetX(5);
+        shadow3.setOffsetY(5);
+        shadow3.setColor(Color.NAVY);
+        upgradesGif.setEffect(shadow3);
+
+
+        // Create a VBox to hold the upgrades GIF and its title
+        VBox upgradesBox = new VBox(5, upgradesTitle, upgradesGif);
+        upgradesBox.setAlignment(Pos.CENTER);
+
+// Add padding and a border to the upgradesBox
+        upgradesBox.setStyle("-fx-padding: 10 20 10 20;");
+
 
         // Create a new scene with the container as the root
         Scene scene2 = new Scene(container, 800, 600);
+
+
 
 
         // Declare the marketAndBarnBox variable, which will be used to hold the market, barn, and merchant
         VBox marketBarnMerch = new VBox(10, marketBox, barnBox, merchantBox);
         marketBarnMerch.setAlignment(Pos.CENTER);
 
+        // Declare the marketAndBarnBox variable, which will be used to hold the market, barn, merchant, and upgrades
+        VBox marketBarnMerchUpgrades = new VBox(10, marketBox, barnBox, upgradesBox, merchantBox);
+        marketBarnMerchUpgrades.setAlignment(Pos.CENTER);
 
-        VBox marketAndBarnWrapper = new VBox(marketBarnMerch);
+
+
+        VBox marketAndBarnWrapper = new VBox(marketBarnMerchUpgrades);
         marketAndBarnWrapper.setPrefHeight(500); // Set the height to match the grid height
 
         HBox centeredContent = new HBox(20, content, inventoryLayout, marketWrapper, marketAndBarnWrapper);
