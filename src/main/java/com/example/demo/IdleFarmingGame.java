@@ -894,8 +894,13 @@ public class IdleFarmingGame extends Application {
         Media music = new Media(Paths.get("temp.wav").toUri().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(music);
         mediaPlayer.setAutoPlay(true);
-        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+
+        // Add an event handler to loop the audio indefinitely
+        mediaPlayer.setOnEndOfMedia(() -> mediaPlayer.seek(Duration.ZERO));
+
+        // mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Remove this line
     }
+
 
 
 
