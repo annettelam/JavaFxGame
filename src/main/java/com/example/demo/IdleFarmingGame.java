@@ -138,7 +138,7 @@ public class IdleFarmingGame extends Application {
         statsLayout.setStyle("-fx-font-size: 18px; -fx-font-family: 'Mali';");
 
         // Add background color, padding, and a border to the statsLayout
-        statsLayout.setStyle("-fx-background-color: #F0F8FF; -fx-padding: 10;");
+        statsLayout.setStyle("-fx-background-color: #F0F8FF; -fx-padding: 10; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-border-color: DARKSLATEGREY; -fx-border-width: 1px;");
 
         statsLayout.getChildren().add(0, playerInfoLabel);
         // Create an ImageView for the barn image
@@ -327,13 +327,6 @@ public class IdleFarmingGame extends Application {
         titleLabel.setStyle("-fx-font-size: 36px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
         titleLabel.setEffect(dropShadow);
 
-//        // Display center.gif on the far right of the screen
-//        ImageView centerImage = new ImageView(new Image(getClass().getResource("/center.gif").toExternalForm()));
-//        centerImage.setPreserveRatio(true);
-//        // Shift image to the right
-//        centerImage.setTranslateX(500);
-
-
         // Create a grid for planting seeds
         GridPane grid = createGrid(4, 100);
 
@@ -346,20 +339,6 @@ public class IdleFarmingGame extends Application {
         );
         autoPlantTimeline.setCycleCount(Animation.INDEFINITE);
         autoPlantTimeline.play();
-
-        // Load the merchant image
-        Image merchantImage = new Image("file:src/main/resources/merchant.gif");
-        ImageView merchantImageView = new ImageView(merchantImage);
-        merchantImageView.setFitWidth(300);
-        merchantImageView.setFitHeight(300);
-
-        // Create the sell button
-        Button sellInventoryButton = new Button("Sell Inventory");
-        sellInventoryButton.setOnAction(event -> sellEntireInventory(player));
-
-        // Add the merchant and the sell button to a VBox
-        VBox merchantBox = new VBox(10, merchantImageView, sellInventoryButton);
-        merchantBox.setAlignment(Pos.CENTER);
 
         VBox cropContent = new VBox(10, new Label("Crops Farm"), grid);
         cropContent.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
@@ -380,27 +359,47 @@ public class IdleFarmingGame extends Application {
 
         VBox inventoryLayout = createInventory(player);
 
-// Declare the marketAndBarnBox variable and add the marketBox and barnBox as children
-        HBox marketAndBarnBox = new HBox(20, marketBox, barnBox);
-        marketAndBarnBox.setAlignment(Pos.CENTER);
 
-        VBox marketAndBarnWrapper = new VBox(marketAndBarnBox);
+        // Load the merchant image
+        Image merchantImage = new Image("file:src/main/resources/merchant.gif");
+        ImageView merchantImageView = new ImageView(merchantImage);
+        merchantImageView.setFitWidth(400);
+        merchantImageView.setPreserveRatio(true);
+
+// Create the label
+        Label merchantLabel = new Label("Merchant");
+        merchantLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Mali'; -fx-text-fill: black");
+
+// Create the sell button
+        Button sellInventoryButton = new Button("Sell Inventory");
+        sellInventoryButton.setOnAction(event -> sellEntireInventory(player));
+        sellInventoryButton.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Mali'");
+
+// Add the merchant label, image, and sell button to a VBox
+        VBox merchantBox = new VBox(10, merchantLabel, merchantImageView, sellInventoryButton);
+        merchantBox.setAlignment(Pos.CENTER);
+
+
+// Add the merchantBox to the main VBox
+        VBox container = new VBox(10, merchantBox);
+        container.setAlignment(Pos.CENTER);
+
+// Create a new scene with the container as the root
+        Scene scene2 = new Scene(container, 800, 600);
+
+
+        // Declare the marketAndBarnBox variable, which will be used to hold the market, barn, and merchant
+        VBox marketBarnMerch = new VBox(10, marketBox, barnBox, merchantBox);
+        marketBarnMerch.setAlignment(Pos.CENTER);
+
+
+        VBox marketAndBarnWrapper = new VBox(marketBarnMerch);
         marketAndBarnWrapper.setPrefHeight(500); // Set the height to match the grid height
 
-        HBox centeredContent = new HBox(20, content, inventoryLayout, marketWrapper, marketAndBarnWrapper, merchantBox);
+        HBox centeredContent = new HBox(20, content, inventoryLayout, marketWrapper, marketAndBarnWrapper);
         centeredContent.setAlignment(Pos.CENTER);
 
-
-
-
-
-
-
-        marketAndBarnBox.setAlignment(Pos.CENTER);
-
-
-
-
+        marketBarnMerch.setAlignment(Pos.CENTER);
         centeredContent.setAlignment(Pos.CENTER);
 
 
