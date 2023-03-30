@@ -62,6 +62,7 @@ public class IdleFarmingGame extends Application {
         // Create a banner for the game title
         Rectangle titleBanner = new Rectangle(800, 100);
         titleBanner.setFill(Color.MEDIUMSEAGREEN);
+        titleBanner.setOpacity(0.8);
         titleBanner.setStroke(Color.BLACK);
         titleBanner.setArcHeight(20);
         titleBanner.setArcWidth(20);
@@ -73,12 +74,15 @@ public class IdleFarmingGame extends Application {
         Pane titlePane = new Pane(titleBanner, startGameLabel);
         // Center the start game label in the title pane
         titlePane.layoutBoundsProperty().addListener((observable, oldBounds, newBounds) -> {
-            startGameLabel.setLayoutX((newBounds.getWidth() - startGameLabel.getWidth()) / 2);
-            startGameLabel.setLayoutY((newBounds.getHeight() - startGameLabel.getHeight()) / 2);
+            double x = (newBounds.getWidth() - startGameLabel.prefWidth(-1)) / 2;
+            double y = (newBounds.getHeight() - startGameLabel.prefHeight(-1)) / 2;
+            startGameLabel.relocate(x, y);
         });
 
+
         Label titleGameLabel = new Label("COMP 2522 Term Project by Annette Lam & Cadan Glass");
-        titleGameLabel.setStyle("-fx-font-size: 18px; -fx-font-family: 'Mali';");
+        titleGameLabel.setStyle("-fx-font-size: 15px; -fx-font-family: 'Mali'; -fx-background-color: rgba(173, 216, 230, 0.8); -fx-padding: 5px; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-border-color: DARKSLATEGREY; -fx-border-width: 1px;");
+        titleGameLabel.setWrapText(true);
 
         Button startButton = new Button("Start Game");
         startButton.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
@@ -93,6 +97,7 @@ public class IdleFarmingGame extends Application {
         // Create a VBox to hold the start game label and buttons
         VBox startGameLayout = new VBox(10, titlePane, startButton, exitButton, titleGameLabel);
         startGameLayout.setAlignment(Pos.CENTER);
+        startGameLayout.setStyle("-fx-background-image: url('startscreenbkg.jpeg'); -fx-background-size: cover;");
 
         // Create a Scene for the start game screen and set it on a new Stage
         Scene startGameScene = new Scene(startGameLayout, 800, 600);
