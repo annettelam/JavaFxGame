@@ -144,8 +144,8 @@ public class IdleFarmingGame extends Application {
         // Create an ImageView for the barn image
         ImageView barnImage = new ImageView(new Image(getClass().getResource("/barn.png").toExternalForm()));
         barnImage.setOpacity(0.5);
-        barnImage.setFitWidth(250);
-        barnImage.setFitHeight(250);
+        barnImage.setFitWidth(200);
+        barnImage.setFitHeight(200);
 
         // Round out the corners of the barn image
         Rectangle clip = new Rectangle(barnImage.getFitWidth(), barnImage.getFitHeight());
@@ -267,8 +267,8 @@ public class IdleFarmingGame extends Application {
         // Set the background color of the market GIF to sky blue
         marketGif.setStyle("-fx-border-color: mediumseagreen; -fx-border-width: 5px;");
         marketGif.setOpacity(0.5);
-        marketGif.setFitWidth(250);
-        marketGif.setFitHeight(250);
+        marketGif.setFitWidth(200);
+        marketGif.setFitHeight(200);
 
         // Change market button to opaque when clicked
         marketGif.setOnMousePressed(e -> marketGif.setOpacity(1.0));
@@ -358,6 +358,8 @@ public class IdleFarmingGame extends Application {
         content.setAlignment(Pos.CENTER);
 
         VBox inventoryLayout = createInventory(player);
+        inventoryLayout.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-font-family: 'Mali'");
+
 
         // Load the merchant image
         Image merchantImage = new Image("file:src/main/resources/merchant.gif");
@@ -385,8 +387,6 @@ public class IdleFarmingGame extends Application {
         // Add the merchant label, image, and sell button to a VBox
         VBox merchantBox = new VBox(10, merchantLabel, merchantImageView, sellInventoryButton);
         merchantBox.setAlignment(Pos.CENTER);
-
-
 
         // Add the merchantBox to the main VBox
         VBox container = new VBox(10, merchantBox);
@@ -534,6 +534,7 @@ public class IdleFarmingGame extends Application {
         inventoryLayout = new VBox(10);
         Label inventoryTitle = new Label("Inventory");
         inventoryTitle.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Mali'");
+
         inventoryLayout.getChildren().add(inventoryTitle);
 
         for (String cropType : player.getCrops().keySet()) {
@@ -727,11 +728,12 @@ public class IdleFarmingGame extends Application {
             productImageView.setFitWidth(30);
             productImageView.setFitHeight(30);
             Label productAmount = new Label(productType + ": " + player.getCrops().get(productType));
+            productAmount.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
             inventoryLabels.put(productType, productAmount);
             productRow.getChildren().addAll(productImageView, productAmount);
             inventoryLayout.getChildren().add(productRow);
         } else {
-            inventoryLabels.get(productType).setText(productType + ": " + player.getCrops().get(productType));
+            inventoryLabels.get(productType).setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-font-family: 'Mali'");
         }
     }
 
