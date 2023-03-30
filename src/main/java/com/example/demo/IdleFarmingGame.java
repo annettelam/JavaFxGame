@@ -376,6 +376,10 @@ public class IdleFarmingGame extends Application {
         merchantImageView.setFitWidth(200);
         merchantImageView.setFitHeight(200);
 
+        // Make the merchant transparent
+        merchantImageView.setOpacity(0.5);
+
+
         // Create the label
         Label merchantLabel = new Label("Merchant");
         merchantLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Mali'; -fx-text-fill: black");
@@ -690,8 +694,8 @@ public class IdleFarmingGame extends Application {
         if (player.getCrops().isEmpty()) {
             // Display an error message using an Alert dialog box
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Error: No crops to sell");
-            alert.setContentText("You have no crops to sell!");
+            alert.setHeaderText("You have no crops to sell!");
+            alert.setContentText("Time to get to work, farmer!");
             alert.showAndWait();
             return;
         }
