@@ -196,10 +196,14 @@ public class IdleFarmingGame extends Application {
         barnImage.setStyle("-fx-border-color: navy; -fx-border-width: 5");
 
         // Change barn button to opaque when clicked
-        barnImage.setOnMousePressed(e -> barnImage.setOpacity(1.0));
+        barnImage.setOnMousePressed(e -> {
+            playClickSound("/click.mp3");
+            barnImage.setOpacity(1.0);
+        });
 
         // Add a mouse click event listener to the barn image
         barnImage.setOnMouseClicked(e -> {
+            playClickSound("/click.mp3");
             // Create a dialog to buy animals
             Dialog<Animal> buyAnimalDialog = new Dialog<>();
             buyAnimalDialog.setTitle("Buy Animals");
@@ -329,10 +333,16 @@ public class IdleFarmingGame extends Application {
         marketGif.setFitHeight(200);
 
         // Change market button to opaque when clicked
-        marketGif.setOnMousePressed(e -> marketGif.setOpacity(1.0));
+        marketGif.setOnMousePressed(e -> {
+            playClickSound("/click.mp3");
+            marketGif.setOpacity(1.0);
+        });
 
         // Add a mouse click event listener to the market GIF
-        marketGif.setOnMouseClicked(e -> marketStage.show());
+        marketGif.setOnMouseClicked(e -> {
+            playClickSound("/click.mp3");
+            marketStage.show();
+        });
 
         // Add hover animation to the market GIF
         marketGif.setOnMouseEntered(e -> marketGif.setScaleX(1.1));
@@ -449,10 +459,14 @@ public class IdleFarmingGame extends Application {
         });
 
         // Add hover animation to the sell button
-        sellInventoryButton.setOnMouseEntered(e -> sellInventoryButton.setOpacity(1.0));
+        sellInventoryButton.setOnMouseEntered(e -> {
+            sellInventoryButton.setOpacity(1.0);
+            sellInventoryButton.setCursor(Cursor.HAND);
+        });
 
         // Add the merchant label, image, and sell button to a VBox
         VBox merchantBox = new VBox(10, merchantLabel, merchantImageView, sellInventoryButton);
+
         merchantBox.setAlignment(Pos.CENTER);
 
         // Add the merchantBox to the main VBox
@@ -463,8 +477,17 @@ public class IdleFarmingGame extends Application {
         ImageView upgradesGif = new ImageView(new Image(getClass().getResource("/upgrades.gif").toExternalForm()));
 
 
-        upgradesGif.setOnMouseEntered(e -> upgradesGif.setScaleX(1.1));
-        upgradesGif.setOnMouseExited(e -> upgradesGif.setScaleX(1.0));
+        upgradesGif.setOnMouseEntered(e -> {
+            upgradesGif.setScaleX(1.1);
+            upgradesGif.setCursor(Cursor.HAND);
+        });
+
+
+
+        upgradesGif.setOnMouseExited(e -> {
+            upgradesGif.setScaleX(1.0);
+            upgradesGif.setCursor(Cursor.DEFAULT);
+        });
 
         upgradesGif.setOpacity(0.5);
         upgradesGif.setFitWidth(200);
@@ -472,8 +495,11 @@ public class IdleFarmingGame extends Application {
 
 
 // Add click action to the upgradesGif image
+
         upgradesGif.setOnMouseClicked(e -> {
+
             if (e.getButton() == MouseButton.PRIMARY) {
+                playClickSound("/click.mp3");
                 upgradesGif.setScaleX(1.0);
                 upgradesGif.setOpacity(1.0);
                 openUpgradeMarket(upgradeMarket, upgradeScene); // Open the UpgradeMarket window when the upgrades.gif is clicked
@@ -484,11 +510,11 @@ public class IdleFarmingGame extends Application {
         upgradesGif.setOnMousePressed(e -> upgradesGif.setOpacity(1.0));
 
 
-        upgradesGif.setOnMouseClicked(e -> {
-            if (e.getButton() == MouseButton.PRIMARY) {
-                openUpgradeMarket(upgradeMarket, upgradeScene); // Open the UpgradeMarket window when the upgrades.gif is clicked
-            }
-        });
+//        upgradesGif.setOnMouseClicked(e -> {
+//            if (e.getButton() == MouseButton.PRIMARY) {
+//                openUpgradeMarket(upgradeMarket, upgradeScene); // Open the UpgradeMarket window when the upgrades.gif is clicked
+//            }
+//        });
 
 
         upgradesGif.setOpacity(0.5);
@@ -572,7 +598,10 @@ public class IdleFarmingGame extends Application {
                 cell.setStyle("-fx-background-color: white; -fx-border-color: navy; -fx-border-radius: 5; -fx-border-width: 1;");
                 cell.setOpacity(0.8);
                 cell.setCursor(Cursor.HAND); // Set the cursor to a hand when hovering over a grid cell
-                cell.setOnMouseClicked(e -> plantSeed(player, cell, market));
+                cell.setOnMouseClicked(e -> {
+
+                    plantSeed(player, cell, market);
+                });
                 grid.add(cell, i, j);
             }
         }
