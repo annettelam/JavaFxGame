@@ -56,6 +56,30 @@ public class IdleFarmingGame extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
+        // Create UI elements for start game screen
+        Label startGameLabel = new Label("Welcome to Harvest Hero!");
+        startGameLabel.setStyle("-fx-font-size: 48px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
+        Button startButton = new Button("Start Game");
+        startButton.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
+        startButton.setOnAction(e -> {
+            primaryStage.show();
+        });
+
+        Button exitButton = new Button("Exit Game");
+        exitButton.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
+        exitButton.setOnAction(e -> System.exit(0));
+
+        // Create a VBox to hold the start game label and buttons
+        VBox startGameLayout = new VBox(10, startGameLabel, startButton, exitButton);
+        startGameLayout.setAlignment(Pos.CENTER);
+
+        // Create a Scene for the start game screen and set it on a new Stage
+        Scene startGameScene = new Scene(startGameLayout, 800, 600);
+        Stage startGameStage = new Stage();
+        startGameStage.setScene(startGameScene);
+        startGameStage.show();
+
+
         // Load the default font for the game
         Font.loadFont(Objects.requireNonNull(getClass().getResource("/Mali.ttf")).toExternalForm(), 10);
 
@@ -82,9 +106,7 @@ public class IdleFarmingGame extends Application {
         autoPlanterLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
         playerInfoLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
 
-
         inventoryLayout = createInventory(player);
-
 
         // Create a VBox to hold the stats labels
         VBox statsLayout = new VBox(10);
@@ -343,7 +365,7 @@ public class IdleFarmingGame extends Application {
         // Set up the game window to be maximized upon launch
         primaryStage.setMaximized(true);
         primaryStage.setScene(scene);
-        primaryStage.show();
+//        primaryStage.show();
 
         // Update the stats labels whenever an upgrade is purchased
         market.setOnUpgradePurchased(() -> updateStatsLabels(market, increasedYieldLabel, fasterGrowthLabel, growthPercentageLabel, autoPlanterLabel));
