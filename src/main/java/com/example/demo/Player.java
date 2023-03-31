@@ -4,16 +4,18 @@ import java.util.HashMap;
 
 public class Player {
 
+    private int level;
     private int money;
     private int numOfSeeds;
     private HashMap<String, Integer> seeds;
     private HashMap<String, Integer> crops;
 
-    public Player(int money, int numSeeds) {
+    public Player(int money, int numSeeds,int level) {
         this.money = money;
         this.numOfSeeds = numSeeds;
         this.seeds = new HashMap<String, Integer>();
         this.crops = new HashMap<String, Integer>();
+        this.level = 1;
     }
 
     public int getMoney() {
@@ -58,4 +60,17 @@ public class Player {
             crops.put(cropType, 1);
         }
     }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public int getRequiredXPForNextLevel() {
+        return level * 100; // Change the value 100 to your desired base XP for leveling up
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
 }

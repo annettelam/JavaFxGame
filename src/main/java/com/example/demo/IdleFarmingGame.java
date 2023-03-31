@@ -9,6 +9,7 @@ import java.util.*;
 import javafx.geometry.Insets;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+
 import java.io.IOException;
 import java.nio.file.StandardCopyOption;
 
@@ -47,12 +48,15 @@ public class IdleFarmingGame extends Application {
 
     private MediaPlayer mediaPlayer;
 
+    private ProgressBar xpBar = new ProgressBar(0);
+    private Label xpLabel = new Label("XP: 0/100");
 
-    Player player = new Player(10000, 0);
+    Player player = new Player(10000, 0, 1);
     private Label moneyLabel = new Label("Money \uD83D\uDCB0: $" + player.getMoney());
     private Label seedLabel = new Label("Seeds \uD83C\uDF31: " + player.getNumSeeds());
     private Label cropLabel = new Label("Crops: " + player.getCrops());
     Label playerInfoLabel = new Label("Upgrades Info");
+    Label playerLevelLabel = new Label("Level: " + player.getLevel());
 
     // Create a label for the upgrades GIF title
     Label upgradesTitle = new Label("Upgrades");
@@ -81,6 +85,14 @@ public class IdleFarmingGame extends Application {
 
         // Load the default font for the game
         Font.loadFont(Objects.requireNonNull(getClass().getResource("/Mali.ttf")).toExternalForm(), 12);
+
+        // Style the xpLabel
+        xpLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
+
+// Set the initial progress of the XP bar
+        xpBar.setProgress(0);
+        xpBar.setPrefWidth(200);
+
 
         // Create UI elements for start game screen
         Label startGameLabel = new Label("Welcome to Harvest Hero!");
@@ -138,6 +150,7 @@ public class IdleFarmingGame extends Application {
         playerInfoLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
         upgradesTitle.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Mali'");
 
+        playerLevelLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
 
         inventoryLayout = createInventory(player);
 
@@ -156,6 +169,7 @@ public class IdleFarmingGame extends Application {
         // Add background color, padding, and a border to the statsLayout
         statsLayout.setStyle("-fx-background-color: #F0F8FF; -fx-padding: 10; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-border-color: DARKSLATEGREY; -fx-border-width: 1px;");
 
+        statsLayout.getChildren().add(playerLevelLabel);
         statsLayout.getChildren().add(0, playerInfoLabel);
 
 
@@ -224,21 +238,19 @@ public class IdleFarmingGame extends Application {
                     new Animal("Cow", "Milk", 500, "/cow.jpg"));
 
 
-
             // Create a cell factory to format each Animal object with its name and price
-                    animalListView.setCellFactory(param -> new ListCell<Animal>() {
-                        @Override
-                        protected void updateItem(Animal animal, boolean empty) {
-                            super.updateItem(animal, empty);
+            animalListView.setCellFactory(param -> new ListCell<Animal>() {
+                @Override
+                protected void updateItem(Animal animal, boolean empty) {
+                    super.updateItem(animal, empty);
 
-                            if (empty || animal == null) {
-                                setText(null);
-                            } else {
-                                setText(animal.getName() + " - $" + animal.getCost());
-                            }
-                        }
-                    });
-                    
+                    if (empty || animal == null) {
+                        setText(null);
+                    } else {
+                        setText(animal.getName() + " - $" + animal.getCost());
+                    }
+                }
+            });
 
 
             buyAnimalDialog.getDialogPane().setContent(animalListView);
@@ -297,7 +309,7 @@ public class IdleFarmingGame extends Application {
         // Create the market UI
         Stage marketStage = new Stage();
         market = new Market(player, marketStage, this);
-        
+
         Scene marketScene = new Scene(market.getMarketPane());
         marketStage.setScene(marketScene);
 
@@ -377,7 +389,7 @@ public class IdleFarmingGame extends Application {
         // Add a title label with a larger font size
         Label titleLabel = new Label("Harvest Hero");
         titleLabel.setStyle("-fx-font-size: 55px; -fx-font-weight: bold; -fx-font-family: 'Mali'; -fx-border-color: MEDIUMAQUAMARINE; -fx-border-width: 2px; -fx-border-radius: 5px; -fx-background-color: linear-gradient(from 25% 55% to 80% 90%, rgba(0, 153, 76, 0.8), rgba(204, 255, 204, 0.8)); -fx-background-radius: 5px; -fx-border-padding: 5px; -fx-padding: 20px;");
-        titleLabel.setTextFill(rgb(0,51,25));
+        titleLabel.setTextFill(rgb(0, 51, 25));
         titleLabel.setEffect(dropShadow);
 
         // Create a grid for planting seeds
@@ -412,7 +424,8 @@ public class IdleFarmingGame extends Application {
         VBox content = new VBox(10, titleLabel, statsLayout, moneyAndSeedsLabels, gridTitles);
         content.setAlignment(Pos.CENTER);
 
-
+// Add the XP bar and label to the statsLayout
+        statsLayout.getChildren().addAll(xpLabel, xpBar);
 
         // Add a top margin to statsLayout to space it out from titleLabel
         VBox.setMargin(statsLayout, new Insets(20, 0, 0, 0));
@@ -599,7 +612,6 @@ public class IdleFarmingGame extends Application {
     }
 
 
-
     private void autoPlant(GridPane grid, Market market) {
         if (upgradeMarket.getUpgrades().get("AutoPlanter").getLevel() > 0) {
             for (Node cell : grid.getChildren()) {
@@ -695,6 +707,7 @@ public class IdleFarmingGame extends Application {
             inventoryLabels.put(cropType, cropAmount);
             cropRow.getChildren().addAll(cropImageView, cropAmount);
             inventoryLayout.getChildren().add(cropRow);
+
         }
 
         return inventoryLayout;
@@ -732,8 +745,10 @@ public class IdleFarmingGame extends Application {
                 inventoryLabels.put(cropType, cropAmount);
                 cropRow.getChildren().addAll(cropImageView, cropAmount);
                 inventoryLayout.getChildren().add(cropRow);
+
             }
         }
+        updateXP(10); // Change the value 10 to the amount of XP gained
     }
 
     private List<String> recentAnimalTypes = new ArrayList<>();
@@ -915,6 +930,24 @@ public class IdleFarmingGame extends Application {
 
         // mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Remove this line
     }
+
+    private void updateXP(double xpGained) {
+        double currentXP = xpBar.getProgress() * player.getRequiredXPForNextLevel();
+        double newXP = currentXP + xpGained;
+
+        while (newXP >= player.getRequiredXPForNextLevel()) {
+            player.setLevel(player.getLevel() + 1);
+            newXP -= player.getRequiredXPForNextLevel();
+            if (newXP < 0) {
+                newXP = 0;
+            }
+        }
+
+        xpBar.setProgress(newXP / player.getRequiredXPForNextLevel());
+        xpLabel.setText(String.format("XP: %.0f/%d", newXP, player.getRequiredXPForNextLevel()));
+        playerLevelLabel.setText("Level: " + player.getLevel());
+    }
+
 
 
 
