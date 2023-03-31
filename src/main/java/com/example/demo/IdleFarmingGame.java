@@ -1019,7 +1019,7 @@ public class IdleFarmingGame extends Application {
         ImageView goldenEggImageView = new ImageView(goldenEggImage);
         goldenEggImageView.setFitWidth(30);
         goldenEggImageView.setFitHeight(30);
-        Label goldenEggAmount = new Label("Golden Eggs: " + player.getGoldenEggs());
+        Label goldenEggAmount = new Label("Golden Egg: " + player.getGoldenEggs());
         goldenEggRow.getChildren().addAll(goldenEggImageView, goldenEggAmount);
         inventoryLayout.getChildren().add(goldenEggRow);
     }
@@ -1030,7 +1030,7 @@ public class IdleFarmingGame extends Application {
         ImageView goldenRatImageView = new ImageView(goldenRatImage);
         goldenRatImageView.setFitWidth(30);
         goldenRatImageView.setFitHeight(30);
-        Label goldenEggAmount = new Label("Golden Eggs: " + player.getGoldenEggs());
+        Label goldenEggAmount = new Label("Golden Rat: " + player.getGoldenEggs());
         goldenRatRow.getChildren().addAll(goldenRatImageView, goldenEggAmount);
         inventoryLayout.getChildren().add(goldenRatRow);
     }
@@ -1041,7 +1041,7 @@ public class IdleFarmingGame extends Application {
         ImageView goldenCobraImageView = new ImageView(goldenCobraImage);
         goldenCobraImageView.setFitWidth(30);
         goldenCobraImageView.setFitHeight(30);
-        Label goldenEggAmount = new Label("Golden Eggs: " + player.getGoldenEggs());
+        Label goldenEggAmount = new Label("Golden Cobra: " + player.getGoldenEggs());
         goldenCobraRow.getChildren().addAll(goldenCobraImageView, goldenEggAmount);
         inventoryLayout.getChildren().add(goldenCobraRow);
     }
@@ -1052,7 +1052,7 @@ public class IdleFarmingGame extends Application {
         ImageView goldenOxImageView = new ImageView(goldenOxImage);
         goldenOxImageView.setFitWidth(30);
         goldenOxImageView.setFitHeight(30);
-        Label goldenEggAmount = new Label("Golden Eggs: " + player.getGoldenEggs());
+        Label goldenEggAmount = new Label("Golden Ox: " + player.getGoldenEggs());
         goldenOxRow.getChildren().addAll(goldenOxImageView, goldenEggAmount);
         inventoryLayout.getChildren().add(goldenOxRow);
     }
