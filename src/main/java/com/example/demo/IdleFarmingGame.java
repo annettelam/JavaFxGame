@@ -175,11 +175,18 @@ public class IdleFarmingGame extends Application {
         statsLayout.setStyle("-fx-background-color: #F0F8FF; -fx-padding: 10; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-border-color: DARKSLATEGREY; -fx-border-width: 1px;");
 
         statsLayout.getChildren().add(0, playerInfoLabel);
+
+
+        // Create a label for the barn title
+        Label barnTitle = new Label("Barn");
+        barnTitle.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
+
         // Create an ImageView for the barn image
         ImageView barnImage = new ImageView(new Image(getClass().getResource("/barn.png").toExternalForm()));
         barnImage.setOpacity(0.5);
         barnImage.setFitWidth(200);
         barnImage.setFitHeight(200);
+
 
         // Round out the corners of the barn image
         Rectangle clip = new Rectangle(barnImage.getFitWidth(), barnImage.getFitHeight());
@@ -194,8 +201,23 @@ public class IdleFarmingGame extends Application {
         shadow.setColor(Color.NAVY);
         barnImage.setEffect(shadow);
 
-        // Set the background color of the barn image
-        barnImage.setStyle("-fx-border-color: navy; -fx-border-width: 5");
+
+        // Set the background color and border of the barn image
+        barnImage.setStyle("-fx-background-color: skyblue; -fx-border-color: goldenrod; -fx-border-width: 5px;");
+
+        // Change barn button to opaque when clicked
+        barnImage.setOnMousePressed(e -> barnImage.setOpacity(1.0));
+
+        // Add a mouse click event listener to the barn image
+        VBox barnBox = new VBox(5, barnTitle, barnImage);
+        barnBox.setAlignment(Pos.CENTER);
+
+        // Add padding and a border to the barnBox
+        barnBox.setStyle("-fx-padding: 10 20 10 20;");
+
+        // Add hover animation to the barn image
+        barnImage.setOnMouseEntered(e -> barnImage.setScaleX(1.1));
+        barnImage.setOnMouseExited(e -> barnImage.setScaleX(1.0));
 
         // Change barn button to opaque when clicked
         barnImage.setOnMousePressed(e -> {
@@ -206,6 +228,7 @@ public class IdleFarmingGame extends Application {
         // Add a mouse click event listener to the barn image
         barnImage.setOnMouseClicked(e -> {
             playClickSound("/click.mp3");
+
             // Create a dialog to buy animals
             Dialog<Animal> buyAnimalDialog = new Dialog<>();
             buyAnimalDialog.setTitle("Buy Animals");
@@ -219,7 +242,8 @@ public class IdleFarmingGame extends Application {
                     new Animal("Cow", "Milk", 500, "/cow.jpg"));
 
 
-// Create a cell factory to format each Animal object with its name and price
+
+            // Create a cell factory to format each Animal object with its name and price
                     animalListView.setCellFactory(param -> new ListCell<Animal>() {
                         @Override
                         protected void updateItem(Animal animal, boolean empty) {
@@ -294,34 +318,6 @@ public class IdleFarmingGame extends Application {
             buyAnimalDialog.showAndWait();
         });
 
-        // Add hover animation to the barn image
-        barnImage.setOnMouseEntered(e -> barnImage.setScaleX(1.1));
-        barnImage.setOnMouseExited(e -> barnImage.setScaleX(1.0));
-
-
-
-
-        // Create a label for the barn title
-        Label barnTitle = new Label("Barn");
-        barnTitle.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
-
-        // Create a VBox to hold the barn image and its title
-        VBox barnBox = new VBox(5, barnTitle, barnImage);
-        barnBox.setAlignment(Pos.CENTER);
-
-        // Add padding and a border to the barnBox
-        barnBox.setStyle("-fx-padding: 10 20 10 20;");
-
-        // Add hover animation and change cursor to the barn image
-        barnImage.setOnMouseEntered(e -> {
-            barnImage.setScaleX(1.1);
-            barnImage.setCursor(Cursor.HAND);
-        });
-        barnImage.setOnMouseExited(e -> {
-            barnImage.setScaleX(1.0);
-            barnImage.setCursor(Cursor.DEFAULT);
-        });
-
 
         // Create the market UI
         Stage marketStage = new Stage();
@@ -337,7 +333,6 @@ public class IdleFarmingGame extends Application {
 
         // create the scene for the upgrade market
         upgradeScene = new Scene(upgradeMarket.getUpgradePane(), 400, 300);
-
 
         // Create an ImageView for the market GIF
         ImageView marketGif = new ImageView(new Image(getClass().getResource("/market.gif").toExternalForm()));
@@ -443,10 +438,8 @@ public class IdleFarmingGame extends Application {
         VBox content = new VBox(10, titleLabel, statsLayout, moneyAndSeedsLabels, gridTitles);
         content.setAlignment(Pos.CENTER);
 
-
         VBox inventoryLayout = createInventory(player);
         inventoryLayout.setMaxHeight(400);
-
 
         inventoryLayout.setStyle("-fx-background-color: white;");
         inventoryLayout.setStyle("-fx-background-radius: 10; -fx-font-size: 16px; -fx-font-weight: bold; -fx-font-family: 'Mali'; -fx-padding: 10 20 10 20; -fx-border-radius: 10; -fx-border-color: mediumseagreen; -fx-border-width: 2px; -fx-background-color: rgba(255, 255, 255, 0.8);");
@@ -493,6 +486,9 @@ public class IdleFarmingGame extends Application {
 
         // Create an ImageView for the upgrades GIF
         ImageView upgradesGif = new ImageView(new Image(getClass().getResource("/upgrades.gif").toExternalForm()));
+        upgradesGif.setFitWidth(200);
+        upgradesGif.setFitHeight(200);
+        upgradesGif.setPreserveRatio(true);
 
 
         upgradesGif.setOnMouseEntered(e -> {
@@ -542,8 +538,8 @@ public class IdleFarmingGame extends Application {
 
         // Add a shadow effect to the upgrades GIF
         DropShadow shadow3 = new DropShadow();
-        shadow3.setOffsetX(5);
-        shadow3.setOffsetY(5);
+        shadow3.setOffsetX(3);
+        shadow3.setOffsetY(3);
         shadow3.setColor(Color.NAVY);
         upgradesGif.setEffect(shadow3);
 
