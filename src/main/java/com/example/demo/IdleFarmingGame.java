@@ -49,8 +49,8 @@ public class IdleFarmingGame extends Application {
 
 
     Player player = new Player(10000, 0);
-    private Label moneyLabel = new Label("Money: $" + player.getMoney());
-    private Label seedLabel = new Label("Seeds: " + player.getNumSeeds());
+    private Label moneyLabel = new Label("Money \uD83D\uDCB0: $" + player.getMoney());
+    private Label seedLabel = new Label("Seeds \uD83C\uDF31: " + player.getNumSeeds());
     private Label cropLabel = new Label("Crops: " + player.getCrops());
     Label playerInfoLabel = new Label("Player Info");
 
@@ -716,8 +716,8 @@ public class IdleFarmingGame extends Application {
 
 
     public void updateLabels(Player player) {
-        moneyLabel.setText("Money: $" + player.getMoney());
-        seedLabel.setText("Seeds:");
+        moneyLabel.setText("Money \uD83D\uDCB0: $" + player.getMoney());
+        seedLabel.setText("Seeds \uD83C\uDF31:");
         for (String seedType : player.getSeeds().keySet()) {
             seedLabel.setText(seedLabel.getText() + " " + seedType + ": " + player.getSeeds().get(seedType));
         }
