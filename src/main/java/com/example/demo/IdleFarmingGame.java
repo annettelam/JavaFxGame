@@ -833,10 +833,12 @@ public class IdleFarmingGame extends Application {
                     updateProductInventory(player, productType);
                 });
                 fadeTransition.play();
+                updateXP(20); // Change the value 10 to the amount of XP gained
             }
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
+        updateXP(10); // Change the value 10 to the amount of XP gained
     }
 
     private void sellEntireInventory(Player player) {
