@@ -82,30 +82,12 @@ public class IdleFarmingGame extends Application {
         // Load the default font for the game
         Font.loadFont(Objects.requireNonNull(getClass().getResource("/Mali.ttf")).toExternalForm(), 12);
 
-        // Create a banner for the game title
-        Rectangle titleBanner = new Rectangle(800, 100);
-        titleBanner.setFill(Color.MEDIUMSEAGREEN);
-        titleBanner.setOpacity(0.8);
-        titleBanner.setStroke(Color.BLACK);
-        titleBanner.setArcHeight(20);
-        titleBanner.setArcWidth(20);
-
         // Create UI elements for start game screen
         Label startGameLabel = new Label("Welcome to Harvest Hero!");
-        startGameLabel.setStyle("-fx-font-size: 48px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
-
-        Pane titlePane = new Pane(titleBanner, startGameLabel);
-        // Center the start game label in the title pane
-        titlePane.layoutBoundsProperty().addListener((observable, oldBounds, newBounds) -> {
-            double x = (newBounds.getWidth() - startGameLabel.prefWidth(-1)) / 2;
-            double y = (newBounds.getHeight() - startGameLabel.prefHeight(-1)) / 2;
-            startGameLabel.relocate(x, y);
-        });
-
-        upgradesTitle.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Mali'");
+        startGameLabel.setStyle("-fx-font-size: 55px; -fx-font-weight: bold; -fx-font-family: 'Mali'; -fx-border-color: MEDIUMAQUAMARINE; -fx-border-width: 2px; -fx-border-radius: 5px; -fx-background-color: linear-gradient(from 25% 55% to 80% 90%, rgba(0, 153, 76, 0.8), rgba(204, 255, 204, 0.8)); -fx-background-radius: 5px; -fx-border-padding: 5px; -fx-padding: 20px;");
 
         Label titleGameLabel = new Label("COMP 2522 Term Project by Annette Lam & Cadan Glass");
-        titleGameLabel.setStyle("-fx-font-size: 15px; -fx-font-family: 'Mali'; -fx-background-color: rgba(173, 216, 230, 0.8); -fx-padding: 5px; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-border-color: DARKSLATEGREY; -fx-border-width: 1px;");
+        titleGameLabel.setStyle("-fx-font-size: 15px; -fx-font-family: 'Mali'; -fx-background-color: linear-gradient(from 25% 55% to 80% 90%, LIGHTSTEELBLUE, aliceblue); -fx-padding: 5px; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-border-color: darkslategrey; -fx-border-width: 1px;");
         titleGameLabel.setWrapText(true);
 
         Button startButton = new Button("Start Game");
@@ -123,7 +105,7 @@ public class IdleFarmingGame extends Application {
         });
 
         // Create a VBox to hold the start game label and buttons
-        VBox startGameLayout = new VBox(10, titlePane, startButton, exitButton, titleGameLabel);
+        VBox startGameLayout = new VBox(10, startGameLabel, startButton, exitButton, titleGameLabel);
         startGameLayout.setAlignment(Pos.CENTER);
         startGameLayout.setStyle("-fx-background-image: url('startscreenbkg.jpeg'); -fx-background-size: cover;");
 
@@ -132,8 +114,6 @@ public class IdleFarmingGame extends Application {
         Stage startGameStage = new Stage();
         startGameStage.setScene(startGameScene);
         startGameStage.show();
-
-
         // Load the background image for the game from the resources folder
         Image backgroundImage = new Image(getClass().getResource("/background.jpeg").toExternalForm());
 
@@ -156,6 +136,8 @@ public class IdleFarmingGame extends Application {
         growthPercentageLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
         autoPlanterLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
         playerInfoLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
+        upgradesTitle.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Mali'");
+
 
         inventoryLayout = createInventory(player);
 
@@ -398,7 +380,7 @@ public class IdleFarmingGame extends Application {
         titleLabel.setTextFill(rgb(0,51,25));
         titleLabel.setEffect(dropShadow);
 
-        VBox.setMargin(titleLabel, new Insets(-300, 0, 0, 0)); // Adjust the negative value to control the titleLabel position
+        VBox.setMargin(titleLabel, new Insets(0, 0, 0, 0)); // Adjust the negative value to control the titleLabel position
 
         // Create a grid for planting seeds
         GridPane grid = createGrid(4, 100);
