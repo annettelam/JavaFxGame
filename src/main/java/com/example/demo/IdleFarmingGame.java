@@ -972,7 +972,7 @@ public class IdleFarmingGame extends Application {
         closeButton.setStyle("-fx-base: red; -fx-font-weight: bold; -fx-font-family: 'Mali';");
 
         popupLayout.getChildren().addAll(goldenEggImageView, goldenEggLabel, closeButton);
-        Scene popupScene = new Scene(popupLayout, 400, 400);
+        Scene popupScene = new Scene(popupLayout, 500, 500);
         popupStage.setScene(popupScene);
         popupStage.show();
     }
