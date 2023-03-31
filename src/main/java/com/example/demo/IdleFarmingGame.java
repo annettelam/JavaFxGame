@@ -52,7 +52,7 @@ public class IdleFarmingGame extends Application {
     private Label moneyLabel = new Label("Money \uD83D\uDCB0: $" + player.getMoney());
     private Label seedLabel = new Label("Seeds \uD83C\uDF31: " + player.getNumSeeds());
     private Label cropLabel = new Label("Crops: " + player.getCrops());
-    Label playerInfoLabel = new Label("Player Info");
+    Label playerInfoLabel = new Label("Upgrades Info");
 
     // Create a label for the upgrades GIF title
     Label upgradesTitle = new Label("Upgrades");
