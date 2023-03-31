@@ -80,11 +80,11 @@ public class UpgradeMarket {
 
             // Set the cursor to hand when hovering over the upgradeButton
             upgradeButton.setOnMouseEntered(e -> upgradeButton.setCursor(Cursor.HAND));
-            upgradeButton.setStyle("-fx-font-size: 16; -fx-font-family: 'Mali'");
+
 
             // Reset the cursor when the mouse exits the upgradeButton
             upgradeButton.setOnMouseExited(e -> upgradeButton.setCursor(Cursor.DEFAULT));
-            upgradeButton.setStyle("-fx-font-size: 16; -fx-font-family: 'Mali'");
+
 
             upgradePane.add(upgradeButton, 2, row);
 
