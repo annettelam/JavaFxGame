@@ -12,6 +12,7 @@ import javafx.scene.media.MediaPlayer;
 
 import java.io.IOException;
 import java.nio.file.StandardCopyOption;
+import java.util.function.Function;
 
 
 import javafx.animation.*;
@@ -872,6 +873,7 @@ public class IdleFarmingGame extends Application {
         player.setGoldCobras(0);
         player.setGoldOxes(0);
 
+
         for (Label label : inventoryLabels.values()) {
             label.setText("0");
         }
@@ -968,27 +970,28 @@ public class IdleFarmingGame extends Application {
                 case 5:
                     showRewardPopup("Golden Egg", "goldenegg.png");
                     player.addGoldenEgg();
-                    updateGoldenEggInventory();
+                    updateGoldenRewardInventory("Golden Egg", "goldenegg.png", Player::getGoldenEggs);
                     break;
                 case 10:
                     showRewardPopup("Gold Rat", "goldrat.png");
                     player.addGoldRat();
-                    updateGoldRatInventory();
+                    updateGoldenRewardInventory("Golden Rat", "goldrat.png", Player::getGoldRats);
                     break;
                 case 15:
                     showRewardPopup("Gold Cobra", "goldcobra.png");
                     player.addGoldCobra();
-                    updateGoldCobraInventory();
+                    updateGoldenRewardInventory("Golden Cobra", "goldcobra.png", Player::getGoldCobra);
                     break;
                 case 20:
                     showRewardPopup("Gold Ox", "goldox.png");
                     player.addGoldOx();
-                    updateGoldOxInventory();
+                    updateGoldenRewardInventory("Golden Ox", "goldox.png", Player::getGoldOx);
                     break;
                 // Add more cases for other levels and rewards if needed
             }
         }
     }
+
 
 
 //    private void showGoldenEggPopup() {
@@ -1013,49 +1016,18 @@ public class IdleFarmingGame extends Application {
 //    }
 
 
-    private void updateGoldenEggInventory() {
-        HBox goldenEggRow = new HBox(5);
-        Image goldenEggImage = new Image("file:src/main/resources/goldenegg.png");
-        ImageView goldenEggImageView = new ImageView(goldenEggImage);
-        goldenEggImageView.setFitWidth(30);
-        goldenEggImageView.setFitHeight(30);
-        Label goldenEggAmount = new Label("Golden Egg: " + player.getGoldenEggs());
-        goldenEggRow.getChildren().addAll(goldenEggImageView, goldenEggAmount);
-        inventoryLayout.getChildren().add(goldenEggRow);
+    private void updateGoldenRewardInventory(String rewardType, String imageFileName, Function<Player, Integer> rewardCountGetter) {
+        HBox rewardRow = new HBox(5);
+        Image rewardImage = new Image("file:src/main/resources/" + imageFileName);
+        ImageView rewardImageView = new ImageView(rewardImage);
+        rewardImageView.setFitWidth(30);
+        rewardImageView.setFitHeight(30);
+        Label rewardAmount = new Label(rewardType + ": " + rewardCountGetter.apply(player));
+        rewardRow.getChildren().addAll(rewardImageView, rewardAmount);
+        inventoryLayout.getChildren().add(rewardRow);
+        inventoryLabels.put(rewardType, rewardAmount); // Add the label to the inventoryLabels map
     }
 
-    private void updateGoldRatInventory() {
-        HBox goldenRatRow = new HBox(5);
-        Image goldenRatImage = new Image("file:src/main/resources/goldrat.png");
-        ImageView goldenRatImageView = new ImageView(goldenRatImage);
-        goldenRatImageView.setFitWidth(30);
-        goldenRatImageView.setFitHeight(30);
-        Label goldenEggAmount = new Label("Golden Rat: " + player.getGoldenEggs());
-        goldenRatRow.getChildren().addAll(goldenRatImageView, goldenEggAmount);
-        inventoryLayout.getChildren().add(goldenRatRow);
-    }
-
-    private void updateGoldCobraInventory() {
-        HBox goldenCobraRow = new HBox(5);
-        Image goldenCobraImage = new Image("file:src/main/resources/goldcobra.png");
-        ImageView goldenCobraImageView = new ImageView(goldenCobraImage);
-        goldenCobraImageView.setFitWidth(30);
-        goldenCobraImageView.setFitHeight(30);
-        Label goldenEggAmount = new Label("Golden Cobra: " + player.getGoldenEggs());
-        goldenCobraRow.getChildren().addAll(goldenCobraImageView, goldenEggAmount);
-        inventoryLayout.getChildren().add(goldenCobraRow);
-    }
-
-    private void updateGoldOxInventory() {
-        HBox goldenOxRow = new HBox(5);
-        Image goldenOxImage = new Image("file:src/main/resources/goldox.png");
-        ImageView goldenOxImageView = new ImageView(goldenOxImage);
-        goldenOxImageView.setFitWidth(30);
-        goldenOxImageView.setFitHeight(30);
-        Label goldenEggAmount = new Label("Golden Ox: " + player.getGoldenEggs());
-        goldenOxRow.getChildren().addAll(goldenOxImageView, goldenEggAmount);
-        inventoryLayout.getChildren().add(goldenOxRow);
-    }
     private void showRewardPopup(String rewardName, String imageFile) {
         Stage popupStage = new Stage();
         VBox popupLayout = new VBox(10);
