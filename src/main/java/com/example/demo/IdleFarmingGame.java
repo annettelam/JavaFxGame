@@ -548,11 +548,12 @@ public class IdleFarmingGame extends Application {
         VBox marketBarnMerch = new VBox(10, marketBox, barnBox, merchantBox);
         marketBarnMerch.setAlignment(Pos.CENTER);
 
-        // Declare the marketAndBarnBox variable, which will be used to hold the market, barn, merchant, and upgrades
-        VBox marketBarnMerchUpgrades = new VBox(10, marketBox, barnBox, upgradesBox, merchantBox);
+        // Add spacing at the top of the marketBarnMerchUpgrades VBox
+        Region spacer = new Region();
+        spacer.setPrefHeight(80); // Adjust this value to control the spacing
+
+        VBox marketBarnMerchUpgrades = new VBox(10, spacer, marketBox, barnBox, upgradesBox, merchantBox);
         marketBarnMerchUpgrades.setAlignment(Pos.CENTER);
-
-
 
         VBox marketAndBarnWrapper = new VBox(marketBarnMerchUpgrades);
         marketAndBarnWrapper.setPrefHeight(500); // Set the height to match the grid height
@@ -562,6 +563,7 @@ public class IdleFarmingGame extends Application {
 
         marketBarnMerch.setAlignment(Pos.CENTER);
         centeredContent.setAlignment(Pos.CENTER);
+
 
         // Create a StackPane to hold the centeredContent and maintain the center position when resizing the window
         StackPane root = new StackPane(centeredContent);
