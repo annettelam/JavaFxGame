@@ -76,10 +76,7 @@ public class IdleFarmingGame extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-
-
         playMusic("/verdantgrove.wav");
-
 
         // Load the default font for the game
         Font.loadFont(Objects.requireNonNull(getClass().getResource("/Mali.ttf")).toExternalForm(), 12);
@@ -396,7 +393,7 @@ public class IdleFarmingGame extends Application {
 
         // Add a title label with a larger font size
         Label titleLabel = new Label("Harvest Hero");
-        titleLabel.setStyle("-fx-font-size: 75px; -fx-font-weight: bold; -fx-font-family: 'Mali'; -fx-border-color: MEDIUMAQUAMARINE; -fx-border-width: 2px; -fx-border-radius: 5px; -fx-background-color: linear-gradient(from 25% 55% to 80% 90%, rgba(0, 153, 76, 0.8), rgba(204, 255, 204, 0.8)); -fx-background-radius: 5px; -fx-border-padding: 5px; -fx-padding: 20px;");
+        titleLabel.setStyle("-fx-font-size: 55px; -fx-font-weight: bold; -fx-font-family: 'Mali'; -fx-border-color: MEDIUMAQUAMARINE; -fx-border-width: 2px; -fx-border-radius: 5px; -fx-background-color: linear-gradient(from 25% 55% to 80% 90%, rgba(0, 153, 76, 0.8), rgba(204, 255, 204, 0.8)); -fx-background-radius: 5px; -fx-border-padding: 5px; -fx-padding: 20px;");
         titleLabel.setTextFill(rgb(0,51,25));
         titleLabel.setEffect(dropShadow);
 
@@ -487,8 +484,6 @@ public class IdleFarmingGame extends Application {
             upgradesGif.setCursor(Cursor.HAND);
         });
 
-
-
         upgradesGif.setOnMouseExited(e -> {
             upgradesGif.setScaleX(1.0);
             upgradesGif.setCursor(Cursor.DEFAULT);
@@ -497,8 +492,6 @@ public class IdleFarmingGame extends Application {
         upgradesGif.setOpacity(0.5);
         upgradesGif.setFitWidth(200);
         upgradesGif.setFitHeight(200);
-
-
 
         // Add click action to the upgradesGif image
 
