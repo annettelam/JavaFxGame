@@ -5,6 +5,12 @@ import java.util.HashMap;
 public class Player {
 
     private int goldenEggs;
+
+    private int goldRat;
+
+    private int goldCobra;
+
+    private int goldOx;
     private int level;
     private int money;
     private int numOfSeeds;
@@ -62,6 +68,8 @@ public class Player {
         }
     }
 
+
+
     public int getLevel() {
         return level;
     }
@@ -82,4 +90,26 @@ public class Player {
         return goldenEggs;
     }
 
+    public void addGoldRat() {
+        goldRat++;
+    }
+    public int getGoldRats() {
+        return goldRat;
+    }
+
+    public void addGoldCobra() {
+        goldCobra++;
+    }
+
+    public int getGoldCobra() {
+        return goldCobra;
+    }
+
+    public void addGoldOx() {
+        goldOx++;
+    }
+
+    public int getGoldOx() {
+        return goldOx;
+    }
 }

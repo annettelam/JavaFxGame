@@ -950,32 +950,53 @@ public class IdleFarmingGame extends Application {
         playerLevelLabel.setText("Level: " + player.getLevel());
 
         if (leveledUp && player.getLevel() % 5 == 0) {
-            player.addGoldenEgg();
-            showGoldenEggPopup();
-            updateGoldenEggInventory();
+            switch (player.getLevel()) {
+                case 5:
+                    showRewardPopup("Golden Egg", "goldenegg.png");
+                    player.addGoldenEgg();
+                    updateGoldenEggInventory();
+                    break;
+                case 10:
+                    showRewardPopup("Gold Rat", "goldrat.png");
+                    player.addGoldRat();
+                    updateGoldRatInventory();
+                    break;
+                case 15:
+                    showRewardPopup("Gold Cobra", "goldcobra.png");
+                    player.addGoldCobra();
+                    updateGoldCobraInventory();
+                    break;
+                case 20:
+                    showRewardPopup("Gold Ox", "goldox.png");
+                    player.addGoldOx();
+                    updateGoldOxInventory();
+                    break;
+                // Add more cases for other levels and rewards if needed
+            }
         }
     }
 
-    private void showGoldenEggPopup() {
-        Stage popupStage = new Stage();
-        VBox popupLayout = new VBox(10);
-        popupLayout.setAlignment(Pos.CENTER);
-        Image goldenEggImage = new Image("file:src/main/resources/goldenegg.png");
-        ImageView goldenEggImageView = new ImageView(goldenEggImage);
-        goldenEggImageView.setFitWidth(100);
-        goldenEggImageView.setFitHeight(100);
-        Label goldenEggLabel = new Label("Congratulations! You've earned a Golden Egg!");
-        goldenEggLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
 
-        Button closeButton = new Button("Close");
-        closeButton.setOnAction(e -> popupStage.close());
-        closeButton.setStyle("-fx-base: red; -fx-font-weight: bold; -fx-font-family: 'Mali';");
-
-        popupLayout.getChildren().addAll(goldenEggImageView, goldenEggLabel, closeButton);
-        Scene popupScene = new Scene(popupLayout, 500, 500);
-        popupStage.setScene(popupScene);
-        popupStage.show();
-    }
+//    private void showGoldenEggPopup() {
+//        Stage popupStage = new Stage();
+//        VBox popupLayout = new VBox(10);
+//        popupLayout.setAlignment(Pos.CENTER);
+//        Image goldenEggImage = new Image("file:src/main/resources/goldenegg.png");
+//        ImageView goldenEggImageView = new ImageView(goldenEggImage);
+//        goldenEggImageView.setFitWidth(100);
+//        goldenEggImageView.setFitHeight(100);
+//        Label goldenEggLabel = new Label("Congratulations! You've earned a Golden Egg!");
+//        goldenEggLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
+//
+//        Button closeButton = new Button("Close");
+//        closeButton.setOnAction(e -> popupStage.close());
+//        closeButton.setStyle("-fx-base: red; -fx-font-weight: bold; -fx-font-family: 'Mali';");
+//
+//        popupLayout.getChildren().addAll(goldenEggImageView, goldenEggLabel, closeButton);
+//        Scene popupScene = new Scene(popupLayout, 500, 500);
+//        popupStage.setScene(popupScene);
+//        popupStage.show();
+//    }
 
 
     private void updateGoldenEggInventory() {
@@ -987,6 +1008,59 @@ public class IdleFarmingGame extends Application {
         Label goldenEggAmount = new Label("Golden Eggs: " + player.getGoldenEggs());
         goldenEggRow.getChildren().addAll(goldenEggImageView, goldenEggAmount);
         inventoryLayout.getChildren().add(goldenEggRow);
+    }
+
+    private void updateGoldRatInventory() {
+        HBox goldenRatRow = new HBox(5);
+        Image goldenRatImage = new Image("file:src/main/resources/goldrat.png");
+        ImageView goldenRatImageView = new ImageView(goldenRatImage);
+        goldenRatImageView.setFitWidth(30);
+        goldenRatImageView.setFitHeight(30);
+        Label goldenEggAmount = new Label("Golden Eggs: " + player.getGoldenEggs());
+        goldenRatRow.getChildren().addAll(goldenRatImageView, goldenEggAmount);
+        inventoryLayout.getChildren().add(goldenRatRow);
+    }
+
+    private void updateGoldCobraInventory() {
+        HBox goldenCobraRow = new HBox(5);
+        Image goldenCobraImage = new Image("file:src/main/resources/goldcobra.png");
+        ImageView goldenCobraImageView = new ImageView(goldenCobraImage);
+        goldenCobraImageView.setFitWidth(30);
+        goldenCobraImageView.setFitHeight(30);
+        Label goldenEggAmount = new Label("Golden Eggs: " + player.getGoldenEggs());
+        goldenCobraRow.getChildren().addAll(goldenCobraImageView, goldenEggAmount);
+        inventoryLayout.getChildren().add(goldenCobraRow);
+    }
+
+    private void updateGoldOxInventory() {
+        HBox goldenOxRow = new HBox(5);
+        Image goldenOxImage = new Image("file:src/main/resources/goldox.png");
+        ImageView goldenOxImageView = new ImageView(goldenOxImage);
+        goldenOxImageView.setFitWidth(30);
+        goldenOxImageView.setFitHeight(30);
+        Label goldenEggAmount = new Label("Golden Eggs: " + player.getGoldenEggs());
+        goldenOxRow.getChildren().addAll(goldenOxImageView, goldenEggAmount);
+        inventoryLayout.getChildren().add(goldenOxRow);
+    }
+    private void showRewardPopup(String rewardName, String imageFile) {
+        Stage popupStage = new Stage();
+        VBox popupLayout = new VBox(10);
+        popupLayout.setAlignment(Pos.CENTER);
+        Image rewardImage = new Image("file:src/main/resources/" + imageFile);
+        ImageView rewardImageView = new ImageView(rewardImage);
+        rewardImageView.setFitWidth(100);
+        rewardImageView.setFitHeight(100);
+        Label rewardLabel = new Label("Congratulations! You've earned a " + rewardName + "!");
+        rewardLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
+
+        Button closeButton = new Button("Close");
+        closeButton.setStyle("-fx-base: red; -fx-font-weight: bold; -fx-font-family: 'Mali';");
+        closeButton.setOnAction(e -> popupStage.close());
+
+        popupLayout.getChildren().addAll(rewardImageView, rewardLabel, closeButton);
+        Scene popupScene = new Scene(popupLayout, 500, 500);
+        popupStage.setScene(popupScene);
+        popupStage.show();
     }
 
 
