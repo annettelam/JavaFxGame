@@ -934,10 +934,12 @@ public class IdleFarmingGame extends Application {
     private void updateXP(double xpGained) {
         double currentXP = xpBar.getProgress() * player.getRequiredXPForNextLevel();
         double newXP = currentXP + xpGained;
+        boolean leveledUp = false;
 
         while (newXP >= player.getRequiredXPForNextLevel()) {
             player.setLevel(player.getLevel() + 1);
             newXP -= player.getRequiredXPForNextLevel();
+            leveledUp = true;
             if (newXP < 0) {
                 newXP = 0;
             }
@@ -946,6 +948,45 @@ public class IdleFarmingGame extends Application {
         xpBar.setProgress(newXP / player.getRequiredXPForNextLevel());
         xpLabel.setText(String.format("XP: %.0f/%d", newXP, player.getRequiredXPForNextLevel()));
         playerLevelLabel.setText("Level: " + player.getLevel());
+
+        if (leveledUp && player.getLevel() % 5 == 0) {
+            player.addGoldenEgg();
+            showGoldenEggPopup();
+            updateGoldenEggInventory();
+        }
+    }
+
+    private void showGoldenEggPopup() {
+        Stage popupStage = new Stage();
+        VBox popupLayout = new VBox(10);
+        popupLayout.setAlignment(Pos.CENTER);
+        Image goldenEggImage = new Image("file:src/main/resources/goldenegg.png");
+        ImageView goldenEggImageView = new ImageView(goldenEggImage);
+        goldenEggImageView.setFitWidth(100);
+        goldenEggImageView.setFitHeight(100);
+        Label goldenEggLabel = new Label("Congratulations! You've earned a Golden Egg!");
+        goldenEggLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
+
+        Button closeButton = new Button("Close");
+        closeButton.setOnAction(e -> popupStage.close());
+        closeButton.setStyle("-fx-base: red; -fx-font-weight: bold; -fx-font-family: 'Mali';");
+
+        popupLayout.getChildren().addAll(goldenEggImageView, goldenEggLabel, closeButton);
+        Scene popupScene = new Scene(popupLayout, 400, 400);
+        popupStage.setScene(popupScene);
+        popupStage.show();
+    }
+
+
+    private void updateGoldenEggInventory() {
+        HBox goldenEggRow = new HBox(5);
+        Image goldenEggImage = new Image("file:src/main/resources/goldenegg.png");
+        ImageView goldenEggImageView = new ImageView(goldenEggImage);
+        goldenEggImageView.setFitWidth(30);
+        goldenEggImageView.setFitHeight(30);
+        Label goldenEggAmount = new Label("Golden Eggs: " + player.getGoldenEggs());
+        goldenEggRow.getChildren().addAll(goldenEggImageView, goldenEggAmount);
+        inventoryLayout.getChildren().add(goldenEggRow);
     }
 
 

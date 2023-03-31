@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 public class Player {
 
+    private int goldenEggs;
     private int level;
     private int money;
     private int numOfSeeds;
@@ -71,6 +72,14 @@ public class Player {
 
     public void setLevel(int level) {
         this.level = level;
+    }
+
+    public void addGoldenEgg() {
+        goldenEggs++;
+    }
+
+    public int getGoldenEggs() {
+        return goldenEggs;
     }
 
 }
