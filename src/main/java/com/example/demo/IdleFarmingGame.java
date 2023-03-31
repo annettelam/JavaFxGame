@@ -842,10 +842,10 @@ public class IdleFarmingGame extends Application {
     private void sellEntireInventory(Player player) {
         int totalIncome = 0;
         // Check if the player has any crops to sell
-        if (player.getCrops().isEmpty()) {
+        if (player.getCrops().isEmpty() && player.getGoldenEggs() == 0 && player.getGoldRats() == 0 && player.getGoldCobra() == 0 && player.getGoldOx() == 0) {
             // Display an error message using an Alert dialog box
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("You have no crops to sell!");
+            alert.setHeaderText("You have nothing to sell!");
             alert.setContentText("Time to get to work, farmer!");
             alert.showAndWait();
             return;
@@ -857,8 +857,19 @@ public class IdleFarmingGame extends Application {
             totalIncome += cropCount * market.getPrice(cropType);
         }
 
+        // Calculate the income from selling golden rewards
+        totalIncome += player.getGoldenEggs() * 5000;
+        totalIncome += player.getGoldRats() * 10000;
+        totalIncome += player.getGoldCobra() * 15000;
+        totalIncome += player.getGoldOx() * 20000;
+
         // Clear the player's inventory and update the labels
         player.getCrops().clear();
+        player.setGoldenEggs(0);
+        player.setGoldRats(0);
+        player.setGoldCobras(0);
+        player.setGoldOxes(0);
+
         for (Label label : inventoryLabels.values()) {
             label.setText("0");
         }
@@ -874,6 +885,7 @@ public class IdleFarmingGame extends Application {
         alert.setContentText("Total income: $" + totalIncome);
         alert.showAndWait();
     }
+
 
 
     private void updateMoneyLabel() {

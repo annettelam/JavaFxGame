@@ -112,4 +112,21 @@ public class Player {
     public int getGoldOx() {
         return goldOx;
     }
+
+    public void setGoldenEggs(int goldenEggs) {
+        this.goldenEggs = goldenEggs;
+    }
+
+    public void setGoldRats(int goldRats) {
+        this.goldRat = goldRats;
+    }
+
+    public void setGoldCobras(int goldCobras) {
+        this.goldCobra = goldCobras;
+    }
+
+    public void setGoldOxes(int goldOxes) {
+        this.goldOx = goldOxes;
+    }
+
 }
