@@ -263,19 +263,20 @@ public class IdleFarmingGame extends Application {
 
                             // Load the animal's image
                             ImageView animalImage = new ImageView(new Image(getClass().getResource(selectedAnimal.getImagePath()).toExternalForm()));
-                            animalImage.setFitWidth(50);
-                            animalImage.setFitHeight(50);
+                            animalImage.setFitWidth(30);
+                            animalImage.setFitHeight(30);
 
-                            // Create a VBox to contain the image and the label
-                            VBox animalBox = new VBox(animalImage, animalLabel);
-                            animalBox.setAlignment(Pos.CENTER);
+                            // Create an HBox for the animal row
+                            HBox animalRow = new HBox(5);
+                            animalRow.getChildren().addAll(animalImage, animalLabel);
 
-                            // Add the animalBox to the inventoryLayout
-                            inventoryLayout.getChildren().add(animalBox);
+                            // Add the animalRow to the inventoryLayout
+                            inventoryLayout.getChildren().add(animalRow);
                         } else {
                             int currentCount = Integer.parseInt(animalLabels.get(selectedAnimal.getType()).getText().split(": ")[1]);
                             animalLabels.get(selectedAnimal.getType()).setText(selectedAnimal.getType() + ": " + (currentCount + 1));
                         }
+
 
                         recentAnimalTypes.add(selectedAnimal.getType()); // Add the animal type to the list
                     } else {
