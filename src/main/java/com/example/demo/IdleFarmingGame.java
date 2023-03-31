@@ -34,6 +34,8 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import static javafx.scene.paint.Color.rgb;
+
 public class IdleFarmingGame extends Application {
 
     public static Market market;
@@ -256,14 +258,7 @@ public class IdleFarmingGame extends Application {
                             }
                         }
                     });
-
-
-
-
-
-
-
-
+                    
 
 
             buyAnimalDialog.getDialogPane().setContent(animalListView);
@@ -322,9 +317,7 @@ public class IdleFarmingGame extends Application {
         // Create the market UI
         Stage marketStage = new Stage();
         market = new Market(player, marketStage, this);
-
-
-
+        
         Scene marketScene = new Scene(market.getMarketPane());
         marketStage.setScene(marketScene);
 
@@ -399,11 +392,12 @@ public class IdleFarmingGame extends Application {
         marketWrapper.setAlignment(Pos.TOP_CENTER);
 
         // Create a drop shadow effect with a 5 pixel radius
-        DropShadow dropShadow = new DropShadow(5, Color.NAVY);
+        DropShadow dropShadow = new DropShadow(5, Color.MEDIUMSEAGREEN);
 
         // Add a title label with a larger font size
         Label titleLabel = new Label("Harvest Hero");
-        titleLabel.setStyle("-fx-font-size: 36px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
+        titleLabel.setStyle("-fx-font-size: 75px; -fx-font-weight: bold; -fx-font-family: 'Mali'; -fx-border-color: MEDIUMAQUAMARINE; -fx-border-width: 2px; -fx-border-radius: 5px; -fx-background-color: linear-gradient(from 25% 55% to 80% 90%, rgba(0, 153, 76, 0.8), rgba(204, 255, 204, 0.8)); -fx-background-radius: 5px; -fx-border-padding: 5px; -fx-padding: 20px;");
+        titleLabel.setTextFill(rgb(0,51,25));
         titleLabel.setEffect(dropShadow);
 
         // Create a grid for planting seeds
@@ -486,9 +480,6 @@ public class IdleFarmingGame extends Application {
 
         // Create an ImageView for the upgrades GIF
         ImageView upgradesGif = new ImageView(new Image(getClass().getResource("/upgrades.gif").toExternalForm()));
-        upgradesGif.setFitWidth(200);
-        upgradesGif.setFitHeight(200);
-        upgradesGif.setPreserveRatio(true);
 
 
         upgradesGif.setOnMouseEntered(e -> {
@@ -540,7 +531,7 @@ public class IdleFarmingGame extends Application {
         DropShadow shadow3 = new DropShadow();
         shadow3.setOffsetX(3);
         shadow3.setOffsetY(3);
-        shadow3.setColor(Color.NAVY);
+        shadow3.setColor(Color.MEDIUMSEAGREEN);
         upgradesGif.setEffect(shadow3);
 
 
