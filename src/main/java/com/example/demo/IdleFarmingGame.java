@@ -423,7 +423,7 @@ public class IdleFarmingGame extends Application {
         inventoryLayout.setMaxHeight(400);
 
         inventoryLayout.setStyle("-fx-background-color: white;");
-        inventoryLayout.setStyle("-fx-background-radius: 10; -fx-font-size: 16px; -fx-font-weight: bold; -fx-font-family: 'Mali'; -fx-padding: 10 20 10 20; -fx-border-radius: 10; -fx-border-color: mediumseagreen; -fx-border-width: 2px; -fx-background-color: rgba(255, 255, 255, 0.8);");
+        inventoryLayout.setStyle("-fx-background-radius: 10; -fx-font-size: 16px; -fx-font-weight: bold; -fx-font-family: 'Mali'; -fx-padding: 10 20 10 20; -fx-border-radius: 10; -fx-border-color: darkgreen; -fx-border-width: 1px; -fx-background-color: rgba(255, 255, 255, 0.8);");
 
 
         // Load the merchant image
@@ -574,7 +574,7 @@ public class IdleFarmingGame extends Application {
             for (int j = 0; j < gridSize; j++) {
                 StackPane cell = new StackPane();
                 cell.setPrefSize(cellSize, cellSize);
-                cell.setStyle("-fx-background-color: white; -fx-border-color: navy; -fx-border-radius: 5; -fx-border-width: 1;");
+                cell.setStyle("-fx-background-color: white; -fx-border-color: DARKSLATEBLUE; -fx-border-radius: 5; -fx-border-width: 1;");
                 cell.setOpacity(0.8);
                 cell.setCursor(Cursor.HAND); // Set the cursor to a hand when hovering over a grid cell
                 cell.setOnMouseClicked(e -> {
@@ -746,7 +746,7 @@ public class IdleFarmingGame extends Application {
             for (int j = 0; j < gridSize; j++) {
                 StackPane cell = new StackPane();
                 cell.setPrefSize(cellSize, cellSize);
-                cell.setStyle("-fx-background-color: white; -fx-border-color: navy; -fx-border-radius: 5; -fx-border-width: 1;");
+                cell.setStyle("-fx-background-color: white; -fx-border-color: DARKSLATEBLUE; -fx-border-radius: 5; -fx-border-width: 1;");
                 cell.setOpacity(0.8);
                 cell.setCursor(Cursor.HAND);
                 cell.setOnMouseClicked(e -> {
