@@ -437,8 +437,10 @@ public class IdleFarmingGame extends Application {
 
         HBox moneyAndSeedsLabels = new HBox(20, moneyLabel, seedLabel);
         moneyAndSeedsLabels.setAlignment(Pos.CENTER);
+        // Style the money and seeds labels with a rounded border
+        moneyAndSeedsLabels.setStyle("-fx-background-color: rgba(240, 255, 240, 0.8); -fx-padding: 10; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-border-color: DARKSLATEGREY; -fx-border-width: 1px;");
 
-        VBox content = new VBox(10, statsLayout, titleLabel, moneyAndSeedsLabels, gridTitles);
+        VBox content = new VBox(10, titleLabel, statsLayout, moneyAndSeedsLabels, gridTitles);
         content.setAlignment(Pos.CENTER);
 
 
@@ -510,7 +512,8 @@ public class IdleFarmingGame extends Application {
         upgradesGif.setFitHeight(200);
 
 
-// Add click action to the upgradesGif image
+
+        // Add click action to the upgradesGif image
 
         upgradesGif.setOnMouseClicked(e -> {
 
@@ -524,15 +527,6 @@ public class IdleFarmingGame extends Application {
 
         // Change upgrade button to opaque when clicked
         upgradesGif.setOnMousePressed(e -> upgradesGif.setOpacity(1.0));
-
-
-//        upgradesGif.setOnMouseClicked(e -> {
-//            if (e.getButton() == MouseButton.PRIMARY) {
-//                openUpgradeMarket(upgradeMarket, upgradeScene); // Open the UpgradeMarket window when the upgrades.gif is clicked
-//            }
-//        });
-
-
         upgradesGif.setOpacity(0.5);
         upgradesGif.setFitWidth(200);
         upgradesGif.setFitHeight(200);
@@ -558,14 +552,12 @@ public class IdleFarmingGame extends Application {
         VBox upgradesBox = new VBox(5, upgradesTitle, upgradesGif);
         upgradesBox.setAlignment(Pos.CENTER);
 
-// Add padding and a border to the upgradesBox
+        // Add padding and a border to the upgradesBox
         upgradesBox.setStyle("-fx-padding: 10 20 10 20;");
 
 
         // Create a new scene with the container as the root
         Scene scene2 = new Scene(container, 800, 600);
-
-
 
 
         // Declare the marketAndBarnBox variable, which will be used to hold the market, barn, and merchant
@@ -586,7 +578,6 @@ public class IdleFarmingGame extends Application {
 
         marketBarnMerch.setAlignment(Pos.CENTER);
         centeredContent.setAlignment(Pos.CENTER);
-
 
         // Create a StackPane to hold the centeredContent and maintain the center position when resizing the window
         StackPane root = new StackPane(centeredContent);
