@@ -380,8 +380,6 @@ public class IdleFarmingGame extends Application {
         titleLabel.setTextFill(rgb(0,51,25));
         titleLabel.setEffect(dropShadow);
 
-        VBox.setMargin(titleLabel, new Insets(0, 0, 0, 0)); // Adjust the negative value to control the titleLabel position
-
         // Create a grid for planting seeds
         GridPane grid = createGrid(4, 100);
 
