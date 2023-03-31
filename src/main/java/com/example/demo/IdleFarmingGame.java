@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
+import javafx.geometry.Insets;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import java.io.IOException;
@@ -428,6 +429,9 @@ public class IdleFarmingGame extends Application {
 
         VBox content = new VBox(10, titleLabel, statsLayout, moneyAndSeedsLabels, gridTitles);
         content.setAlignment(Pos.CENTER);
+
+        // Add a top margin to statsLayout to space it out from titleLabel
+        VBox.setMargin(statsLayout, new Insets(20, 0, 0, 0));
 
         VBox inventoryLayout = createInventory(player);
         inventoryLayout.setMaxHeight(400);
