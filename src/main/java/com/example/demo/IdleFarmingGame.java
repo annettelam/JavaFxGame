@@ -891,7 +891,7 @@ public class IdleFarmingGame extends Application {
 
 
     private void updateMoneyLabel() {
-        moneyLabel.setText("Money: $" + player.getMoney());
+        moneyLabel.setText("Money \uD83D\uDCB0: $" + player.getMoney());
     }
 
     private void updateProductInventory(Player player, String productType) {
