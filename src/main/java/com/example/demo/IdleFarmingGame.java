@@ -104,7 +104,7 @@ public class IdleFarmingGame extends Application {
 
         // Create UI elements for start game screen
         Label startGameLabel = new Label("Welcome to Harvest Hero!");
-        startGameLabel.setStyle("-fx-font-size: 55px; -fx-font-weight: bold; -fx-font-family: 'Mali'; -fx-border-color: MEDIUMAQUAMARINE; -fx-border-width: 2px; -fx-border-radius: 5px; -fx-background-color: linear-gradient(from 25% 55% to 80% 90%, rgba(0, 153, 76, 0.8), rgba(204, 255, 204, 0.8)); -fx-background-radius: 5px; -fx-border-padding: 5px; -fx-padding: 20px;");
+        startGameLabel.setStyle("-fx-font-size: 45px; -fx-font-weight: bold; -fx-font-family: 'Mali'; -fx-border-color: MEDIUMAQUAMARINE; -fx-border-width: 2px; -fx-border-radius: 5px; -fx-background-color: linear-gradient(from 25% 55% to 80% 90%, rgba(0, 153, 76, 0.8), rgba(204, 255, 204, 0.8)); -fx-background-radius: 5px; -fx-border-padding: 3px; -fx-padding: 10px;");
 
         Label titleGameLabel = new Label("COMP 2522 Term Project by Annette Lam & Cadan Glass");
         titleGameLabel.setStyle("-fx-font-size: 15px; -fx-font-family: 'Mali'; -fx-background-color: linear-gradient(from 25% 55% to 80% 90%, LIGHTSTEELBLUE, aliceblue); -fx-padding: 5px; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-border-color: darkslategrey; -fx-border-width: 1px;");
@@ -156,8 +156,8 @@ public class IdleFarmingGame extends Application {
         fasterGrowthLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
         growthPercentageLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
         autoPlanterLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
-        playerInfoLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
-        upgradesTitle.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Mali'");
+        playerInfoLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
+        upgradesTitle.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-font-family: 'Mali'");
 
         playerLevelLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
 
@@ -184,13 +184,13 @@ public class IdleFarmingGame extends Application {
 
         // Create a label for the barn title
         Label barnTitle = new Label("Barn");
-        barnTitle.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
+        barnTitle.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-font-family: 'Mali'");
 
         // Create an ImageView for the barn image
         ImageView barnImage = new ImageView(new Image(getClass().getResource("/barn.png").toExternalForm()));
         barnImage.setOpacity(0.5);
-        barnImage.setFitWidth(200);
-        barnImage.setFitHeight(200);
+        barnImage.setFitWidth(150);
+        barnImage.setFitHeight(150);
 
 
         // Round out the corners of the barn image
@@ -334,8 +334,8 @@ public class IdleFarmingGame extends Application {
         // Set the background color of the market GIF to sky blue
         marketGif.setStyle("-fx-border-color: mediumseagreen; -fx-border-width: 5px;");
         marketGif.setOpacity(0.5);
-        marketGif.setFitWidth(200);
-        marketGif.setFitHeight(200);
+        marketGif.setFitWidth(150);
+        marketGif.setFitHeight(150);
 
         // Change market button to opaque when clicked
         marketGif.setOnMousePressed(e -> {
@@ -368,7 +368,7 @@ public class IdleFarmingGame extends Application {
 
         // Create a label for the market GIF title
         Label marketTitle = new Label("Market");
-        marketTitle.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Mali'");
+        marketTitle.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-font-family: 'Mali'");
 
         // Create a VBox to hold the market GIF and its title
         VBox marketBox = new VBox(5, marketTitle, marketGif);
@@ -402,10 +402,10 @@ public class IdleFarmingGame extends Application {
         titleLabel.setEffect(dropShadow);
 
         // Create a grid for planting seeds
-        GridPane grid = createGrid(4, 100);
+        GridPane grid = createGrid(4, 75);
 
         // Create a grid for animals
-        GridPane animalGrid = createAnimalGrid(4, 100);
+        GridPane animalGrid = createAnimalGrid(4, 75);
 
         // Call autoPlant() every 5 seconds
         Timeline autoPlantTimeline = new Timeline(
@@ -450,17 +450,17 @@ public class IdleFarmingGame extends Application {
         Image merchantImage = new Image("file:src/main/resources/merchant.gif");
         ImageView merchantImageView = new ImageView(merchantImage);
         merchantImageView.setPreserveRatio(true);
-        merchantImageView.setFitWidth(200);
-        merchantImageView.setFitHeight(200);
+        merchantImageView.setFitWidth(150);
+        merchantImageView.setFitHeight(150);
 
 
         // Create the label
         Label merchantLabel = new Label("Merchant");
-        merchantLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Mali'; -fx-text-fill: black");
+        merchantLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-font-family: 'Mali'; -fx-text-fill: black");
 
         // Create the sell button
         Button sellInventoryButton = new Button("Sell Inventory");
-        sellInventoryButton.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Mali'");
+        sellInventoryButton.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-font-family: 'Mali'");
         sellInventoryButton.setOpacity(0.5);
 
 
@@ -500,8 +500,8 @@ public class IdleFarmingGame extends Application {
         });
 
         upgradesGif.setOpacity(0.5);
-        upgradesGif.setFitWidth(200);
-        upgradesGif.setFitHeight(200);
+        upgradesGif.setFitWidth(150);
+        upgradesGif.setFitHeight(150);
 
         // Add click action to the upgradesGif image
 
@@ -518,8 +518,8 @@ public class IdleFarmingGame extends Application {
         // Change upgrade button to opaque when clicked
         upgradesGif.setOnMousePressed(e -> upgradesGif.setOpacity(1.0));
         upgradesGif.setOpacity(0.5);
-        upgradesGif.setFitWidth(200);
-        upgradesGif.setFitHeight(200);
+        upgradesGif.setFitWidth(150);
+        upgradesGif.setFitHeight(150);
 
         // Set the background color of the upgrades GIF to sky blue
         upgradesGif.setStyle("-fx-border-color: goldenrod; -fx-border-width: 5px;");
@@ -556,7 +556,7 @@ public class IdleFarmingGame extends Application {
 
         // Add spacing at the top of the marketBarnMerchUpgrades VBox
         Region spacer = new Region();
-        spacer.setPrefHeight(125); // Adjust this value to control the spacing
+        spacer.setPrefHeight(5); // Adjust this value to control the spacing
 
         VBox marketBarnMerchUpgrades = new VBox(10, spacer, marketBox, barnBox, upgradesBox, merchantBox);
         marketBarnMerchUpgrades.setAlignment(Pos.CENTER);
@@ -705,7 +705,7 @@ public class IdleFarmingGame extends Application {
     private VBox createInventory(Player player) {
         inventoryLayout = new VBox(10);
         Label inventoryTitle = new Label("Inventory");
-        inventoryTitle.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Mali'");
+        inventoryTitle.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-font-family: 'Mali'");
 
         inventoryLayout.getChildren().add(inventoryTitle);
 
