@@ -220,9 +220,18 @@ public class IdleFarmingGame extends Application {
         // Add padding and a border to the barnBox
         barnBox.setStyle("-fx-padding: 10 20 10 20;");
 
-        // Add hover animation to the barn image
-        barnImage.setOnMouseEntered(e -> barnImage.setScaleX(1.1));
-        barnImage.setOnMouseExited(e -> barnImage.setScaleX(1.0));
+
+
+        // Add hover animation and change cursor to the barn GIF
+        barnImage.setOnMouseEntered(e -> {
+            barnImage.setScaleX(1.1);
+            barnImage.setCursor(Cursor.HAND);
+        });
+        barnImage.setOnMouseExited(e -> {
+            barnImage.setScaleX(1.0);
+            barnImage.setCursor(Cursor.DEFAULT);
+        });
+
 
         // Change barn button to opaque when clicked
         barnImage.setOnMousePressed(e -> {
@@ -349,9 +358,6 @@ public class IdleFarmingGame extends Application {
             marketStage.show();
         });
 
-        // Add hover animation to the market GIF
-        marketGif.setOnMouseEntered(e -> marketGif.setScaleX(1.1));
-        marketGif.setOnMouseExited(e -> marketGif.setScaleX(1.0));
 
         // Round out the corners of the market GIF
         Rectangle clip2 = new Rectangle(marketGif.getFitWidth(), marketGif.getFitHeight());
@@ -902,7 +908,6 @@ public class IdleFarmingGame extends Application {
     }
 
 
-
     private void updateMoneyLabel() {
         moneyLabel.setText("Money \uD83D\uDCB0: $" + player.getMoney());
     }
@@ -1004,29 +1009,6 @@ public class IdleFarmingGame extends Application {
     }
 
 
-
-//    private void showGoldenEggPopup() {
-//        Stage popupStage = new Stage();
-//        VBox popupLayout = new VBox(10);
-//        popupLayout.setAlignment(Pos.CENTER);
-//        Image goldenEggImage = new Image("file:src/main/resources/goldenegg.png");
-//        ImageView goldenEggImageView = new ImageView(goldenEggImage);
-//        goldenEggImageView.setFitWidth(100);
-//        goldenEggImageView.setFitHeight(100);
-//        Label goldenEggLabel = new Label("Congratulations! You've earned a Golden Egg!");
-//        goldenEggLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
-//
-//        Button closeButton = new Button("Close");
-//        closeButton.setOnAction(e -> popupStage.close());
-//        closeButton.setStyle("-fx-base: red; -fx-font-weight: bold; -fx-font-family: 'Mali';");
-//
-//        popupLayout.getChildren().addAll(goldenEggImageView, goldenEggLabel, closeButton);
-//        Scene popupScene = new Scene(popupLayout, 500, 500);
-//        popupStage.setScene(popupScene);
-//        popupStage.show();
-//    }
-
-
     private void updateGoldenRewardInventory(String rewardType, String imageFileName, Function<Player, Integer> rewardCountGetter) {
         HBox rewardRow = new HBox(5);
         Image rewardImage = new Image("file:src/main/resources/" + imageFileName);
@@ -1059,32 +1041,6 @@ public class IdleFarmingGame extends Application {
         popupStage.setScene(popupScene);
         popupStage.show();
     }
-
-//    private Scene createMainScene() {
-//        // Create the root layout
-//        BorderPane rootLayout = new BorderPane();
-//
-//        // Add a listener to the scene to adjust the sizes of the game elements based on the window size
-//        rootLayout.sceneProperty().addListener((observable, oldValue, newValue) -> {
-//            if (newValue != null) {
-//                newValue.widthProperty().addListener((observable1, oldValue1, newValue1) -> {
-//                    double newWidth = newValue1.doubleValue();
-//                    double newHeight = newValue1.doubleValue() * 0.75;
-//                    gameCanvas.setWidth(newWidth);
-//                    gameCanvas.setHeight(newHeight);
-//                    gameCanvas.getGraphicsContext2D().setTransform(new Affine(new Scale(newWidth / 800, newHeight / 600)));
-//                });
-//                newValue.heightProperty().addListener((observable1, oldValue1, newValue1) -> {
-//                    double newWidth = newValue1.doubleValue() * 1.3333333333333333;
-//                    double newHeight = newValue1.doubleValue();
-//                    gameCanvas.setWidth(newWidth);
-//                    gameCanvas.setHeight(newHeight);
-//                    gameCanvas.getGraphicsContext2D().setTransform(new Affine(new Scale(newWidth / 800, newHeight / 600)));
-//                });
-//            }
-//        });
-//        return new Scene(rootLayout, 800, 600);
-//    }
 
 
     private void playClickSound(String soundFile) {
