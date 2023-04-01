@@ -7,6 +7,8 @@ import java.nio.file.Paths;
 import java.util.*;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
@@ -34,6 +36,9 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import javafx.scene.transform.Affine;
+import javafx.scene.transform.Scale;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -78,9 +83,21 @@ public class IdleFarmingGame extends Application {
 
     Label autoPlanterLabel = new Label("AutoPlanter Level: 0");
 
+    private static final int MIN_WIDTH = 800;
+    private static final int MIN_HEIGHT = 600;
+    private Canvas gameCanvas;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
+        // Determine screen size
+        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+        double screenWidth = screenBounds.getWidth();
+        double screenHeight = screenBounds.getHeight();
+
+        // Set initial window size based on screen size
+        double windowWidth = Math.max(MIN_WIDTH, screenWidth * 0.8);
+        double windowHeight = Math.max(MIN_HEIGHT, screenHeight * 0.8);
 
         playMusic("/verdantgrove.wav");
 
@@ -127,6 +144,7 @@ public class IdleFarmingGame extends Application {
         Stage startGameStage = new Stage();
         startGameStage.setScene(startGameScene);
         startGameStage.show();
+
         // Load the background image for the game from the resources folder
         Image backgroundImage = new Image(getClass().getResource("/background.jpeg").toExternalForm());
 
@@ -570,10 +588,16 @@ public class IdleFarmingGame extends Application {
         root.setBackground(new Background(background));
 
         // Create a Scene and set it on the primary stage
-        Scene scene = new Scene(root, 800, 600);
+        Scene scene = new Scene(root, windowWidth, windowHeight);
+        primaryStage.setMinWidth(windowWidth);
+        primaryStage.setMinHeight(windowHeight);
 
-        // Set up the game window to be maximized upon launch
-        primaryStage.setMaximized(true);
+        // Set the window position to the center of the screen
+        primaryStage.centerOnScreen();
+
+
+//        // Set up the game window to be maximized upon launch
+//        primaryStage.setMaximized(true);
         primaryStage.setScene(scene);
 
         // Update the stats labels whenever an upgrade is purchased
@@ -1049,7 +1073,31 @@ public class IdleFarmingGame extends Application {
         popupStage.show();
     }
 
-
+//    private Scene createMainScene() {
+//        // Create the root layout
+//        BorderPane rootLayout = new BorderPane();
+//
+//        // Add a listener to the scene to adjust the sizes of the game elements based on the window size
+//        rootLayout.sceneProperty().addListener((observable, oldValue, newValue) -> {
+//            if (newValue != null) {
+//                newValue.widthProperty().addListener((observable1, oldValue1, newValue1) -> {
+//                    double newWidth = newValue1.doubleValue();
+//                    double newHeight = newValue1.doubleValue() * 0.75;
+//                    gameCanvas.setWidth(newWidth);
+//                    gameCanvas.setHeight(newHeight);
+//                    gameCanvas.getGraphicsContext2D().setTransform(new Affine(new Scale(newWidth / 800, newHeight / 600)));
+//                });
+//                newValue.heightProperty().addListener((observable1, oldValue1, newValue1) -> {
+//                    double newWidth = newValue1.doubleValue() * 1.3333333333333333;
+//                    double newHeight = newValue1.doubleValue();
+//                    gameCanvas.setWidth(newWidth);
+//                    gameCanvas.setHeight(newHeight);
+//                    gameCanvas.getGraphicsContext2D().setTransform(new Affine(new Scale(newWidth / 800, newHeight / 600)));
+//                });
+//            }
+//        });
+//        return new Scene(rootLayout, 800, 600);
+//    }
 
 
     private void playClickSound(String soundFile) {
@@ -1065,6 +1113,14 @@ public class IdleFarmingGame extends Application {
         mediaPlayer.play();
     }
 
+    private double getScalingFactor() {
+        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+        double screenWidth = screenBounds.getWidth();
+        double screenHeight = screenBounds.getHeight();
+        double scaleWidth = screenWidth / 1280;
+        double scaleHeight = screenHeight / 720;
+        return Math.min(scaleWidth, scaleHeight);
+    }
 
     public static void main(String[] args) {
         launch(args);
