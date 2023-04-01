@@ -556,7 +556,7 @@ public class IdleFarmingGame extends Application {
 
         // Add spacing at the top of the marketBarnMerchUpgrades VBox
         Region spacer = new Region();
-        spacer.setPrefHeight(80); // Adjust this value to control the spacing
+        spacer.setPrefHeight(125); // Adjust this value to control the spacing
 
         VBox marketBarnMerchUpgrades = new VBox(10, spacer, marketBox, barnBox, upgradesBox, merchantBox);
         marketBarnMerchUpgrades.setAlignment(Pos.CENTER);
