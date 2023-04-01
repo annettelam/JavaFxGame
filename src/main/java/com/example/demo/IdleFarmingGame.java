@@ -61,7 +61,7 @@ public class IdleFarmingGame extends Application {
     private Label moneyLabel = new Label("Money \uD83D\uDCB0: $" + player.getMoney());
     private Label seedLabel = new Label("Seeds \uD83C\uDF31: " + player.getNumSeeds());
     private Label cropLabel = new Label("Crops: " + player.getCrops());
-    Label playerInfoLabel = new Label("Upgrades Info");
+    Label playerInfoLabel = new Label("Player Info");
     Label playerLevelLabel = new Label("Level: " + player.getLevel());
 
     // Create a label for the upgrades GIF title
@@ -1029,7 +1029,7 @@ public class IdleFarmingGame extends Application {
         ImageView rewardImageView = new ImageView(rewardImage);
         rewardImageView.setFitWidth(100);
         rewardImageView.setFitHeight(100);
-        Label rewardLabel = new Label("Congratulations! You've earned a " + rewardName + "!");
+        Label rewardLabel = new Label("Congratulations! You've leveld up and earned a " + rewardName + "!");
         rewardLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
 
         Button closeButton = new Button("Close");
@@ -1037,7 +1037,7 @@ public class IdleFarmingGame extends Application {
         closeButton.setOnAction(e -> popupStage.close());
 
         popupLayout.getChildren().addAll(rewardImageView, rewardLabel, closeButton);
-        Scene popupScene = new Scene(popupLayout, 500, 500);
+        Scene popupScene = new Scene(popupLayout, 550, 350);
         popupStage.setScene(popupScene);
         popupStage.show();
     }
