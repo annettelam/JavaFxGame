@@ -23,6 +23,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -30,6 +31,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.*;
 import java.util.function.Function;
+
 import static javafx.scene.paint.Color.rgb;
 
 /**
@@ -73,6 +75,9 @@ public class IdleFarmingGame extends Application {
     /**
      * The main method for the Idle Farming Game. This method is responsible for
      * launching the JavaFX application.
+     *
+     * @param primaryStage The primary stage on which the game will be displayed.
+     * @throws Exception If there is an issue loading resources.
      */
 
 
@@ -227,80 +232,80 @@ public class IdleFarmingGame extends Application {
         barnImage.setOnMouseClicked(e -> {
             playClickSound("/click.mp3");
 
-        // Create a dialog to buy animals
-        Dialog<Animal> buyAnimalDialog = new Dialog<>();
-        buyAnimalDialog.setTitle("Buy Animals");
-        buyAnimalDialog.setHeaderText("Select an animal to buy");
+            // Create a dialog to buy animals
+            Dialog<Animal> buyAnimalDialog = new Dialog<>();
+            buyAnimalDialog.setTitle("Buy Animals");
+            buyAnimalDialog.setHeaderText("Select an animal to buy");
 
-        // Create a list of animals to buy
-        ListView<Animal> animalListView = new ListView<>();
-        animalListView.getItems().addAll(
-                new Animal("Chicken", "Egg", 100, "/chicken.jpg"),
-                new Animal("Pig", "Meat", 300, "/pig.jpg"),
-                new Animal("Cow", "Milk", 500, "/cow.jpg"));
-
-
-        // Create a cell factory to format each Animal object with its name and price
-        animalListView.setCellFactory(param -> new ListCell<Animal>() {
-            @Override
-            protected void updateItem(Animal animal, boolean empty) {
-                super.updateItem(animal, empty);
-
-                if (empty || animal == null) {
-                    setText(null);
-                } else {
-                    setText(animal.getName() + " - $" + animal.getCost());
-                }
-            }
-        });
+            // Create a list of animals to buy
+            ListView<Animal> animalListView = new ListView<>();
+            animalListView.getItems().addAll(
+                    new Animal("Chicken", "Egg", 100, "/chicken.jpg"),
+                    new Animal("Pig", "Meat", 300, "/pig.jpg"),
+                    new Animal("Cow", "Milk", 500, "/cow.jpg"));
 
 
-        buyAnimalDialog.getDialogPane().setContent(animalListView);
-        buyAnimalDialog.getDialogPane().setStyle("-fx-font-size: 18px; -fx-font-family: 'Mali';");
+            // Create a cell factory to format each Animal object with its name and price
+            animalListView.setCellFactory(param -> new ListCell<Animal>() {
+                @Override
+                protected void updateItem(Animal animal, boolean empty) {
+                    super.updateItem(animal, empty);
 
-        // Add a buy button to the dialog
-        ButtonType buyButtonType = new ButtonType("Buy", ButtonBar.ButtonData.OK_DONE);
-        buyAnimalDialog.getDialogPane().getButtonTypes().addAll(buyButtonType, ButtonType.CANCEL);
-
-        // Handle the result of the dialog
-        buyAnimalDialog.setResultConverter(buttonType -> {
-            if (buttonType == buyButtonType) {
-                Animal selectedAnimal = animalListView.getSelectionModel().getSelectedItem();
-                if (player.getMoney() >= selectedAnimal.getCost()) {
-                    player.setMoney(player.getMoney() - selectedAnimal.getCost());
-                    updateMoneyLabel();
-                    if (!animals.containsKey(selectedAnimal.getType())) {
-                        animals.put(selectedAnimal.getType(), selectedAnimal);
-                        Label animalLabel = new Label(selectedAnimal.getType() + ": 1");
-                        animalLabels.put(selectedAnimal.getType(), animalLabel);
-
-                        // Load the animal's image
-                        ImageView animalImage = new ImageView(new Image(getClass().getResource(selectedAnimal.getImagePath()).toExternalForm()));
-                        animalImage.setFitWidth(30);
-                        animalImage.setFitHeight(30);
-
-                        // Create an HBox for the animal row
-                        HBox animalRow = new HBox(5);
-                        animalRow.getChildren().addAll(animalImage, animalLabel);
-
-                        // Add the animalRow to the inventoryLayout
-                        inventoryLayout.getChildren().add(animalRow);
+                    if (empty || animal == null) {
+                        setText(null);
                     } else {
-                        int currentCount = Integer.parseInt(animalLabels.get(selectedAnimal.getType()).getText().split(": ")[1]);
-                        animalLabels.get(selectedAnimal.getType()).setText(selectedAnimal.getType() + ": " + (currentCount + 1));
+                        setText(animal.getName() + " - $" + animal.getCost());
                     }
-
-                    recentAnimalTypes.add(selectedAnimal.getType()); // Add the animal type to the list
-                } else {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Not Enough Money");
-                    alert.setHeaderText("You don't have enough money to buy this animal!");
-                    alert.showAndWait();
                 }
-                return selectedAnimal;
-            }
-            return null;
-        });
+            });
+
+
+            buyAnimalDialog.getDialogPane().setContent(animalListView);
+            buyAnimalDialog.getDialogPane().setStyle("-fx-font-size: 18px; -fx-font-family: 'Mali';");
+
+            // Add a buy button to the dialog
+            ButtonType buyButtonType = new ButtonType("Buy", ButtonBar.ButtonData.OK_DONE);
+            buyAnimalDialog.getDialogPane().getButtonTypes().addAll(buyButtonType, ButtonType.CANCEL);
+
+            // Handle the result of the dialog
+            buyAnimalDialog.setResultConverter(buttonType -> {
+                if (buttonType == buyButtonType) {
+                    Animal selectedAnimal = animalListView.getSelectionModel().getSelectedItem();
+                    if (player.getMoney() >= selectedAnimal.getCost()) {
+                        player.setMoney(player.getMoney() - selectedAnimal.getCost());
+                        updateMoneyLabel();
+                        if (!animals.containsKey(selectedAnimal.getType())) {
+                            animals.put(selectedAnimal.getType(), selectedAnimal);
+                            Label animalLabel = new Label(selectedAnimal.getType() + ": 1");
+                            animalLabels.put(selectedAnimal.getType(), animalLabel);
+
+                            // Load the animal's image
+                            ImageView animalImage = new ImageView(new Image(getClass().getResource(selectedAnimal.getImagePath()).toExternalForm()));
+                            animalImage.setFitWidth(30);
+                            animalImage.setFitHeight(30);
+
+                            // Create an HBox for the animal row
+                            HBox animalRow = new HBox(5);
+                            animalRow.getChildren().addAll(animalImage, animalLabel);
+
+                            // Add the animalRow to the inventoryLayout
+                            inventoryLayout.getChildren().add(animalRow);
+                        } else {
+                            int currentCount = Integer.parseInt(animalLabels.get(selectedAnimal.getType()).getText().split(": ")[1]);
+                            animalLabels.get(selectedAnimal.getType()).setText(selectedAnimal.getType() + ": " + (currentCount + 1));
+                        }
+
+                        recentAnimalTypes.add(selectedAnimal.getType()); // Add the animal type to the list
+                    } else {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Not Enough Money");
+                        alert.setHeaderText("You don't have enough money to buy this animal!");
+                        alert.showAndWait();
+                    }
+                    return selectedAnimal;
+                }
+                return null;
+            });
 
             buyAnimalDialog.showAndWait();
         });
@@ -588,10 +593,7 @@ public class IdleFarmingGame extends Application {
                 cell.setStyle("-fx-background-color: white; -fx-border-color: DARKSLATEBLUE; -fx-border-radius: 5; -fx-border-width: 1;");
                 cell.setOpacity(0.8);
                 cell.setCursor(Cursor.HAND); // Set the cursor to a hand when hovering over a grid cell
-                cell.setOnMouseClicked(e -> {
-
-                    plantSeed(player, cell, market);
-                });
+                cell.setOnMouseClicked(e -> plantSeed(player, cell, market));
                 grid.add(cell, i, j);
             }
         }
@@ -604,12 +606,25 @@ public class IdleFarmingGame extends Application {
         return grid;
     }
 
+    /**
+     * Opens the upgrade market for the player.
+     *
+     * @param upgradeMarket The UpgradeMarket object that contains information about available upgrades and their levels.
+     * @param upgradeScene  The Scene object representing the upgrade market UI.
+     */
     public void openUpgradeMarket(UpgradeMarket upgradeMarket, Scene upgradeScene) {
         Stage upgradeStage = upgradeMarket.getStage();
 
         upgradeStage.setScene(upgradeScene);
         upgradeStage.show();
     }
+
+    /**
+     * Automatically plants seeds in all empty cells if the "AutoPlanter" upgrade is active.
+     *
+     * @param grid   The GridPane object representing the garden grid where seeds are planted.
+     * @param market The Market object where the player can purchase seeds and upgrades.
+     */
 
     private void autoPlant(GridPane grid, Market market) {
         if (upgradeMarket.getUpgrades().get("AutoPlanter").getLevel() > 0) {
@@ -622,6 +637,13 @@ public class IdleFarmingGame extends Application {
         }
     }
 
+    /**
+     * Plants a seed in the specified cell, updates player's inventory, and animates the growth and harvesting process.
+     *
+     * @param player The Player object representing the player's state, including their seeds and crops.
+     * @param cell   The StackPane object representing the cell in which the seed will be planted.
+     * @param market The Market object where the player can purchase seeds and upgrades.
+     */
     private void plantSeed(Player player, StackPane cell, Market market) {
         HashMap<String, Integer> seeds = player.getSeeds();
         String seedType = seeds.keySet().stream().filter(type -> seeds.get(type) > 0).findFirst().orElse(null);
@@ -689,6 +711,13 @@ public class IdleFarmingGame extends Application {
         }
     }
 
+    /**
+     * Creates the player's inventory layout as a VBox.
+     *
+     * @param player The player whose inventory will be displayed.
+     * @return A VBox containing the player's inventory layout.
+     */
+
     private VBox createInventory(Player player) {
         inventoryLayout = new VBox(10);
         Label inventoryTitle = new Label("Inventory");
@@ -712,6 +741,11 @@ public class IdleFarmingGame extends Application {
         return inventoryLayout;
     }
 
+    /**
+     * Updates the labels related to the player's inventory, seeds, and money.
+     *
+     * @param player The player whose labels need to be updated.
+     */
     public void updateLabels(Player player) {
         moneyLabel.setText("Money \uD83D\uDCB0: $" + player.getMoney());
         seedLabel.setText("Seeds \uD83C\uDF31:");
@@ -751,6 +785,13 @@ public class IdleFarmingGame extends Application {
 
     private List<String> recentAnimalTypes = new ArrayList<>();
 
+    /**
+     * Creates a GridPane layout for the animal grid.
+     *
+     * @param gridSize The size of the grid.
+     * @param cellSize The size of each cell in the grid.
+     * @return A GridPane containing the animal grid layout.
+     */
     private GridPane createAnimalGrid(int gridSize, int cellSize) {
         GridPane animalGrid = new GridPane();
         for (int i = 0; i < gridSize; i++) {
@@ -773,6 +814,14 @@ public class IdleFarmingGame extends Application {
         return animalGrid;
     }
 
+    /**
+     * Places an animal in a specified cell and handles its production.
+     *
+     * @param player     The player placing the animal.
+     * @param cell       The cell where the animal will be placed.
+     * @param market     The market where the animals are bought from.
+     * @param animalType The type of the animal being placed.
+     */
     private void placeAnimal(Player player, StackPane cell, Market market, String animalType) {
         if (!animals.containsKey(animalType) || Integer.parseInt(animalLabels.get(animalType).getText().split(": ")[1]) <= 0) {
             return;
@@ -838,6 +887,11 @@ public class IdleFarmingGame extends Application {
         updateXP(10); // Change the value 10 to the amount of XP gained
     }
 
+    /**
+     * Sells the player's entire inventory and calculates the total income.
+     *
+     * @param player The player whose inventory is being sold.
+     */
     private void sellEntireInventory(Player player) {
         int totalIncome = 0;
         // Check if the player has any crops to sell
@@ -886,11 +940,19 @@ public class IdleFarmingGame extends Application {
         alert.showAndWait();
     }
 
-
+    /**
+     * Updates the player's money label.
+     */
     private void updateMoneyLabel() {
         moneyLabel.setText("Money \uD83D\uDCB0: $" + player.getMoney());
     }
 
+    /**
+     * Updates the player's product inventory.
+     *
+     * @param player      The player whose inventory is being updated.
+     * @param productType The type of product being added to the inventory.
+     */
     private void updateProductInventory(Player player, String productType) {
         int currentProduct = player.getCrops().getOrDefault(productType, 0);
         player.getCrops().put(productType, currentProduct + 1);
@@ -911,6 +973,15 @@ public class IdleFarmingGame extends Application {
         }
     }
 
+    /**
+     * Updates the stats labels for the player's upgrades.
+     *
+     * @param upgradeMarket         The upgrade market containing the player's upgrades.
+     * @param increasedYieldLabel   The label displaying the Increased Yield upgrade level.
+     * @param fasterGrowthLabel     The label displaying the Faster Growth upgrade level.
+     * @param growthPercentageLabel The label displaying the growth percentage of the Faster Growth upgrade.
+     * @param autoPlanterLabel      The label displaying the AutoPlanter upgrade level.
+     */
     private void updateStatsLabels(UpgradeMarket upgradeMarket, Label increasedYieldLabel, Label fasterGrowthLabel, Label growthPercentageLabel, Label autoPlanterLabel) {
         int increasedYieldLevel = upgradeMarket.getUpgrades().get("Increased Yield").getLevel();
         int fasterGrowthLevel = upgradeMarket.getUpgrades().get("Faster Growth").getLevel();
@@ -923,6 +994,11 @@ public class IdleFarmingGame extends Application {
         autoPlanterLabel.setText("AutoPlanter Level: " + autoPlanterLevel);
     }
 
+    /**
+     * Plays the specified music file in a loop.
+     *
+     * @param musicFile The file path of the music file to play.
+     */
     private void playMusic(String musicFile) {
         try {
             InputStream is = getClass().getResourceAsStream(musicFile);
@@ -941,6 +1017,12 @@ public class IdleFarmingGame extends Application {
         // mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Remove this line
     }
 
+
+    /**
+     * Updates the player's experience points (XP) and handles level-up rewards.
+     *
+     * @param xpGained The amount of XP gained.
+     */
     private void updateXP(double xpGained) {
         double currentXP = xpBar.getProgress() * player.getRequiredXPForNextLevel();
         double newXP = currentXP + xpGained;
@@ -986,6 +1068,13 @@ public class IdleFarmingGame extends Application {
         }
     }
 
+    /**
+     * Updates the inventory of golden rewards.
+     *
+     * @param rewardType        The type of the reward.
+     * @param imageFileName     The file name of the reward image.
+     * @param rewardCountGetter A function that returns the count of the specific reward.
+     */
     private void updateGoldenRewardInventory(String rewardType, String imageFileName, Function<Player, Integer> rewardCountGetter) {
         HBox rewardRow = new HBox(5);
         Image rewardImage = new Image("file:src/main/resources/" + imageFileName);
@@ -997,6 +1086,13 @@ public class IdleFarmingGame extends Application {
         inventoryLayout.getChildren().add(rewardRow);
         inventoryLabels.put(rewardType, rewardAmount); // Add the label to the inventoryLabels map
     }
+
+    /**
+     * Shows a popup window with the reward image and a congratulatory message.
+     *
+     * @param rewardName The name of the reward.
+     * @param imageFile  The file path of the reward image.
+     */
 
     private void showRewardPopup(String rewardName, String imageFile) {
         Stage popupStage = new Stage();
@@ -1020,6 +1116,11 @@ public class IdleFarmingGame extends Application {
     }
 
 
+    /**
+     * Plays a click sound effect.
+     *
+     * @param soundFile The file path of the sound effect to play.
+     */
     private void playClickSound(String soundFile) {
         try {
             InputStream is = getClass().getResourceAsStream(soundFile);
