@@ -1,10 +1,5 @@
 package com.example.demo;
-
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -14,11 +9,17 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+/**
+ * Market class represents the in-game market where players can buy seeds.
+ *
+ * @author Annette Lam, Cadan Glass
+ * @version 2023
+ */
 public class Market {
 
+    // Class fields
     private GridPane marketPane;
     private Player player;
     private Stage marketStage;
@@ -28,6 +29,13 @@ public class Market {
 
     private Runnable onUpgradePurchased;
 
+    /**
+     * Constructor for the Market class.
+     *
+     * @param player      The player object.
+     * @param marketStage The stage to display the market.
+     * @param game        The main game object.
+     */
     public Market(Player player, Stage marketStage, IdleFarmingGame game) {
         this.player = player;
         this.marketStage = marketStage;
@@ -127,90 +135,14 @@ public class Market {
 
         marketPane.add(closeButton, 2, row);
 
-        // Initialize the upgrades HashMap
-        upgrades = new HashMap<>();
-        upgrades.put("Faster Growth", new Upgrade("Faster Growth", 20));
-        upgrades.put("Increased Yield", new Upgrade("Increased Yield", 30));
-        upgrades.put("AutoPlanter", new Upgrade("AutoPlanter", 100));
-        upgrades.put("AutoBuy Seeds", new Upgrade("AutoBuy Seeds", 50)); // Add the "AutoBuy Seeds" upgrade
-
-//        // Add upgrades to the market pane
-//        Label upgradeLabel = new Label("Upgrades");
-//        upgradeLabel.setStyle("-fx-font-size: 18; -fx-font-weight: bold; -fx-font-family: 'Mali'");
-//        marketPane.add(upgradeLabel, 0, row);
-//
-//        row++;
-//
-//        for (String upgradeName : upgrades.keySet()) {
-//            Upgrade upgrade = upgrades.get(upgradeName);
-//
-//            Label upgradeNameLabel = new Label(upgradeName);
-//            upgradeNameLabel.setStyle("-fx-font-size: 16; -fx-font-family: 'Mali'");
-//            marketPane.add(upgradeNameLabel, 0, row);
-//
-//            Label upgradeCostLabel = new Label("$" + upgrade.getCost());
-//            upgradeCostLabel.setStyle("-fx-font-size: 16; -fx-font-family: 'Mali'");
-//            marketPane.add(upgradeCostLabel, 1, row);
-//
-//            Button upgradeButton = new Button("Upgrade");
-//            upgradeButton.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-size: 14;");
-//
-//            upgradeButton.setOnAction(e -> {
-//                if (player.getMoney() >= upgrade.getCost()) {
-//                    player.setMoney(player.getMoney() - upgrade.getCost());
-//                    upgrade.incrementLevel();
-//                    upgrade.setCost(upgrade.getCost() * 2);
-//                    upgradeCostLabel.setText("$" + upgrade.getCost());
-//                    game.updateLabels(player);
-//
-//                    if (upgradeName.equals("AutoBuy Seeds")) {
-//                        autobuySeeds();
-//                    }
-//
-//                    upgradePurchased(); // Move the upgradePurchased() call outside the if condition
-//                }
-//            });
-//
-//
-//            // Set the cursor to hand when hovering over the upgradeButton
-//            upgradeButton.setOnMouseEntered(e -> upgradeButton.setCursor(Cursor.HAND));
-//            upgradeButton.setStyle("-fx-font-size: 16; -fx-font-family: 'Mali'");
-//
-//            // Reset the cursor when the mouse exits the upgradeButton
-//            upgradeButton.setOnMouseExited(e -> upgradeButton.setCursor(Cursor.DEFAULT));
-//            upgradeButton.setStyle("-fx-font-size: 16; -fx-font-family: 'Mali'");
-//
-//            marketPane.add(upgradeButton, 2, row);
-//
-//            row++;
-//        }
-//    }
     }
 
-    public void autobuySeeds() {
-        List<String> seedTypes = new ArrayList<>(seedPrices.keySet());
-        Random random = new Random();
-        while (player.getMoney() > 0) {
-            String randomSeed = seedTypes.get(random.nextInt(seedTypes.size()));
-            int seedPrice = seedPrices.get(randomSeed);
-            if (player.getMoney() >= seedPrice) {
-                player.buySeed(randomSeed, seedPrice);
-            } else {
-                break;
-            }
-        }
-    }
-
-    public void setOnUpgradePurchased(Runnable onUpgradePurchased) {
-        this.onUpgradePurchased = onUpgradePurchased;
-    }
-
-    // Call this method after purchasing an upgrade
-    private void upgradePurchased() {
-        if (onUpgradePurchased != null) {
-            onUpgradePurchased.run();
-        }}
-
+    /**
+     * Get the selling price of the specified crop type.
+     *
+     * @param cropType The crop type for which to get the price.
+     * @return The selling price of the specified crop type, or 0 if the crop type is not found.
+     */
     public int getPrice(String cropType) {
         // Assuming you have a HashMap<String, Integer> called seedPrices in your Market class
         // that stores the seed type as a key and its price as a value
@@ -220,19 +152,38 @@ public class Market {
         return 0; // Return 0 if the crop type is not found in the market
     }
 
-
+    /**
+     * Get the GridPane containing the market UI elements.
+     *
+     * @return The GridPane containing the market UI elements.
+     */
     public GridPane getMarketPane() {
         return marketPane;
     }
 
+    /**
+     * Get the HashMap containing the seed prices.
+     *
+     * @return The HashMap containing the seed prices.
+     */
     public HashMap<String, Integer> getSeedPrices() {
         return seedPrices;
     }
 
+    /**
+     * Set the HashMap containing the seed prices.
+     *
+     * @param seedPrices The HashMap containing the seed prices.
+     */
     public void setSeedPrices(HashMap<String, Integer> seedPrices) {
         this.seedPrices = seedPrices;
     }
 
+    /**
+     * Get the HashMap containing the upgrades.
+     *
+     * @return The HashMap containing the upgrades.
+     */
     public HashMap<String, Upgrade> getUpgrades() {
         return upgrades;
     }
