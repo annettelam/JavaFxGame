@@ -41,22 +41,23 @@ import javafx.scene.transform.Scale;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
 import static javafx.scene.paint.Color.rgb;
 
+/**
+ * The main class for the Idle Farming Game. This class contains the main method
+ * and is responsible for creating the game window and setting up the game.
+ *
+ * @author Annette Lam, Cadan Glass
+ * @version 2023
+ */
 public class IdleFarmingGame extends Application {
 
     public static Market market;
-
     public static UpgradeMarket upgradeMarket;
-
     private Scene upgradeScene;
-
     private MediaPlayer mediaPlayer;
-
     private ProgressBar xpBar = new ProgressBar(0);
     private Label xpLabel = new Label("XP: 0/100");
-
     Player player = new Player(10000, 0, 1);
     private Label moneyLabel = new Label("Money \uD83D\uDCB0: $" + player.getMoney());
     private Label seedLabel = new Label("Seeds \uD83C\uDF31: " + player.getNumSeeds());
@@ -67,14 +68,11 @@ public class IdleFarmingGame extends Application {
     // Create a label for the upgrades GIF title
     Label upgradesTitle = new Label("Upgrades");
 
-
     private VBox inventoryLayout;
     private HashMap<String, Label> inventoryLabels = new HashMap<>();
 
-
     private HashMap<String, Animal> animals = new HashMap<>(); // Animal type -> Animal object
     private HashMap<String, Label> animalLabels = new HashMap<>(); // Animal type -> Label object
-
 
     // Create labels for the stats
     Label increasedYieldLabel = new Label("Increased Yield Level: 0");
@@ -83,6 +81,10 @@ public class IdleFarmingGame extends Application {
 
     Label autoPlanterLabel = new Label("AutoPlanter Level: 0");
 
+    /**
+     * The main method for the Idle Farming Game. This method is responsible for
+     * launching the JavaFX application.
+     */
     private Canvas gameCanvas;
 
     @Override
@@ -597,6 +599,12 @@ public class IdleFarmingGame extends Application {
         upgradeMarket.setOnUpgradePurchased(() -> updateStatsLabels(upgradeMarket, increasedYieldLabel, fasterGrowthLabel, growthPercentageLabel, autoPlanterLabel));
     }
 
+    /**
+     * Create a grid of StackPanes to represent the farm plot and add it to the main VBox.
+     * @param gridSize the number of rows and columns in the grid
+     * @param cellSize the size of each cell in the grid
+     * @return the GridPane containing the farm plot
+     */
     private GridPane createGrid(int gridSize, int cellSize) {
         GridPane grid = new GridPane();
         for (int i = 0; i < gridSize; i++) {
@@ -621,6 +629,7 @@ public class IdleFarmingGame extends Application {
         grid.setClip(clip);
         return grid;
     }
+
 
     public void openUpgradeMarket(UpgradeMarket upgradeMarket, Scene upgradeScene) {
         Stage upgradeStage = upgradeMarket.getStage();
