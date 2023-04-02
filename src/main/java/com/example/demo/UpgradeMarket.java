@@ -1,8 +1,8 @@
 package com.example.demo;
 
 
-
 import java.util.HashMap;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -15,8 +15,15 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
+/**
+ * Represents the Upgrade Market where the player can purchase upgrades to improve their game experience.
+ *
+ * @author Annette Lam, Cadan Glass
+ * @version 2023
+ */
 public class UpgradeMarket {
 
+    // Class fields
     private GridPane upgradePane;
     private Player player;
     private Stage upgradeStage;
@@ -24,6 +31,13 @@ public class UpgradeMarket {
 
     private Runnable onUpgradePurchased;
 
+    /**
+     * Constructs a new UpgradeMarket with a reference to the player, upgradeStage and game instance.
+     *
+     * @param player       The player instance.
+     * @param upgradeStage The stage for the Upgrade Market.
+     * @param game         The instance of the main game.
+     */
     public UpgradeMarket(Player player, Stage upgradeStage, IdleFarmingGame game) {
         this.player = player;
         this.upgradeStage = upgradeStage;
@@ -60,7 +74,6 @@ public class UpgradeMarket {
 
             Button upgradeButton = new Button("Upgrade");
             upgradeButton.setStyle("-fx-background-color: #87CEFA; -fx-text-fill: white; -fx-font-size: 14; -fx-font-family: 'Mali'");
-
 
 
             upgradeButton.setOnAction(e -> {
@@ -119,25 +132,47 @@ public class UpgradeMarket {
         upgradePane.add(closeButton, 2, row);
     }
 
+    /**
+     * Sets the callback to be executed when an upgrade is purchased.
+     *
+     * @param onUpgradePurchased The Runnable to be executed on upgrade purchase.
+     */
     public void setOnUpgradePurchased(Runnable onUpgradePurchased) {
         this.onUpgradePurchased = onUpgradePurchased;
     }
 
-    // Call this method after purchasing an upgrade
+    /**
+     * Called after purchasing an upgrade to execute the onUpgradePurchased callback.
+     */
     private void upgradePurchased() {
         if (onUpgradePurchased != null) {
             onUpgradePurchased.run();
-        }}
+        }
+    }
 
-
+    /**
+     * Returns the GridPane containing the Upgrade Market UI elements.
+     *
+     * @return The GridPane containing the Upgrade Market UI elements.
+     */
     public GridPane getUpgradePane() {
         return upgradePane;
     }
 
+    /**
+     * Returns the HashMap containing the available upgrades.
+     *
+     * @return The HashMap containing the available upgrades.
+     */
     public HashMap<String, Upgrade> getUpgrades() {
         return upgrades;
     }
 
+    /**
+     * Returns the Stage containing the Upgrade Market.
+     *
+     * @return The Stage containing the Upgrade Market.
+     */
     public Stage getStage() {
         return upgradeStage;
     }
