@@ -2,6 +2,12 @@ package com.example.demo;
 
 import java.util.HashMap;
 
+/**
+ * Represents a player in the game.
+ *
+ * @author Annette Lam, Cadan Glass
+ * @version 2023
+ */
 public class Player {
 
     private int goldenEggs;
@@ -17,12 +23,59 @@ public class Player {
     private HashMap<String, Integer> seeds;
     private HashMap<String, Integer> crops;
 
-    public Player(int money, int numSeeds,int level) {
+    /**
+     * Constructs a new Player object with the given initial money, number of seeds and level.
+     *
+     * @param money    the initial amount of money the player has
+     * @param numSeeds the initial number of seeds the player has
+     * @param level    the initial level of the player
+     */
+    public Player(int money, int numSeeds, int level) {
         this.money = money;
         this.numOfSeeds = numSeeds;
         this.seeds = new HashMap<String, Integer>();
         this.crops = new HashMap<String, Integer>();
         this.level = 1;
+    }
+
+    /**
+     * Allows the player to buy a seed of the specified type, provided they have enough money to do so.
+     * If the purchase is successful, the player's money is decreased and their seed count is increased by one.
+     *
+     * @param seedType  the type of seed to buy
+     * @param seedPrice the price of the seed
+     */
+    public void buySeed(String seedType, int seedPrice) {
+        if (money >= seedPrice) {
+            money -= seedPrice;
+            addSeed(seedType);
+        }
+    }
+
+    /**
+     * Adds a seed of the specified type to the player's inventory.
+     *
+     * @param seedType the type of seed to add
+     */
+    private void addSeed(String seedType) {
+        if (seeds.containsKey(seedType)) {
+            seeds.put(seedType, seeds.get(seedType) + 1);
+        } else {
+            seeds.put(seedType, 1);
+        }
+    }
+
+    /**
+     * Adds a harvested crop of the specified type to the player's inventory.
+     *
+     * @param cropType the type of crop to add
+     */
+    public void addCrop(String cropType) {
+        if (crops.containsKey(cropType)) {
+            crops.put(cropType, crops.get(cropType) + 1);
+        } else {
+            crops.put(cropType, 1);
+        }
     }
 
     public int getMoney() {
@@ -37,20 +90,6 @@ public class Player {
         return numOfSeeds;
     }
 
-    public void buySeed(String seedType, int seedPrice) {
-        if (money >= seedPrice) {
-            money -= seedPrice;
-            addSeed(seedType);
-        }
-    }
-
-    private void addSeed(String seedType) {
-        if (seeds.containsKey(seedType)) {
-            seeds.put(seedType, seeds.get(seedType) + 1);
-        } else {
-            seeds.put(seedType, 1);
-        }
-    }
 
     public HashMap<String, Integer> getSeeds() {
         return seeds;
@@ -59,15 +98,6 @@ public class Player {
     public HashMap<String, Integer> getCrops() {
         return crops;
     }
-
-    public void addCrop(String cropType) {
-        if (crops.containsKey(cropType)) {
-            crops.put(cropType, crops.get(cropType) + 1);
-        } else {
-            crops.put(cropType, 1);
-        }
-    }
-
 
 
     public int getLevel() {
@@ -93,6 +123,7 @@ public class Player {
     public void addGoldRat() {
         goldRat++;
     }
+
     public int getGoldRats() {
         return goldRat;
     }
