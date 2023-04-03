@@ -722,8 +722,14 @@ public class IdleFarmingGame extends Application {
         inventoryLayout = new VBox(10);
         Label inventoryTitle = new Label("Inventory");
         inventoryTitle.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-font-family: 'Mali'");
-
+        Image farmerImage = new Image("file:src/main/resources/farmer.gif");
+        ImageView farmerGif = new ImageView(farmerImage);
         inventoryLayout.getChildren().add(inventoryTitle);
+        inventoryLayout.setAlignment(Pos.TOP_CENTER);
+        inventoryLayout.getChildren().add(farmerGif);
+        farmerGif.setFitHeight(80);
+        farmerGif.setFitWidth(80);
+
 
         for (String cropType : player.getCrops().keySet()) {
             HBox cropRow = new HBox(5);
