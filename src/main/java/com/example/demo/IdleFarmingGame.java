@@ -70,7 +70,7 @@ public class IdleFarmingGame extends Application {
     Label fasterGrowthLabel = new Label("Faster Growth Level: 0");
     Label growthPercentageLabel = new Label("Crops Grow 0.00% Faster");
 
-    Label autoPlanterLabel = new Label("AutoPlanter Level: 0");
+    Label autoPlanterLabel = new Label("Auto Planter Level: 0");
 
     /**
      * The main method for the Idle Farming Game. This method is responsible for
