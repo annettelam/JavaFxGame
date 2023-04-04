@@ -4,6 +4,7 @@ module com.example.demo {
     requires javafx.media;
     requires junit;
     requires org.mockito;
+    requires org.testng;
 
 
     opens com.example.demo to javafx.fxml;

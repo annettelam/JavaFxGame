@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Represents a player in the game.
@@ -160,4 +161,6 @@ public class Player {
         this.goldOx = goldOxes;
     }
 
+    public void setCrops(Map<String, Integer> crops) {
+    }
 }

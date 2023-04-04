@@ -176,5 +176,9 @@ public class UpgradeMarket {
     public Stage getStage() {
         return upgradeStage;
     }
+
+    public Object getPrice(String carrot) {
+        return null;
+    }
 }
 
