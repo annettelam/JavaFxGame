@@ -47,12 +47,12 @@ public class IdleFarmingGame extends Application {
     public static UpgradeMarket upgradeMarket;
     private Scene upgradeScene;
     private MediaPlayer mediaPlayer;
-    private ProgressBar xpBar = new ProgressBar(0);
-    private Label xpLabel = new Label("XP: 0/100");
+    private final ProgressBar xpBar = new ProgressBar(0);
+    private final Label xpLabel = new Label("XP: 0/100");
     Player player = new Player(10000, 0, 1);
-    private Label moneyLabel = new Label("Money \uD83D\uDCB0: $" + player.getMoney());
-    private Label seedLabel = new Label("Seeds \uD83C\uDF31: " + player.getNumSeeds());
-    private Label cropLabel = new Label("Crops: " + player.getCrops());
+    private final Label moneyLabel = new Label("Money \uD83D\uDCB0: $" + player.getMoney());
+    private final Label seedLabel = new Label("Seeds \uD83C\uDF31: " + player.getNumSeeds());
+    private final Label cropLabel = new Label("Crops: " + player.getCrops());
     Label playerInfoLabel = new Label("Player Info");
     Label playerLevelLabel = new Label("Level: " + player.getLevel());
 
@@ -60,10 +60,10 @@ public class IdleFarmingGame extends Application {
     Label upgradesTitle = new Label("Upgrades");
 
     private VBox inventoryLayout;
-    private HashMap<String, Label> inventoryLabels = new HashMap<>();
+    private final HashMap<String, Label> inventoryLabels = new HashMap<>();
 
-    private HashMap<String, Animal> animals = new HashMap<>(); // Animal type -> Animal object
-    private HashMap<String, Label> animalLabels = new HashMap<>(); // Animal type -> Label object
+    private final HashMap<String, Animal> animals = new HashMap<>(); // Animal type -> Animal object
+    private final HashMap<String, Label> animalLabels = new HashMap<>(); // Animal type -> Label object
 
     // Create labels for the stats
     Label increasedYieldLabel = new Label("Increased Yield Level: 0");
@@ -77,12 +77,11 @@ public class IdleFarmingGame extends Application {
      * launching the JavaFX application.
      *
      * @param primaryStage The primary stage on which the game will be displayed.
-     * @throws Exception If there is an issue loading resources.
      */
 
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
 
         playMusic("/verdantgrove.wav");
 
@@ -246,7 +245,7 @@ public class IdleFarmingGame extends Application {
 
 
             // Create a cell factory to format each Animal object with its name and price
-            animalListView.setCellFactory(param -> new ListCell<Animal>() {
+            animalListView.setCellFactory(param -> new ListCell<>() {
                 @Override
                 protected void updateItem(Animal animal, boolean empty) {
                     super.updateItem(animal, empty);
@@ -533,10 +532,6 @@ public class IdleFarmingGame extends Application {
         // Add padding and a border to the upgradesBox
         upgradesBox.setStyle("-fx-padding: 10 20 10 20;");
 
-
-        // Create a new scene with the container as the root
-        Scene scene2 = new Scene(container, 800, 600);
-
         // Declare the marketAndBarnBox variable, which will be used to hold the market, barn, and merchant
         VBox marketBarnMerch = new VBox(10, marketBox, barnBox, merchantBox);
         marketBarnMerch.setAlignment(Pos.CENTER);
@@ -810,7 +805,7 @@ public class IdleFarmingGame extends Application {
                 cell.setOnMouseClicked(e -> {
                     if (!recentAnimalTypes.isEmpty()) {
                         String animalType = recentAnimalTypes.get(0);
-                        placeAnimal(player, cell, market, animalType);
+                        placeAnimal(player, cell, animalType);
                         recentAnimalTypes.remove(0);
                     }
                 });
@@ -825,10 +820,9 @@ public class IdleFarmingGame extends Application {
      *
      * @param player     The player placing the animal.
      * @param cell       The cell where the animal will be placed.
-     * @param market     The market where the animals are bought from.
      * @param animalType The type of the animal being placed.
      */
-    private void placeAnimal(Player player, StackPane cell, Market market, String animalType) {
+    private void placeAnimal(Player player, StackPane cell, String animalType) {
         if (!animals.containsKey(animalType) || Integer.parseInt(animalLabels.get(animalType).getText().split(": ")[1]) <= 0) {
             return;
         }
@@ -1108,7 +1102,7 @@ public class IdleFarmingGame extends Application {
         ImageView rewardImageView = new ImageView(rewardImage);
         rewardImageView.setFitWidth(100);
         rewardImageView.setFitHeight(100);
-        Label rewardLabel = new Label("Congratulations! You've leveld up and earned a " + rewardName + "!");
+        Label rewardLabel = new Label("Congratulations! You've leveled up and earned a " + rewardName + "!");
         rewardLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
 
         Button closeButton = new Button("Close");
