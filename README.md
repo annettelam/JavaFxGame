@@ -77,7 +77,7 @@ Left-click on the various elements (grids, market, upgrades, etc...) to interact
 > Our plan was to finish the core game features without setting unrealistic expectations for ourselves.
 >
 >
-> The final product ended up exceeding our expectations, as we had time to implement extra features like achievements and background music.
+> The final product ended up exceeding our expectations, as we had time to implement extra features like hidden achievements and background music.
 >
 >
 > We are excited to show you what we have created — please enjoy playing our game and the adorable visuals! 👨‍🌾👩‍🌾‍🌾
