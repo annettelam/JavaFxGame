@@ -47,12 +47,12 @@ public class IdleFarmingGame extends Application {
     public static UpgradeMarket upgradeMarket;
     private Scene upgradeScene;
     private MediaPlayer mediaPlayer;
-    private ProgressBar xpBar = new ProgressBar(0);
-    private Label xpLabel = new Label("XP: 0/100");
+    private final ProgressBar xpBar = new ProgressBar(0);
+    private final Label xpLabel = new Label("XP: 0/100");
     Player player = new Player(10000, 0, 1);
-    private Label moneyLabel = new Label("Money \uD83D\uDCB0: $" + player.getMoney());
-    private Label seedLabel = new Label("Seeds \uD83C\uDF31: " + player.getNumSeeds());
-    private Label cropLabel = new Label("Crops: " + player.getCrops());
+    private final Label moneyLabel = new Label("Money \uD83D\uDCB0: $" + player.getMoney());
+    private final Label seedLabel = new Label("Seeds \uD83C\uDF31: " + player.getNumSeeds());
+    private final Label cropLabel = new Label("Crops: " + player.getCrops());
     Label playerInfoLabel = new Label("Player Info");
     Label playerLevelLabel = new Label("Level: " + player.getLevel());
 
@@ -60,10 +60,10 @@ public class IdleFarmingGame extends Application {
     Label upgradesTitle = new Label("Upgrades");
 
     private VBox inventoryLayout;
-    private HashMap<String, Label> inventoryLabels = new HashMap<>();
+    private final HashMap<String, Label> inventoryLabels = new HashMap<>();
 
-    private HashMap<String, Animal> animals = new HashMap<>(); // Animal type -> Animal object
-    private HashMap<String, Label> animalLabels = new HashMap<>(); // Animal type -> Label object
+    private final HashMap<String, Animal> animals = new HashMap<>(); // Animal type -> Animal object
+    private final HashMap<String, Label> animalLabels = new HashMap<>(); // Animal type -> Label object
 
     // Create labels for the stats
     Label increasedYieldLabel = new Label("Increased Yield Level: 0");
@@ -77,14 +77,13 @@ public class IdleFarmingGame extends Application {
      * launching the JavaFX application.
      *
      * @param primaryStage The primary stage on which the game will be displayed.
-     * @throws Exception If there is an issue loading resources.
      */
 
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
 
-        playMusic("/verdantgrove.wav");
+        playMusic();
 
         // Load the default font for the game
         Font.loadFont(Objects.requireNonNull(getClass().getResource("/Mali.ttf")).toExternalForm(), 12);
@@ -132,7 +131,7 @@ public class IdleFarmingGame extends Application {
         startGameStage.show();
 
         // Load the background image for the game from the resources folder
-        Image backgroundImage = new Image(getClass().getResource("/background.jpeg").toExternalForm());
+        Image backgroundImage = new Image(Objects.requireNonNull(getClass().getResource("/background.jpeg")).toExternalForm());
 
         // Create a background image for the game
         BackgroundImage background = new BackgroundImage(
@@ -167,9 +166,9 @@ public class IdleFarmingGame extends Application {
         statsLayout.setStyle("-fx-font-size: 18px; -fx-font-family: 'Mali';");
 
         Map<String, ImageView> animalImages = new HashMap<>();
-        animalImages.put("Chicken", new ImageView(new Image(getClass().getResource("/chicken.jpg").toExternalForm())));
-        animalImages.put("Pig", new ImageView(new Image(getClass().getResource("/pig.jpg").toExternalForm())));
-        animalImages.put("Cow", new ImageView(new Image(getClass().getResource("/cow.jpg").toExternalForm())));
+        animalImages.put("Chicken", new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/chicken.jpg")).toExternalForm())));
+        animalImages.put("Pig", new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/pig.jpg")).toExternalForm())));
+        animalImages.put("Cow", new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/cow.jpg")).toExternalForm())));
 
         // Add background color, padding, and a border to the statsLayout
         statsLayout.setStyle("-fx-background-color: #F0F8FF; -fx-padding: 10; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-border-color: DARKSLATEGREY; -fx-border-width: 1px;");
@@ -181,7 +180,7 @@ public class IdleFarmingGame extends Application {
         barnTitle.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-font-family: 'Mali'");
 
         // Create an ImageView for the barn image
-        ImageView barnImage = new ImageView(new Image(getClass().getResource("/barn.png").toExternalForm()));
+        ImageView barnImage = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/barn.png")).toExternalForm()));
         barnImage.setOpacity(0.5);
         barnImage.setFitWidth(150);
         barnImage.setFitHeight(150);
@@ -246,7 +245,7 @@ public class IdleFarmingGame extends Application {
 
 
             // Create a cell factory to format each Animal object with its name and price
-            animalListView.setCellFactory(param -> new ListCell<Animal>() {
+            animalListView.setCellFactory(param -> new ListCell<>() {
                 @Override
                 protected void updateItem(Animal animal, boolean empty) {
                     super.updateItem(animal, empty);
@@ -280,7 +279,7 @@ public class IdleFarmingGame extends Application {
                             animalLabels.put(selectedAnimal.getType(), animalLabel);
 
                             // Load the animal's image
-                            ImageView animalImage = new ImageView(new Image(getClass().getResource(selectedAnimal.getImagePath()).toExternalForm()));
+                            ImageView animalImage = new ImageView(new Image(Objects.requireNonNull(getClass().getResource(selectedAnimal.getImagePath())).toExternalForm()));
                             animalImage.setFitWidth(30);
                             animalImage.setFitHeight(30);
 
@@ -324,7 +323,7 @@ public class IdleFarmingGame extends Application {
         upgradeScene = new Scene(upgradeMarket.getUpgradePane(), 400, 300);
 
         // Create an ImageView for the market GIF
-        ImageView marketGif = new ImageView(new Image(getClass().getResource("/market.gif").toExternalForm()));
+        ImageView marketGif = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/market.gif")).toExternalForm()));
 
         // Set the background color of the market GIF to sky blue
         marketGif.setStyle("-fx-border-color: mediumseagreen; -fx-border-width: 5px;");
@@ -393,10 +392,10 @@ public class IdleFarmingGame extends Application {
         titleLabel.setEffect(dropShadow);
 
         // Create a grid for planting seeds
-        GridPane grid = createGrid(4, 75);
+        GridPane grid = createGrid();
 
         // Create a grid for animals
-        GridPane animalGrid = createAnimalGrid(4, 75);
+        GridPane animalGrid = createAnimalGrid();
 
         // Call autoPlant() every 5 seconds
         Timeline autoPlantTimeline = new Timeline(
@@ -476,7 +475,7 @@ public class IdleFarmingGame extends Application {
         container.setAlignment(Pos.CENTER);
 
         // Create an ImageView for the upgrades GIF
-        ImageView upgradesGif = new ImageView(new Image(getClass().getResource("/upgrades.gif").toExternalForm()));
+        ImageView upgradesGif = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/upgrades.gif")).toExternalForm()));
 
         upgradesGif.setOnMouseEntered(e -> {
             upgradesGif.setScaleX(1.1);
@@ -533,10 +532,6 @@ public class IdleFarmingGame extends Application {
         // Add padding and a border to the upgradesBox
         upgradesBox.setStyle("-fx-padding: 10 20 10 20;");
 
-
-        // Create a new scene with the container as the root
-        Scene scene2 = new Scene(container, 800, 600);
-
         // Declare the marketAndBarnBox variable, which will be used to hold the market, barn, and merchant
         VBox marketBarnMerch = new VBox(10, marketBox, barnBox, merchantBox);
         marketBarnMerch.setAlignment(Pos.CENTER);
@@ -580,26 +575,24 @@ public class IdleFarmingGame extends Application {
     /**
      * Create a grid of StackPanes to represent the farm plot and add it to the main VBox.
      *
-     * @param gridSize the number of rows and columns in the grid
-     * @param cellSize the size of each cell in the grid
      * @return the GridPane containing the farm plot
      */
-    private GridPane createGrid(int gridSize, int cellSize) {
+    private GridPane createGrid() {
         GridPane grid = new GridPane();
-        for (int i = 0; i < gridSize; i++) {
-            for (int j = 0; j < gridSize; j++) {
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
                 StackPane cell = new StackPane();
-                cell.setPrefSize(cellSize, cellSize);
+                cell.setPrefSize(75, 75);
                 cell.setStyle("-fx-background-color: white; -fx-border-color: DARKSLATEBLUE; -fx-border-radius: 5; -fx-border-width: 1;");
                 cell.setOpacity(0.8);
                 cell.setCursor(Cursor.HAND); // Set the cursor to a hand when hovering over a grid cell
-                cell.setOnMouseClicked(e -> plantSeed(player, cell, market));
+                cell.setOnMouseClicked(e -> plantSeed(player, cell));
                 grid.add(cell, i, j);
             }
         }
 
         // Round the corners of the grid for consistency with the market and barn buttons
-        Rectangle clip = new Rectangle(gridSize * cellSize, gridSize * cellSize);
+        Rectangle clip = new Rectangle(4 * 75, 4 * 75);
         clip.setArcWidth(10);
         clip.setArcHeight(10);
         grid.setClip(clip);
@@ -631,7 +624,7 @@ public class IdleFarmingGame extends Application {
             for (Node cell : grid.getChildren()) {
                 StackPane stackPaneCell = (StackPane) cell;
                 if (stackPaneCell.getChildren().isEmpty()) {
-                    plantSeed(player, stackPaneCell, market);
+                    plantSeed(player, stackPaneCell);
                 }
             }
         }
@@ -642,9 +635,8 @@ public class IdleFarmingGame extends Application {
      *
      * @param player The Player object representing the player's state, including their seeds and crops.
      * @param cell   The StackPane object representing the cell in which the seed will be planted.
-     * @param market The Market object where the player can purchase seeds and upgrades.
      */
-    private void plantSeed(Player player, StackPane cell, Market market) {
+    private void plantSeed(Player player, StackPane cell) {
         HashMap<String, Integer> seeds = player.getSeeds();
         String seedType = seeds.keySet().stream().filter(type -> seeds.get(type) > 0).findFirst().orElse(null);
 
@@ -789,28 +781,26 @@ public class IdleFarmingGame extends Application {
         updateXP(10); // Change the value 10 to the amount of XP gained
     }
 
-    private List<String> recentAnimalTypes = new ArrayList<>();
+    private final List<String> recentAnimalTypes = new ArrayList<>();
 
     /**
      * Creates a GridPane layout for the animal grid.
      *
-     * @param gridSize The size of the grid.
-     * @param cellSize The size of each cell in the grid.
      * @return A GridPane containing the animal grid layout.
      */
-    private GridPane createAnimalGrid(int gridSize, int cellSize) {
+    private GridPane createAnimalGrid() {
         GridPane animalGrid = new GridPane();
-        for (int i = 0; i < gridSize; i++) {
-            for (int j = 0; j < gridSize; j++) {
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
                 StackPane cell = new StackPane();
-                cell.setPrefSize(cellSize, cellSize);
+                cell.setPrefSize(75, 75);
                 cell.setStyle("-fx-background-color: white; -fx-border-color: DARKSLATEBLUE; -fx-border-radius: 5; -fx-border-width: 1;");
                 cell.setOpacity(0.8);
                 cell.setCursor(Cursor.HAND);
                 cell.setOnMouseClicked(e -> {
                     if (!recentAnimalTypes.isEmpty()) {
                         String animalType = recentAnimalTypes.get(0);
-                        placeAnimal(player, cell, market, animalType);
+                        placeAnimal(player, cell, animalType);
                         recentAnimalTypes.remove(0);
                     }
                 });
@@ -825,10 +815,9 @@ public class IdleFarmingGame extends Application {
      *
      * @param player     The player placing the animal.
      * @param cell       The cell where the animal will be placed.
-     * @param market     The market where the animals are bought from.
      * @param animalType The type of the animal being placed.
      */
-    private void placeAnimal(Player player, StackPane cell, Market market, String animalType) {
+    private void placeAnimal(Player player, StackPane cell, String animalType) {
         if (!animals.containsKey(animalType) || Integer.parseInt(animalLabels.get(animalType).getText().split(": ")[1]) <= 0) {
             return;
         }
@@ -1002,12 +991,10 @@ public class IdleFarmingGame extends Application {
 
     /**
      * Plays the specified music file in a loop.
-     *
-     * @param musicFile The file path of the music file to play.
      */
-    private void playMusic(String musicFile) {
+    private void playMusic() {
         try {
-            InputStream is = getClass().getResourceAsStream(musicFile);
+            InputStream is = getClass().getResourceAsStream("/verdantgrove.wav");
             Files.copy(is, Paths.get("temp.wav"), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             e.printStackTrace();
@@ -1108,7 +1095,7 @@ public class IdleFarmingGame extends Application {
         ImageView rewardImageView = new ImageView(rewardImage);
         rewardImageView.setFitWidth(100);
         rewardImageView.setFitHeight(100);
-        Label rewardLabel = new Label("Congratulations! You've leveld up and earned a " + rewardName + "!");
+        Label rewardLabel = new Label("Congratulations! You've leveled up and earned a " + rewardName + "!");
         rewardLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-font-family: 'Mali';");
 
         Button closeButton = new Button("Close");

@@ -4,13 +4,10 @@ import static org.mockito.Mockito.*;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import org.testng.annotations.Test;
 
 public class TestClass {
-
     private Inventory idleFarmingGame;
     private Object alert;
 
