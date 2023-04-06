@@ -6,6 +6,28 @@
 ### Description:
 > Our project is a JavaFX idle game with a farming sim theme where players can sustainably grow crops and raise livestock, using their produce to generate value-added products. Players will need to use their resources wisely and make strategic decisions to maximize their profits and progress in the game.
 
+### Requirements
+
+- Java JDK 8 or higher
+- JavaFX library
+
+### Getting Started
+
+- Download/clone the project files and import them into your Java IDE of choice.
+- Ensure that all required dependencies, and assets (images, fonts, etc.) are located in the correct folders within the project.
+- Run the IdleFarmingGame class to start the game.
+
+### Controls
+Left-click on the various elements (grids, market, upgrades, etc...) to interact with them.
+
+### How to Play
+- Start by planting crops in your farm grid by buying them from the Market.
+- Once the crops are fully grown, they will be automatically harvested and added to your inventory.
+- Buy various animals from the Barn and place them in the animal farm.
+- Sell your crops and animal products to the merchant.
+- Gain xp and as you plant and harvest crops and animal products to level up.
+- Expand your farm, grow more crops, and buy more animals!
+
 ### User Stories:
 - As a player, I want to be able to plant crops and harvest them so that I can earn money and progress in the game.
 - As a player, I want to be able to upgrade my farm buildings, tools, and equipment.
@@ -13,14 +35,15 @@
 
 ### User Epics & Features:
 - Farm Management:
-   - Create and manage a farm with crops and animals
-   - Upgrade farm buildings, tools, and equipment 
+  - Create and manage a farm with crops and animals
+  - Upgrade farm buildings, tools, and equipment
 - Income Generation:
-   - Sell produce to earn money
-   - Participate in seasonal events and competitions to win prizes
+  - Sell produce to earn money
+  - Participate in seasonal events and competitions to win prizes
 - Progression and Accomplishment:
   - Unlock achievements and rewards
   - Save and resume game progress
+
 
 
 ### Project Features:
@@ -50,11 +73,11 @@
 | HashMap           | Store and manage game data, such as animal information and inventory labels.                      |
 
 ### Final Remarks:
-> We are very proud of our final product and the progress we made throughout the term on **Harvest Hero**. 
-> Our plan was to finish the core game features without setting unrealistic expectations for ourselves. 
-> 
-> 
+> We are very proud of our final product and the progress we made throughout the term on **Harvest Hero**.
+> Our plan was to finish the core game features without setting unrealistic expectations for ourselves.
+>
+>
 > The final product ended up exceeding our expectations, as we had time to implement extra features like achievements and background music.
-> 
-> 
+>
+>
 > We are excited to show you what we have created — please enjoy playing our game and the adorable visuals! 👨‍🌾👩‍🌾‍🌾
